@@ -7,23 +7,25 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState(false); // State for the mobile menu
 
   return (
-    <header className="bg-[#f0ac9f] text-white shadow-lg sticky top-0 w-full z-50">
+    <header className="font-custom text-xl bg-[#f0ac9f] text-white shadow-lg sticky top-0 w-full z-50">
       <div className="container mx-auto flex justify-between items-center px-6 py-4">
-        {/* Company Logo */}
-        <div className="flex items-center space-x-3">
-          <Image
-            src="/Apluslogo.jpg"
-            alt="A Plus Truffles Logo"
-            width={60}
-            height={60}
-            className="rounded-full"
-            loading="lazy"
-          />
-          <div className="text-2xl font-bold">A Plus Truffles</div>
-        </div>
+        {/* Clickable Company Logo */}
+        <Link href="/">
+          <div className="flex items-center space-x-3 cursor-pointer">
+            <Image
+              src="/Apluslogo.jpg"
+              alt="A Plus Truffles Logo"
+              width={70}
+              height={70}
+              className="rounded-full"
+              loading="lazy"
+            />
+            <div className="font-custom text-2xl font-bold">A Plus Truffles</div>
+          </div>
+        </Link>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden md:flex space-x-8 items-center">
+        <nav className="hidden md:flex flex-1 justify-center space-x-8 items-center">
           <Link href="/" className="hover:text-[#ffd4a7] transition-colors duration-300">
             Home
           </Link>
@@ -33,13 +35,18 @@ const Header = () => {
           <Link href="/services" className="hover:text-[#ffd4a7] transition-colors duration-300">
             Services
           </Link>
-          <Link href="/showcase" className="hover:text-[#ffd4a7] transition-colors duration-300">
-            Showcase
-          </Link>
-          <Link href="/contact" className="hover:text-[#ffd4a7] transition-colors duration-300">
-            Contact
+          <Link href="/gallery" className="hover:text-[#ffd4a7] transition-colors duration-300">
+            Gallery
           </Link>
         </nav>
+
+        {/* Contact Button */}
+        <Link
+          href="/contact"
+          className="hidden md:inline-block bg-white text-[#f0ac9f] hover:bg-[#ffd4a7] hover:text-white transition-colors duration-300 px-4 py-2 rounded-md font-semibold"
+        >
+          Contact
+        </Link>
 
         {/* Mobile Menu Button */}
         <div className="md:hidden">
@@ -67,8 +74,8 @@ const Header = () => {
           <Link href="/services" className="block px-4 py-3 text-white hover:bg-gray-500 rounded-md font-bold" onClick={() => setIsOpen(false)}>
             Services
           </Link>
-          <Link href="/showcase" className="block px-4 py-3 text-white hover:bg-gray-500 rounded-md font-bold" onClick={() => setIsOpen(false)}>
-            Showcase
+          <Link href="/gallery" className="block px-4 py-3 text-white hover:bg-gray-500 rounded-md font-bold" onClick={() => setIsOpen(false)}>
+            Gallery
           </Link>
           <Link href="/contact" className="block px-4 py-3 text-white hover:bg-gray-500 rounded-md font-bold" onClick={() => setIsOpen(false)}>
             Contact
@@ -80,3 +87,5 @@ const Header = () => {
 };
 
 export default Header;
+
+
