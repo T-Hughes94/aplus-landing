@@ -12,25 +12,45 @@ const SeasonalSection = () => {
         </p>
       </div>
 
-      {/* Seasonal Flavors */}
-      <div className="max-w-2xl mx-auto mb-8 bg-white p-6 rounded-lg shadow-lg">
-        <h3 className="text-xl font-semibold text-gray-800 md:text-2xl">Current Seasonal Flavors</h3>
-        <p className="text-gray-600 mt-2 mb-4 md:mb-6">
-          Our truffle flavors change with the seasons, bringing new, fresh tastes to enjoy. Be sure to check back often for our latest seasonal offerings!
+      {/* Seasonal Flavors Card with Enhanced Styles */}
+      <div className="relative max-w-2xl mx-auto mb-12 p-6 bg-gradient-to-br from-[#ffe4c2] via-[#ffd4a7] to-[#f0ac9f] rounded-xl shadow-2xl transform transition-transform duration-300 hover:scale-105 hover:shadow-[0px_15px_30px_rgba(0,0,0,0.2)]">
+        <h3 className="text-2xl font-extrabold text-gray-800 flex items-center justify-center md:text-3xl">
+          🍁 <span className="ml-2">Current Seasonal Flavors</span> 🍁
+        </h3>
+        <p className="text-gray-800 mt-3 mb-5 text-center leading-relaxed text-sm md:text-lg">
+          "It's fall, y'all! Get ready for a delicious, cozy surprise in every bite. Check out our seasonal lineup of Pie Bonbons for November!"
         </p>
-        <ul className="list-disc pl-5 text-gray-700 space-y-2">
-          <li>Spring Blossom - Floral and light with a hint of honey</li>
-          <li>Summer Berry - Bursting with mixed berry flavors</li>
-          <li>Autumn Spice - Classic spices with a cozy twist</li>
-          <li>Winter Mint - Refreshing and cool with a dark chocolate finish</li>
+
+        {/* List of Flavors */}
+        <ul className="space-y-3 pl-5 text-gray-800 font-semibold text-base md:text-lg">
+          <li className="flex items-center">
+            <span className="mr-3 w-3 h-3 bg-[#f0ac9f] rounded-full"></span> 🍏 Apple Pie - Sweet and tangy with a dash of cinnamon!
+          </li>
+          <li className="flex items-center">
+            <span className="mr-3 w-3 h-3 bg-[#ffd4a7] rounded-full"></span> 🎃 Pumpkin Pecan - Creamy pumpkin with a nutty crunch.
+          </li>
+          <li className="flex items-center">
+            <span className="mr-3 w-3 h-3 bg-[#f0ac9f] rounded-full"></span> 🫐 Blueberry Pie - A burst of berries with every bite!
+          </li>
+          <li className="flex items-center">
+            <span className="mr-3 w-3 h-3 bg-[#ffd4a7] rounded-full"></span> 🥧 Pecan Pie - Rich and buttery with classic pecan flavor.
+          </li>
         </ul>
+
+        {/* Decorative Elements */}
+        <div className="absolute top-0 right-0 w-20 h-20 bg-[#ffd4a7] rounded-full opacity-30 blur-2xl -translate-x-6 -translate-y-6"></div>
+        <div className="absolute bottom-0 left-0 w-24 h-24 bg-[#f0ac9f] rounded-full opacity-30 blur-2xl translate-x-6 translate-y-6"></div>
       </div>
 
-      {/* Events Section */}
+      {/* Events Section with Centered Instagram Button */}
       <div className="text-center mt-8">
-        <h3 className="text-xl font-semibold text-white md:text-2xl">Upcoming Pop-Up Events</h3>
+        <h3 className="text-xl font-semibold text-white md:text-2xl">Upcoming November Events</h3>
         <p className="text-base text-gray-100 mt-2 md:text-lg">
-          Follow us on Instagram for the latest updates on our pop-up events and seasonal flavors!
+          Catch our November flavors at our next event:
+        </p>
+        <p className="text-base font-bold text-white mt-2 md:text-lg">
+          November 16th at Anthropologie, Shrewsbury NJ <br />
+          Hosted by @parmagiannipizza from 11 AM - 4 PM
         </p>
         <Link href="https://www.instagram.com/aplustruffles" target="_blank">
           <div className="flex justify-center">
@@ -46,10 +66,5 @@ const SeasonalSection = () => {
 };
 
 export default SeasonalSection;
-
-
-
-
-
 
 

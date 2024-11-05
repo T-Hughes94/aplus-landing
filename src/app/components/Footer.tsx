@@ -5,6 +5,10 @@ import { FaInstagram } from "react-icons/fa";
 const Footer = () => {
   return (
     <footer className="relative bg-[#f0ac9f] text-white p-8 md:p-12">
+      {/* Thin Gold Divider Line */}
+      {/* <div className="w-full h-1 bg-[#ffd4a7] mb-8"></div> */}
+
+      {/* Footer Content */}
       <div className="max-w-6xl mx-auto grid gap-8 text-center md:text-left md:grid-cols-3">
         
         {/* Company Info */}
@@ -63,4 +67,7 @@ const Footer = () => {
 };
 
 export default Footer;
+
+
+
 
