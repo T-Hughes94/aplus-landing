@@ -18,7 +18,7 @@ const SeasonalSection = () => {
           🍁 <span className="ml-2">Current Seasonal Flavors</span> 🍁
         </h3>
         <p className="text-gray-800 mt-3 mb-5 text-center leading-relaxed text-sm md:text-lg">
-          "It's fall, y'all! Get ready for a delicious, cozy surprise in every bite. Check out our seasonal lineup of Pie Bonbons for November!"
+          "Check out our current seasonal lineup of Bonbons"
         </p>
 
         {/* List of Flavors */}
