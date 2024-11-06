@@ -50,48 +50,55 @@ const AboutPage = () => {
         </div>
       </section>
 
-        {/* Commitment to Quality Section */}
+      {/* Commitment to Quality Section */}
       <section className="p-6 md:p-16 bg-white text-center">
         <h2 className="text-3xl font-bold text-[#f0ac9f] md:text-4xl">Our Commitment to Quality</h2>
-        <div className="grid grid-cols-2 gap-6 mt-8 max-w-4xl mx-auto md:grid-cols-4">
-          <div className="flex flex-col items-center space-y-3">
-            <FaLeaf className="text-4xl text-[#f0ac9f] md:text-5xl" />
-            <h3 className="text-lg font-semibold">100% Vegan</h3>
-            <p className="text-gray-600 text-sm md:text-base">Plant-based ingredients in every truffle.</p>
+        <div className="grid grid-cols-1 gap-8 mt-8 max-w-4xl mx-auto md:grid-cols-2 lg:grid-cols-4">
+          
+          {/* Quality Card: 100% Vegan */}
+          <div className="relative pt-12 pb-6 bg-gradient-to-br from-[#f0ac9f] via-[#ffd4a7] to-[#ffe4c2] rounded-full shadow-lg border-2 border-[#f0ac9f] transform transition-transform hover:scale-105 hover:shadow-2xl overflow-visible flex flex-col items-center justify-center" style={{ minHeight: '250px' }}>
+            <div className="absolute top-4 bg-[#f0ac9f] rounded-full p-5 shadow-md border-2 border-white">
+              <FaLeaf className="text-3xl md:text-4xl text-white" />
+            </div>
+            <h3 className="text-lg font-bold mt-8 underline decoration-[#f0ac9f]">100% Vegan</h3>
+            <p className="text-sm md:text-base text-center mt-2">Plant-based ingredients in every truffle.</p>
           </div>
-          <div className="flex flex-col items-center space-y-3">
-            <FaHandHoldingHeart className="text-4xl text-[#f0ac9f] md:text-5xl" />
-            <h3 className="text-lg font-semibold">Fair-Trade Sourced</h3>
-            <p className="text-gray-600 text-sm md:text-base">Supporting fair, ethical sourcing practices.</p>
+
+          {/* Quality Card: Fair-Trade Sourced */}
+          <div className="relative pt-12 pb-6 bg-gradient-to-br from-[#f0ac9f] via-[#ffd4a7] to-[#ffe4c2] rounded-full shadow-lg border-2 border-[#f0ac9f] transform transition-transform hover:scale-105 hover:shadow-2xl overflow-visible flex flex-col items-center justify-center" style={{ minHeight: '250px' }}>
+            <div className="absolute top-4 bg-[#f0ac9f] rounded-full p-5 shadow-md border-2 border-white">
+              <FaHandHoldingHeart className="text-3xl md:text-4xl text-white" />
+            </div>
+            <h3 className="text-lg font-bold mt-8 underline decoration-[#f0ac9f]">Fair-Trade Sourced</h3>
+            <p className="text-sm md:text-base text-center mt-2">Supporting fair, ethical sourcing practices.</p>
           </div>
-          <div className="flex flex-col items-center space-y-3">
-            <FaPaintBrush className="text-4xl text-[#f0ac9f] md:text-5xl" />
-            <h3 className="text-lg font-semibold">Hand-Painted</h3>
-            <p className="text-gray-600 text-sm md:text-base">Every truffle is an edible work of art.</p>
+
+          {/* Quality Card: Hand-Painted */}
+          <div className="relative pt-12 pb-6 bg-gradient-to-br from-[#f0ac9f] via-[#ffd4a7] to-[#ffe4c2] rounded-full shadow-lg border-2 border-[#f0ac9f] transform transition-transform hover:scale-105 hover:shadow-2xl overflow-visible flex flex-col items-center justify-center" style={{ minHeight: '250px' }}>
+            <div className="absolute top-4 bg-[#f0ac9f] rounded-full p-5 shadow-md border-2 border-white">
+              <FaPaintBrush className="text-3xl md:text-4xl text-white" />
+            </div>
+            <h3 className="text-lg font-bold mt-8 underline decoration-[#f0ac9f]">Hand-Painted</h3>
+            <p className="text-sm md:text-base text-center mt-2">Every truffle an edible work of art.</p>
           </div>
-          <div className="flex flex-col items-center space-y-3">
-            <FaSeedling className="text-4xl text-[#f0ac9f] md:text-5xl" />
-            <h3 className="text-lg font-semibold">Sustainably Sourced</h3>
-            <p className="text-gray-600 text-sm md:text-base">Crafted with respect for the environment.</p>
+
+          {/* Quality Card: Sustainably Sourced */}
+          <div className="relative pt-12 pb-6 bg-gradient-to-br from-[#f0ac9f] via-[#ffd4a7] to-[#ffe4c2] rounded-full shadow-lg border-2 border-[#f0ac9f] transform transition-transform hover:scale-105 hover:shadow-2xl overflow-visible flex flex-col items-center justify-center" style={{ minHeight: '250px' }}>
+            <div className="absolute top-4 bg-[#f0ac9f] rounded-full p-5 shadow-md border-2 border-white">
+              <FaSeedling className="text-3xl md:text-4xl text-white" />
+            </div>
+            <h3 className="text-lg font-bold mt-8 underline decoration-[#f0ac9f]">Sustainably Sourced</h3>
+            <p className="text-sm md:text-base text-center mt-2">Crafted with respect for the environment.</p>
           </div>
         </div>
       </section>
-
+      
       {/* Meet the Makers Section */}
       <section className="p-6 md:p-16 bg-[#ffe4c2] text-center">
         <h2 className="text-3xl font-bold text-[#f0ac9f] md:text-4xl">Meet the Makers</h2>
         <p className="mt-4 text-base text-gray-700 leading-relaxed max-w-2xl mx-auto md:text-lg">
           Our team is passionate about creating vegan truffles that bring joy with every bite. Driven by a commitment to quality and ethics, we craft each truffle by hand, ensuring it’s as beautiful as it is delicious.
         </p>
-        <div className="mt-8">
-          {/* <Image
-            src="/team-photo.jpg"
-            alt="The makers behind A Plus Truffles"
-            width={700}
-            height={400}
-            className="rounded-lg shadow-lg"
-          /> */}
-        </div>
       </section>
 
       {/* Product Highlight Section */}
@@ -130,4 +137,5 @@ const AboutPage = () => {
 };
 
 export default AboutPage;
+
 
