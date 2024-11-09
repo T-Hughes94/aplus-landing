@@ -20,28 +20,28 @@ const AboutPage = () => {
         {/* Team Images (Responsive Grid) */}
         <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
           <Image
-            src="/work.png"
+            src="/work.webp"
+            alt="truffle crafting tools"
+            width={300}
+            height={200}
+            className="rounded-lg shadow-lg"
+          />
+          <Image
+            src="/work1.webp"
             alt="Team crafting truffles"
             width={300}
             height={200}
             className="rounded-lg shadow-lg"
           />
           <Image
-            src="/work1.png"
+            src="/work2.webp"
             alt="Team crafting truffles"
             width={300}
             height={200}
             className="rounded-lg shadow-lg"
           />
           <Image
-            src="/work2.png"
-            alt="Team crafting truffles"
-            width={300}
-            height={200}
-            className="rounded-lg shadow-lg"
-          />
-          <Image
-            src="/work3.png"
+            src="/work3.webp"
             alt="Team crafting truffles"
             width={300}
             height={200}
@@ -109,7 +109,7 @@ const AboutPage = () => {
         </p>
         <div className="mt-8">
           <Image
-            src="/truffle3.png"
+            src="/truffle3.webp"
             alt="Close-up of a hand-painted truffle"
             width={700}
             height={400}

@@ -18,7 +18,7 @@ const ServicesPage = () => {
         </p>
         <div className="mt-8">
           <Image
-            src="/Apluslogo.jpg" // Replace with a celebratory or truffle image
+            src="/Apluslogo.webp" // Replace with a celebratory or truffle image
             alt="Celebrations with A Plus Truffles"
             width={700}
             height={400}

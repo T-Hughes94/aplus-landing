@@ -27,7 +27,7 @@ const HeroSection = () => {
         <div className="relative mt-8 md:mt-0 md:w-1/2">
           <div className="relative transform hover:scale-105 transition-transform duration-300">
             <Image
-              src="/truffle2.png"
+              src="/truffle2.webp"
               alt="Hand-painted vegan truffles"
               width={500}
               height={500}

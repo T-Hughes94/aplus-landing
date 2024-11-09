@@ -13,7 +13,7 @@ const Header = () => {
         <Link href="/">
           <div className="flex items-center space-x-3 cursor-pointer">
             <Image
-              src="/Apluslogo.jpg"
+              src="/Apluslogo.webp"
               alt="A Plus Truffles Logo"
               width={70}
               height={70}
