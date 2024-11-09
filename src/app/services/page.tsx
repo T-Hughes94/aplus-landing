@@ -72,7 +72,7 @@ const ServicesPage = () => {
           </p>
           <Link href="/gallery">
             <button className="mt-6 px-4 py-2 bg-white text-[#f0ac9f] font-semibold rounded-lg shadow-md hover:bg-[#ffd4a7] hover:text-white transition duration-300 md:px-6 md:py-3">
-              Explore Our Flavors
+              Explore Our Gallery
             </button>
           </Link>
         </div>

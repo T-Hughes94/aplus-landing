@@ -1,14 +1,12 @@
 "use client";
 import Link from "next/link";
+import Image from "next/legacy/image";
 import { FaInstagram } from "react-icons/fa";
+import { HiOutlineMail } from "react-icons/hi";
 
 const Footer = () => {
   return (
     <footer className="relative bg-[#f0ac9f] text-white p-8 md:p-12">
-      {/* Thin Gold Divider Line */}
-      {/* <div className="w-full h-1 bg-[#ffd4a7] mb-8"></div> */}
-
-      {/* Footer Content */}
       <div className="max-w-6xl mx-auto grid gap-8 text-center md:text-left md:grid-cols-3">
         
         {/* Company Info */}
@@ -17,9 +15,23 @@ const Footer = () => {
           <p className="text-sm md:text-base">
             Made from scratch, hand-painted vegan truffles. Experience the finest in flavor and craftsmanship.
           </p>
+          <div className="flex flex-col items-center md:items-start mt-4 space-y-2">
+            {/* Email */}
+            <div className="flex items-center space-x-2 text-sm md:text-base">
+              <HiOutlineMail className="text-xl" />
+              <span>Aplustruffles@yahoo.com</span>
+            </div>
+            {/* Instagram Link */}
+            <Link href="https://www.instagram.com/aplustruffles" target="_blank">
+              <div className="flex items-center space-x-2 cursor-pointer hover:text-[#ffd4a7] transition duration-300">
+                <FaInstagram className="text-xl" />
+                <span>@aplustruffles</span>
+              </div>
+            </Link>
+          </div>
         </div>
 
-        {/* Navigation Links */}
+        {/* Quick Links */}
         <div className="space-y-2 md:space-y-4">
           <h3 className="text-xl font-semibold">Quick Links</h3>
           <div className="flex flex-col space-y-2 text-sm md:text-base">
@@ -31,14 +43,21 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Social & Contact */}
+        {/* Our Gallery */}
         <div className="space-y-4">
-          <h3 className="text-xl font-semibold">Connect</h3>
-          <p className="text-sm md:text-base">Follow us on social media for updates and events.</p>
-          <div className="flex justify-center md:justify-start space-x-4">
-            <Link href="https://www.instagram.com/aplustruffles" target="_blank">
-              <FaInstagram className="text-2xl hover:text-[#ffd4a7] transition duration-300" />
-            </Link>
+          <h3 className="text-xl font-semibold">Our Gallery</h3>
+          <div className="grid grid-cols-3 gap-2">
+            {["gallery1.webp", "gallery3.webp", "gallery5.webp", "gallery7.webp", "gallery9.webp", "gallery11.webp"].map((image, index) => (
+              <div key={index} className="relative w-full h-20 md:h-24 overflow-hidden rounded-lg">
+                <Image
+                  src={`/${image}`}
+                  alt={`Gallery image ${index + 1}`}
+                  layout="fill"
+                  objectFit="cover"
+                  className="rounded-lg"
+                />
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -67,6 +86,9 @@ const Footer = () => {
 };
 
 export default Footer;
+
+
+
 
 
 
