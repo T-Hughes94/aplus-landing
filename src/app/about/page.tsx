@@ -12,7 +12,7 @@ const AboutPage = () => {
 
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-[#f0ac9f] via-[#ffd4a7] to-[#ffe4c2] p-6 md:p-16 text-center text-white">
-        <h1 className="text-3xl font-bold mb-4 md:text-5xl">Crafting Sweet Experiences with Care</h1>
+        <h1 className="text-4xl font-bold mb-4 md:text-5xl">Crafting Sweet Experiences with Care</h1>
         <p className="text-lg mt-2 md:text-2xl">
           From the heart of NJ, creating hand-painted vegan truffles with ethical, fair-trade ingredients.
         </p>

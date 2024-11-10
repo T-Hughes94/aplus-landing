@@ -9,10 +9,10 @@ const HeroSection = () => {
         {/* Left Side: Text Content */}
         <div className="text-white space-y-4 md:w-1/2">
           <h1 className="text-3xl font-bold underline decoration-[#ffd4a7] md:text-5xl">
-            Made from scratch, hand-painted vegan truffles
+          Handcrafted in small batches
           </h1>
           <p className="text-base mt-4 md:text-xl">
-            Discover the art of handcrafted vegan truffles, meticulously made with premium ingredients and painted by hand to perfection. A luxurious and delightful experience that embodies the finest taste and craftsmanship.
+          Elegantly airbrushed and hand painted chocolates filled with delectable flavors and textures. Our bonbons are made using the freshest and most local ingredients with flavors that pair beautifully with our vegan dark, milk, and white chocolate.
           </p>
 
           {/* View Gallery Button */}

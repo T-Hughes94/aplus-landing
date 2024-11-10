@@ -4,19 +4,20 @@ import { useState } from "react";
 import Image from "next/legacy/image";
 
 const Header = () => {
-  const [isOpen, setIsOpen] = useState(false); // State for the mobile menu
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <header className="font-custom text-xl bg-[#f0ac9f] text-white shadow-lg sticky top-0 w-full z-50">
-      <div className="container mx-auto flex justify-between items-center px-6 py-4">
+      <div className="container mx-auto flex justify-between items-center px-8 py-4 h-24"> {/* Set a fixed height */}
+        
         {/* Clickable Company Logo */}
         <Link href="/">
           <div className="flex items-center space-x-3 cursor-pointer">
             <Image
-              src="/Apluslogo.webp"
+              src="/Apluslogo.png"
               alt="A Plus Truffles Logo"
-              width={70}
-              height={70}
+              width={160}  // Adjust width as needed to keep it centered without increasing header height
+              height={160} // Adjust height as needed
               className="rounded-full"
               loading="lazy"
             />
@@ -87,5 +88,9 @@ const Header = () => {
 };
 
 export default Header;
+
+
+
+
 
 
