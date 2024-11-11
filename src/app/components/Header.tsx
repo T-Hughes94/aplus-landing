@@ -7,7 +7,7 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="font-custom text-xl text-white shadow-lg sticky top-0 w-full z-50 bg-gradient-to-r from-purple-700 to-green-600">
+    <header className="font-custom text-xl text-white shadow-lg sticky top-0 w-full z-50 bg-purple-700">
       <div className="container mx-auto flex justify-between items-center px-8 py-4 h-24">
         
         {/* Clickable Company Logo */}
@@ -27,16 +27,16 @@ const Header = () => {
 
         {/* Desktop Navigation Links */}
         <nav className="hidden md:flex flex-1 justify-center space-x-8 items-center">
-          <Link href="/" className="hover:text-green-300 transition-colors duration-300">
+          <Link href="/" className="hover:text-emerald-500 transition-colors duration-300">
             Home
           </Link>
-          <Link href="/about" className="hover:text-green-300 transition-colors duration-300">
+          <Link href="/about" className="hover:text-emerald-500 transition-colors duration-300">
             About
           </Link>
-          <Link href="/services" className="hover:text-green-300 transition-colors duration-300">
+          <Link href="/services" className="hover:text-emerald-500 transition-colors duration-300">
             Services
           </Link>
-          <Link href="/gallery" className="hover:text-green-300 transition-colors duration-300">
+          <Link href="/gallery" className="hover:text-emerald-500 transition-colors duration-300">
             Gallery
           </Link>
         </nav>
@@ -44,7 +44,7 @@ const Header = () => {
         {/* Contact Button */}
         <Link
           href="/contact"
-          className="hidden md:inline-block bg-white text-purple-700 hover:bg-green-500 hover:text-white transition-colors duration-300 px-4 py-2 rounded-md font-semibold"
+          className="hidden md:inline-block bg-white text-purple-700 hover:bg-emerald-500 hover:text-white transition-colors duration-300 px-4 py-2 rounded-md font-semibold"
         >
           Contact
         </Link>

@@ -4,10 +4,10 @@ import { FaBoxOpen, FaGift, FaShippingFast } from "react-icons/fa";
 
 const PricingSection = () => {
   return (
-    <section className="relative bg-black p-4 md:p-8 lg:p-16 pb-8 md:pb-12 z-10 text-white">
+    <section className="relative bg-white p-4 md:p-8 lg:p-16 pb-8 md:pb-12 z-10 text-white">
       <div className="text-center mb-8 md:mb-12">
-        <h2 className="text-3xl font-bold text-purple-700 md:text-4xl">Pricing</h2>
-        <p className="text-base text-gray-200 mt-2 md:text-lg">
+        <h2 className="text-3xl font-bold text-emeraldc -700 md:text-4xl">Pricing</h2>
+        <p className="text-base text-gray-900 mt-2 md:text-lg">
           Choose your favorite truffles and have them delivered within 15 miles of Piscataway, NJ – or opt for free pickup!
         </p>
       </div>
@@ -21,7 +21,7 @@ const PricingSection = () => {
           <p className="text-gray-300 mt-1">Pick your own flavors</p>
         </div>
 
-        <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-black p-4 rounded-lg shadow-lg text-center md:p-6 transition">
+        <div className="bg-gradient-to-br from-emerald-900 via-emerald-600 to-black p-4 rounded-lg shadow-lg text-center md:p-6 transition">
           <FaGift className="text-[#FFD700] text-4xl mx-auto mb-3 md:text-5xl" />
           <h3 className="text-xl font-semibold text-[#FFD700] md:text-2xl">Box of a Dozen</h3>
           <p className="text-lg font-bold text-gray-200 mt-1 md:mt-2">$38</p>
@@ -42,7 +42,7 @@ const PricingSection = () => {
           Delivery is free within 15 miles of Piscataway, NJ, or opt for free pickup!
         </p>
         <Link href="/contact" legacyBehavior>
-          <a className="inline-block mt-4 px-4 py-2 md:px-6 md:py-3 border border-[#FFD700] bg-purple-700 text-[#FFD700] font-semibold rounded-lg shadow-md hover:bg-[#FFD700] hover:text-purple-700 hover:border-purple-700 transition duration-300 cursor-pointer text-sm md:text-base">
+          <a className="inline-block mt-4 px-4 py-2 md:px-6 md:py-3 border border-[#FFD700] bg-emerald-700 text-white font-semibold rounded-lg shadow-md hover:bg-purple-700 hover:text-white hover:border-purple-700 transition duration-300 cursor-pointer text-sm md:text-base">
             Contact Us to Order
           </a>
         </Link>
