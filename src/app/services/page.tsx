@@ -46,7 +46,7 @@ const ServicesPage = () => {
           <div className="flex flex-col items-center justify-center space-y-2 bg-[#ffd4a7] text-white w-44 h-44 rounded-full shadow-lg transform transition-transform duration-300 hover:scale-105 p-4">
             <FaBaby className="text-4xl md:text-5xl" />
             <h3 className="text-lg font-semibold">Baby Showers</h3>
-            <p className="text-sm text-center">Celebrate with treats as sweet as the new arrival.</p>
+            <p className="text-sm text-center">Celebrate with treats that are as sweet as the new arrival.</p>
           </div>
 
           {/* Bridal Shower */}

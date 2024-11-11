@@ -10,7 +10,7 @@ const AboutSection = () => {
         {/* Left Side: Image */}
         <div className="relative transform transition-transform duration-300 hover:scale-105 md:w-1/2">
           <Image
-            src="/Apluslogo.webp"
+            src="/Apluslogo2.png"
             alt="Our Story - Handcrafted Vegan Truffles"
             width={500}
             height={350}
