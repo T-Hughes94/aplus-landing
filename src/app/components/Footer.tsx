@@ -6,7 +6,7 @@ import { HiOutlineMail } from "react-icons/hi";
 
 const Footer = () => {
   return (
-    <footer className="relative bg-[#f0ac9f] text-white p-8 md:p-12">
+    <footer className="relative bg-[#4b0082] text-white p-8 md:p-12">
       <div className="max-w-6xl mx-auto grid gap-8 text-center md:text-left md:grid-cols-3">
         
         {/* Company Info */}
@@ -76,7 +76,7 @@ const Footer = () => {
           preserveAspectRatio="none"
         >
           <path
-            fill="#ffffff"
+            fill="#000000" // Black color for wave transition
             d="M0,256 C60,288,120,320,180,320C240,320,300,288,360,256C420,224,480,192,540,192C600,192,660,224,720,256C780,288,840,320,900,320C960,320,1020,288,1080,256C1140,224,1200,192,1260,192C1320,192,1380,224,1440,256L1440,320L0,320Z"
           ></path>
         </svg>
@@ -86,6 +86,7 @@ const Footer = () => {
 };
 
 export default Footer;
+
 
 
 

@@ -4,20 +4,20 @@ import Link from "next/link";
 
 const HeroSection = () => {
   return (
-    <section className="relative bg-[#f0ac9f] p-6 md:p-16">
+    <section className="relative bg-gradient-to-br from-purple-900 via-green-800 to-teal-700 p-6 md:p-16">
       <div className="flex flex-col items-center justify-between md:flex-row">
         {/* Left Side: Text Content */}
-        <div className="text-white space-y-4 md:w-1/2">
-          <h1 className="text-3xl font-bold underline decoration-[#ffd4a7] md:text-5xl">
-          Handcrafted in small batches
+        <div className="text-emerald-400 space-y-4 md:w-1/2">
+          <h1 className="text-3xl font-bold underline decoration-[#FFD700] md:text-5xl">
+            Handcrafted in small batches
           </h1>
           <p className="text-base mt-4 md:text-xl">
-          Elegantly airbrushed and hand painted chocolates filled with delectable flavors and textures. Our bonbons are made using the freshest and most local ingredients with flavors that pair beautifully with our vegan dark, milk, and white chocolate.
+            Elegantly airbrushed and hand-painted chocolates filled with delectable flavors and textures. Our bonbons are made using the freshest and most local ingredients with flavors that pair beautifully with our vegan dark, milk, and white chocolate.
           </p>
 
           {/* View Gallery Button */}
           <Link href="/gallery">
-            <div className="inline-block mt-6 px-4 py-2 bg-white text-[#f0ac9f] font-semibold rounded-lg shadow-md hover:bg-[#ffd4a7] hover:text-white transition duration-300 md:px-6 md:py-3 cursor-pointer">
+            <div className="inline-block mt-6 px-4 py-2 bg-white text-purple-900 font-semibold rounded-lg shadow-md hover:bg-[#FFD700] hover:text-white transition duration-300 md:px-6 md:py-3 cursor-pointer">
               View Gallery
             </div>
           </Link>
@@ -51,7 +51,7 @@ const HeroSection = () => {
           preserveAspectRatio="none"
         >
           <path
-            fill="#ffffff"
+            fill="#000000"
             d="M0,256 C60,288,120,320,180,320C240,320,300,288,360,256C420,224,480,192,540,192C600,192,660,224,720,256C780,288,840,320,900,320C960,320,1020,288,1080,256C1140,224,1200,192,1260,192C1320,192,1380,224,1440,256L1440,320L0,320Z"
           ></path>
         </svg>
@@ -61,6 +61,7 @@ const HeroSection = () => {
 };
 
 export default HeroSection;
+
 
 
 
