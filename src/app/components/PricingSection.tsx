@@ -6,7 +6,7 @@ const PricingSection = () => {
   return (
     <section className="relative bg-white p-4 md:p-8 lg:p-16 pb-8 md:pb-12 z-10 text-white">
       <div className="text-center mb-8 md:mb-12">
-        <h2 className="text-3xl font-bold text-emeraldc -700 md:text-4xl">Pricing</h2>
+        <h2 className="text-3xl font-bold text-emerald-700 md:text-4xl">Pricing</h2>
         <p className="text-base text-gray-900 mt-2 md:text-lg">
           Choose your favorite truffles and have them delivered within 15 miles of Piscataway, NJ – or opt for free pickup!
         </p>
@@ -42,7 +42,7 @@ const PricingSection = () => {
           Delivery is free within 15 miles of Piscataway, NJ, or opt for free pickup!
         </p>
         <Link href="/contact" legacyBehavior>
-          <a className="inline-block mt-4 px-4 py-2 md:px-6 md:py-3 border border-[#FFD700] bg-emerald-700 text-white font-semibold rounded-lg shadow-md hover:bg-purple-700 hover:text-white hover:border-purple-700 transition duration-300 cursor-pointer text-sm md:text-base">
+          <a className="inline-block mt-4 px-4 py-2 md:px-6 md:py-3 border border-[#FFD700] bg-emerald-700 text-white font-semibold rounded-lg shadow-md hover:bg-purple-700 hover:text-[#FFD700] hover:border-[#FFD700] transition duration-300 cursor-pointer text-sm md:text-base">
             Contact Us to Order
           </a>
         </Link>

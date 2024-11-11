@@ -4,7 +4,7 @@ import { FaLeaf, FaHandHoldingHeart, FaGlobe, FaSeedling } from "react-icons/fa"
 
 const AboutSection = () => {
   return (
-    <section className="relative z-20 bg-white p-6 md:p-16 text-white">
+    <section className="relative z-20 bg-white p-6 md:p-16 text-white pb-4">
       <div className="flex flex-col items-center space-y-8 md:space-y-0 md:flex-row md:justify-between">
         
         {/* Left Side: Image */}
@@ -13,7 +13,7 @@ const AboutSection = () => {
             src="/Apluslogo.png"
             alt="Our Story - Handcrafted Vegan Truffles"
             width={650}
-            height={500}
+            height={600}
             className="rounded-lg shadow-lg border-4 border-[#4B0082]"
           />
         </div>
@@ -65,6 +65,7 @@ const AboutSection = () => {
 };
 
 export default AboutSection;
+
 
 
 
