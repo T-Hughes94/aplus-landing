@@ -47,7 +47,7 @@ const Footer = () => {
         <div className="space-y-4">
           <h3 className="text-xl font-semibold">Our Gallery</h3>
           <div className="grid grid-cols-3 gap-2">
-            {["gallery1.webp", "gallery3.webp", "gallery5.webp", "gallery7.webp", "gallery9.webp", "gallery11.webp"].map((image, index) => (
+            {["gallery1.webp", "gallery3.webp", "gallery5.webp", "gallery7.webp", "gallery9.webp", "gallery12.webp"].map((image, index) => (
               <div key={index} className="relative w-full h-20 md:h-24 overflow-hidden rounded-lg">
                 <Image
                   src={`/${image}`}
