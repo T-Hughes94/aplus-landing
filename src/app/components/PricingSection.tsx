@@ -4,45 +4,42 @@ import { FaBoxOpen, FaGift, FaShippingFast } from "react-icons/fa";
 
 const PricingSection = () => {
   return (
-    <section className="relative bg-white p-20 md:p-20 lg:p-16 pb-8 md:pb-12 z-10 text-white mt-4 md:mt-8 lg:mt-10">
+    <section className="relative bg-black p-4 md:p-8 lg:p-16 pt-12 md:pt-20 pb-8 md:pb-12 z-10">
       <div className="text-center mb-8 md:mb-12">
-        <h2 className="text-3xl font-bold text-purple-700 md:text-4xl">Pricing</h2>
-        <p className="text-base text-gray-900 mt-2 md:text-lg">
+        <h2 className="text-3xl font-bold text-purple-500 md:text-4xl">Pricing</h2>
+        <p className="text-base text-white mt-2 md:text-lg">
           Choose your favorite truffles and have them delivered within 15 miles of Piscataway, NJ – or opt for free pickup!
         </p>
       </div>
 
-      {/* Pricing Cards */}
-      <div className="grid grid-cols-1 gap-6 max-w-4xl mx-auto md:grid-cols-3 md:gap-8">
-        <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-black p-4 rounded-lg shadow-lg text-center md:p-6 transition">
+       {/* Pricing Cards */}
+       <div className="grid grid-cols-1 gap-6 max-w-4xl mx-auto md:grid-cols-3 md:gap-8">
+        <div className="bg-gradient-to-br from-[#4b0082] via-purple-500 to-purple-700 p-4 rounded-lg shadow-lg text-center md:p-6">
           <FaBoxOpen className="text-[#FFD700] text-4xl mx-auto mb-3 md:text-5xl" />
           <h3 className="text-xl font-semibold text-white md:text-2xl">Box of 4</h3>
-          <p className="text-lg font-bold text-gray-200 mt-1 md:mt-2">$15</p>
-          <p className="text-gray-300 mt-1">Pick your own flavors</p>
+          <p className="text-lg font-bold text-white mt-1 md:mt-2">$15</p>
         </div>
 
-        <div className="bg-gradient-to-br from-emerald-900 via-emerald-600 to-black p-4 rounded-lg shadow-lg text-center md:p-6 transition">
+        <div className="bg-gradient-to-br from-emerald-900 via-emerald-500 to-emerald-700 p-4 rounded-lg shadow-lg text-center md:p-6">
           <FaGift className="text-[#FFD700] text-4xl mx-auto mb-3 md:text-5xl" />
           <h3 className="text-xl font-semibold text-white md:text-2xl">Box of a Dozen</h3>
-          <p className="text-lg font-bold text-gray-200 mt-1 md:mt-2">$38</p>
-          <p className="text-gray-300 mt-1">Pick your own flavors</p>
+          <p className="text-lg font-bold text-white mt-1 md:mt-2">$38</p>
         </div>
 
-        <div className="bg-gradient-to-br from-purple-900 via-purple-800 to-black p-4 rounded-lg shadow-lg text-center md:p-6 transition">
+        <div className="bg-gradient-to-br from-[#4b0082] via-purple-500 to-purple-700 p-4 rounded-lg shadow-lg text-center md:p-6">
           <FaShippingFast className="text-[#FFD700] text-4xl mx-auto mb-3 md:text-5xl" />
           <h3 className="text-xl font-semibold text-white md:text-2xl">Trash Can Truffles</h3>
-          <p className="text-lg font-bold text-gray-200 mt-1 md:mt-2">$18</p>
-          <p className="text-gray-300 mt-1">Random assortment of flavors</p>
+          <p className="text-lg font-bold text-white mt-1 md:mt-2">$18</p>
         </div>
       </div>
 
       {/* Delivery and CTA */}
       <div className="text-center mt-8 md:mt-12 relative z-20">
-        <p className="text-gray-900 text-base md:text-lg">
+        <p className="text-white text-base md:text-lg">
           Delivery is free within 15 miles of Piscataway, NJ, or opt for free pickup!
         </p>
         <Link href="/contact" legacyBehavior>
-          <a className="inline-block mt-4 px-4 py-2 md:px-6 md:py-3 border border-[#FFD700] bg-emerald-700 text-white font-semibold rounded-lg shadow-md hover:bg-purple-700 hover:text-white hover:border-[#FFD700] transition duration-300 cursor-pointer text-sm md:text-base">
+          <a className="inline-block mt-4 px-4 py-2 md:px-6 md:py-3 border border-[#FFD700] bg-purple-900 text-white font-semibold rounded-lg shadow-md hover:bg-emerald-800 hover:border-[#FFD700] hover:text-white transition duration-300 cursor-pointer text-sm md:text-base">
             Contact Us to Order
           </a>
         </Link>

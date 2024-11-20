@@ -54,7 +54,7 @@ const SeasonalSection = () => {
         </p>
         <Link href="https://www.instagram.com/aplustruffles" target="_blank">
           <div className="flex justify-center">
-            <button className="mt-4 px-4 py-2 md:px-6 md:py-3 bg-[#FFD700] text-black font-semibold rounded-lg shadow-md hover:bg-emerald-400 hover:text-white transition duration-300 flex items-center justify-center space-x-2 cursor-pointer text-sm md:text-base">
+            <button className="mt-4 p-8 px-4 py-2 md:px-6 md:py-3 bg-purple-700 border border-[#FFD700] text-white font-semibold rounded-lg shadow-md hover:bg-emerald-700 hover:text-white transition duration-300 flex items-center justify-center space-x-2 cursor-pointer text-sm md:text-base">
               <FaInstagram className="text-lg md:text-2xl" />
               <span>Follow Us on Instagram</span>
             </button>
