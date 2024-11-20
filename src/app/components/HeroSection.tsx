@@ -24,14 +24,14 @@ const HeroSection = () => {
         </div>
 
         {/* Right Side: Image with Sticker Effect */}
-        <div className="relative mt-8 md:mt-0 md:w-1/2">
+        <div className="relative mt-8 md:mt-0 md:w-1/2 flex justify-center">
           <div className="relative transform hover:scale-105 transition-transform duration-300">
             <Image
               src="/truffle2.webp"
               alt="Hand-painted vegan truffles"
-              width={500}
+              width={500} // Desktop size
               height={500}
-              className="rounded-lg shadow-lg"
+              className="rounded-lg shadow-lg w-40 h-40 sm:w-60 sm:h-60 md:w-[500px] md:h-[500px]" // Smaller size for mobile
               priority={true}
               style={{
                 border: "4px solid white",
@@ -61,6 +61,8 @@ const HeroSection = () => {
 };
 
 export default HeroSection;
+
+
 
 
 

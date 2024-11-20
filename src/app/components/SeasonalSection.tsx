@@ -6,7 +6,7 @@ const SeasonalSection = () => {
   return (
     <section className="bg-[#4b0082] p-8 md:p-16 -mt-1 relative text-white">
       <div className="text-center mb-8 md:mb-12">
-        <h2 className="text-3xl font-bold text-[#FFD700] md:text-4xl">Seasonal Flavors & Events</h2>
+        <h2 className="text-3xl font-bold text-white md:text-4xl">Seasonal Flavors & Events</h2>
         <p className="text-base text-gray-200 mt-2 md:text-lg">
           Discover limited-time flavors and catch us at our upcoming pop-up events!
         </p>
@@ -44,7 +44,7 @@ const SeasonalSection = () => {
 
       {/* Events Section with Centered Instagram Button */}
       <div className="text-center mt-8">
-        <h3 className="text-xl font-semibold text-[#FFD700] md:text-2xl">Upcoming November Events</h3>
+        <h3 className="text-xl font-semibold text-white md:text-2xl">Upcoming November Events</h3>
         <p className="text-base text-gray-200 mt-2 md:text-lg">
           Catch our November flavors at our next event:
         </p>
