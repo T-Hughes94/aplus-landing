@@ -39,6 +39,9 @@ const Header = () => {
           <Link href="/gallery" className="hover:text-emerald-500 transition-colors duration-300">
             Gallery
           </Link>
+          <Link href="/collections" className="hover:text-emerald-500 transition-colors duration-300">
+            Collections
+          </Link>
         </nav>
 
         {/* Contact Button */}
@@ -77,6 +80,9 @@ const Header = () => {
           </Link>
           <Link href="/gallery" className="block px-4 py-3 text-white hover:bg-gray-500 rounded-md font-bold" onClick={() => setIsOpen(false)}>
             Gallery
+          </Link>
+          <Link href="/collections" className="hover:text-emerald-500 transition-colors duration-300">
+            Collections
           </Link>
           <Link href="/contact" className="block px-4 py-3 text-white hover:bg-gray-500 rounded-md font-bold" onClick={() => setIsOpen(false)}>
             Contact
