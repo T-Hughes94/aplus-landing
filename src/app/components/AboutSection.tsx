@@ -20,7 +20,7 @@ const AboutSection = () => {
 
         {/* Right Side: About Text */}
         <div className="space-y-4 md:w-1/2 md:space-y-6">
-          <h2 className="text-3xl font-bold text-purple-500 md:text-4xl">
+          <h2 className="text-3xl font-bold text-[#FFD700] md:text-4xl">
             Our Story
           </h2>
           <p className="text-base leading-relaxed text-white md:text-lg">
@@ -30,7 +30,7 @@ const AboutSection = () => {
           {/* Key Values */}
           <div className="grid gap-4 md:grid-cols-2">
             <div className="flex items-center space-x-4">
-              <FaLeaf className="text-emerald-700 text-2xl md:text-3xl" />
+              <FaLeaf className="text-purple-700 text-2xl md:text-3xl" />
               <div>
                 <h3 className="text-base font-semibold text-white md:text-lg">100% Vegan</h3>
                 <p className="text-sm text-white">Committed to plant-based ingredients.</p>
@@ -51,7 +51,7 @@ const AboutSection = () => {
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <FaSeedling className="text-emerald-700 text-2xl md:text-3xl" />
+              <FaSeedling className="text-purple-700 text-2xl md:text-3xl" />
               <div>
                 <h3 className="text-base font-semibold text-white md:text-lg">Handcrafted with Care</h3>
                 <p className="text-sm text-white">Each truffle is individually painted and crafted.</p>
