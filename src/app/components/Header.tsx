@@ -7,7 +7,7 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="font-custom text-xl text-[#FFD700] shadow-lg sticky top-0 w-full z-50 bg-black">
+    <header className="font-custom text-xl text-[#FFD700] shadow-lg sticky top-0 w-full z-50 border border-[#FFD700] bg-black">
       <div className="container mx-auto flex justify-between items-center px-8 py-4 h-24">
         
         {/* Clickable Company Logo */}
