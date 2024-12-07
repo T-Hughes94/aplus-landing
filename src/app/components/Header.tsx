@@ -14,10 +14,10 @@ const Header = () => {
         <Link href="/">
           <div className="flex items-center space-x-3 cursor-pointer">
             <Image
-              src="/Apluslogo.png"
+              src="/Apluslogo.jpeg"
               alt="A Plus Truffles Logo"
-              width={140}  // Adjust width as needed to keep it centered without increasing header height
-              height={140} // Adjust height as needed
+              width={110}  // Adjust width as needed to keep it centered without increasing header height
+              height={80} // Adjust height as needed
               className="rounded-full"
               loading="lazy"
             />
