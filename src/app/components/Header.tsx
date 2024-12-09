@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import Link from "next/link";
 import { useState } from "react";
 import Image from "next/legacy/image";
@@ -8,38 +8,39 @@ const Header = () => {
 
   return (
     <header className="font-custom text-xl text-[#FFD700] shadow-lg sticky top-0 w-full z-50 border border-[#FFD700] bg-black">
-      <div className="container mx-auto flex justify-between items-center px-8 py-4 h-24">
-        
+      <div className="container mx-auto flex justify-between items-center px-4 py-4 h-24">
         {/* Clickable Company Logo */}
         <Link href="/">
-          <div className="flex items-center space-x-3 cursor-pointer">
+          <div
+            className="flex items-center space-x-3 cursor-pointer"
+            style={{ marginLeft: "clamp(-15px, -5vw, -10px)" }} // Adjust dynamically
+          >
             <Image
-              src="/Apluslogo.jpeg"
+              src="/Apluslogo4.png"
               alt="A Plus Truffles Logo"
-              width={110}  // Adjust width as needed to keep it centered without increasing header height
+              width={110} // Adjust width as needed
               height={80} // Adjust height as needed
               className="rounded-full"
               loading="lazy"
             />
-            <div className="font-custom text-2xl font-bold">A Plus Truffles</div>
           </div>
         </Link>
 
         {/* Desktop Navigation Links */}
         <nav className="hidden md:flex flex-1 justify-center space-x-8 items-center">
-          <Link href="/" className="hover:text-emerald-500 transition-colors duration-300">
+          <Link href="/" className="hover:text-purple-500 transition-colors duration-300">
             Home
           </Link>
-          <Link href="/about" className="hover:text-emerald-500 transition-colors duration-300">
+          <Link href="/about" className="hover:text-emerald-600 transition-colors duration-300">
             About
           </Link>
-          <Link href="/services" className="hover:text-emerald-500 transition-colors duration-300">
+          <Link href="/services" className="hover:text-purple-600 transition-colors duration-300">
             Services
           </Link>
-          <Link href="/gallery" className="hover:text-emerald-500 transition-colors duration-300">
+          <Link href="/gallery" className="hover:text-emerald-600 transition-colors duration-300">
             Gallery
           </Link>
-          <Link href="/collections" className="hover:text-emerald-500 transition-colors duration-300">
+          <Link href="/collections" className="hover:text-purple-600 transition-colors duration-300">
             Collections
           </Link>
         </nav>
@@ -68,23 +69,47 @@ const Header = () => {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <nav className="md:hidden bg-gradient-to-r from-purple-700 to-green-600 px-4 py-6">
-          <Link href="/" className="block px-4 py-3 text-white hover:bg-gray-500 rounded-md font-bold" onClick={() => setIsOpen(false)}>
+        <nav className="md:hidden bg-black">
+          <Link
+            href="/"
+            className="block px-4 py-3 text-white hover:bg-gray-500 rounded-md font-bold"
+            onClick={() => setIsOpen(false)}
+          >
             Home
           </Link>
-          <Link href="/about" className="block px-4 py-3 text-white hover:bg-gray-500 rounded-md font-bold" onClick={() => setIsOpen(false)}>
+          <Link
+            href="/about"
+            className="block px-4 py-3 text-white hover:bg-gray-500 rounded-md font-bold"
+            onClick={() => setIsOpen(false)}
+          >
             About
           </Link>
-          <Link href="/services" className="block px-4 py-3 text-white hover:bg-gray-500 rounded-md font-bold" onClick={() => setIsOpen(false)}>
+          <Link
+            href="/services"
+            className="block px-4 py-3 text-white hover:bg-gray-500 rounded-md font-bold"
+            onClick={() => setIsOpen(false)}
+          >
             Services
           </Link>
-          <Link href="/gallery" className="block px-4 py-3 text-white hover:bg-gray-500 rounded-md font-bold" onClick={() => setIsOpen(false)}>
+          <Link
+            href="/gallery"
+            className="block px-4 py-3 text-white hover:bg-gray-500 rounded-md font-bold"
+            onClick={() => setIsOpen(false)}
+          >
             Gallery
           </Link>
-          <Link href="/collections" className="hover:text-emerald-500 transition-colors duration-300">
+          <Link
+            href="/collections"
+            className="block px-4 py-3 text-white hover:bg-gray-500 rounded-md font-bold"
+            onClick={() => setIsOpen(false)}
+          >
             Collections
           </Link>
-          <Link href="/contact" className="block px-4 py-3 text-white hover:bg-gray-500 rounded-md font-bold" onClick={() => setIsOpen(false)}>
+          <Link
+            href="/contact"
+            className="block px-4 py-3 text-white hover:bg-gray-500 rounded-md font-bold"
+            onClick={() => setIsOpen(false)}
+          >
             Contact
           </Link>
         </nav>
@@ -94,6 +119,8 @@ const Header = () => {
 };
 
 export default Header;
+
+
 
 
 
