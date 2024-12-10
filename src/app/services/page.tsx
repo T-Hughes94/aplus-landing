@@ -13,7 +13,7 @@ const ServicesPage = () => {
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-purple-900 via-purple-800 to-emerald-700 p-10 md:p-24 text-center">
         <h1 className="text-4xl font-bold mb-4 md:text-5xl text-[#FFD700]">Special Occasions & Gifting</h1>
-        <p className="text-lg mt-2 md:text-2xl text-gray-200">
+        <p className="text-lg mt-2 md:text-2xl text-white">
           Celebrate life’s sweetest moments with A Plus Truffles, handcrafted with care and perfect for any occasion.
         </p>
         <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0]">
@@ -32,7 +32,7 @@ const ServicesPage = () => {
             className="rounded-lg shadow-lg"
           />
         </div>
-        <p className="mt-4 text-lg text-gray-300 max-w-2xl mx-auto md:text-xl">
+        <p className="mt-4 text-lg text-white max-w-2xl mx-auto md:text-xl">
           A glimpse of our beautifully crafted truffles, made to delight and elevate every occasion.
         </p>
       </section>
@@ -40,7 +40,7 @@ const ServicesPage = () => {
       {/* Services Section */}
       <section className="p-6 md:p-16 bg-black text-center">
         <h2 className="text-3xl font-bold text-[#FFD700] md:text-4xl">Perfect for Every Occasion</h2>
-        <p className="mt-4 text-lg text-gray-300 max-w-2xl mx-auto md:text-xl">
+        <p className="mt-4 text-lg text-white max-w-2xl mx-auto md:text-xl">
           Our beautifully crafted vegan truffles make a memorable addition to any event. Here are just a few of the
           special occasions where A Plus Truffles can add that perfect touch.
         </p>
@@ -54,7 +54,7 @@ const ServicesPage = () => {
           ].map(({ icon: Icon, title, text }, index) => (
             <div
               key={index}
-              className="relative pt-10 pb-6 bg-gradient-to-br from-purple-800 via-purple-700 to-purple-900 rounded-full shadow-lg border border-purple-500 transform transition-transform hover:scale-105 hover:shadow-2xl flex flex-col items-center"
+              className="relative pt-10 pb-6 bg-gradient-to-br from-purple-800 via-purple-700 to-purple-900 rounded-full shadow-lg border border-[#FFD700] transform transition-transform hover:scale-105 hover:shadow-2xl flex flex-col items-center"
               style={{ minHeight: "250px", maxWidth: "250px", margin: "0 auto" }}
             >
               <div
@@ -64,8 +64,8 @@ const ServicesPage = () => {
                 <Icon className="text-5xl text-white" />
               </div>
               <div className="mt-16 text-center">
-                <h3 className="text-xl font-bold text-white">{title}</h3>
-                <p className="mt-2 text-gray-300 text-base">{text}</p>
+                <h3 className="text-xl font-bold text-[#FFD700]">{title}</h3>
+                <p className="mt-2 text-white text-base">{text}</p>
               </div>
             </div>
           ))}
@@ -75,7 +75,7 @@ const ServicesPage = () => {
       {/* Gift Box Highlight */}
       <section className="p-6 md:p-16 bg-black to-black text-center">
         <h3 className="text-3xl font-bold text-[#FFD700] md:text-4xl">A Gift That Always Delights</h3>
-        <p className="mt-4 text-lg text-gray-300 max-w-2xl mx-auto">
+        <p className="mt-4 text-lg text-white max-w-2xl mx-auto">
           Whether it's for a celebration or "just because," a box of A Plus Truffles is the perfect gift for anyone
           with a taste for the finer things.
         </p>
@@ -89,9 +89,9 @@ const ServicesPage = () => {
       </section>
 
       {/* Call to Action */}
-      <section className="p-6 md:p-16 bg-gradient-to-br from-purple-900 via-purple-800 to-emerald-700 text-center">
+      <section className="p-6 md:p-16 bg-gradient-to-br from-emerald-700 via-purple-900 to-purple-700 text-center">
         <h2 className="text-3xl font-bold text-[#FFD700] md:text-4xl">Planning an Event?</h2>
-        <p className="mt-4 text-lg text-gray-300">
+        <p className="mt-4 text-lg text-white">
           Contact us to discuss how A Plus Truffles can make your event unforgettable.
         </p>
         <div className="mt-8">
