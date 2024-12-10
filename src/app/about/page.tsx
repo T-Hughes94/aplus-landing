@@ -71,7 +71,7 @@ const AboutPage = () => {
       </section>
 
       {/* Call to Action */}
-      <section className="p-6 md:p-16 relative bg-black text-center">
+      <section className="p-6 md:p-16 relative bg-gradient-to-br from-purple-900 via-purple-800 to-emerald-700 text-center">
         <h2 className="text-2xl font-bold text-white md:text-3xl">Ready to Try Our Creations?</h2>
         <p className="text-white mt-4 text-lg md:text-xl">
           Contact us to place an order or to learn more about our process.
