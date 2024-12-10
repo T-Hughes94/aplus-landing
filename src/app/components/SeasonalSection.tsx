@@ -14,23 +14,26 @@ const SeasonalSection = () => {
       {/* Seasonal Flavors Card */}
       <div className="relative max-w-2xl mx-auto mb-12 p-6 bg-gradient-to-br from-[#4b0082] via-purple-700 to-emerald-700 rounded-xl border-2 border-[#FFD700] shadow-2xl transform transition-transform duration-300 hover:scale-105 hover:shadow-[0px_15px_30px_rgba(0,0,0,0.2)]">
         <h3 className="text-2xl font-extrabold text-[#FFD700] flex items-center justify-center md:text-3xl">
-          🍁 <span className="ml-2">Current Seasonal Flavors</span> 🍁
+          🎄 <span className="ml-2">Current Seasonal Flavors</span>
         </h3>
         <p className="text-gray-200 mt-3 mb-5 text-center leading-relaxed text-sm md:text-lg">
-          "Check out our current seasonal lineup of Bonbons"
+          "Check out our December seasonal lineup of Bonbons"
         </p>
         <ul className="space-y-3 pl-5 text-gray-100 font-semibold text-base md:text-lg">
           <li className="flex items-center">
-            <span className="mr-3 w-3 h-3 bg-[#FFD700] rounded-full"></span> 🍏 Apple Pie - Sweet and tangy with a dash of cinnamon!
+            <span className="mr-3 w-3 h-3 bg-[#FFD700] rounded-full"></span> 🍪 Biscoff - Spiced caramelized cookie crumble!
           </li>
           <li className="flex items-center">
-            <span className="mr-3 w-3 h-3 bg-[#FFD700] rounded-full"></span> 🎃 Pumpkin Pecan - Creamy pumpkin with a nutty crunch.
+            <span className="mr-3 w-3 h-3 bg-[#FFD700] rounded-full"></span> 🍒 Black Forest - Rich chocolate with cherry compote.
           </li>
           <li className="flex items-center">
-            <span className="mr-3 w-3 h-3 bg-[#FFD700] rounded-full"></span> 🫐 Blueberry Pie - A burst of berries with every bite!
+            <span className="mr-3 w-3 h-3 bg-[#FFD700] rounded-full"></span> 🍞 French Toast - Maple and cinnamon indulgence.
           </li>
           <li className="flex items-center">
-            <span className="mr-3 w-3 h-3 bg-[#FFD700] rounded-full"></span> 🥧 Pecan Pie - Rich and buttery with classic pecan flavor.
+            <span className="mr-3 w-3 h-3 bg-[#FFD700] rounded-full"></span> 🍫 Peppermint in Milk Chocolate - Cool peppermint with creamy milk chocolate.
+          </li>
+          <li className="flex items-center">
+            <span className="mr-3 w-3 h-3 bg-[#FFD700] rounded-full"></span> ☕ Cinnamon Chai - Warm and spiced chai-infused delight.
           </li>
         </ul>
 
@@ -41,17 +44,27 @@ const SeasonalSection = () => {
 
       {/* Events Section with Instagram CTA */}
       <div className="text-center mt-8">
-        <h3 className="text-xl font-semibold text-[#FFD700] md:text-2xl">Upcoming November Events</h3>
+        <h3 className="text-xl font-semibold text-[#FFD700] md:text-2xl">Upcoming December Events</h3>
         <p className="text-base text-gray-200 mt-2 md:text-lg">
-          Catch our November flavors at our next event:
+          Join us at these exciting events this December:
         </p>
-        <p className="text-base font-bold text-gray-200 mt-2 md:text-lg">
-          November 16th at Anthropologie, Shrewsbury NJ <br />
-          Hosted by @parmagiannipizza from 11 AM - 4 PM
-        </p>
+        <ul className="text-base font-bold text-gray-200 mt-4 space-y-4 md:text-lg">
+          <li>
+            📍 <strong>December 1st</strong> <br />
+            American Legion Post 346 <br />
+            21 Gully Road, Neptune, NJ <br />
+            12 PM - 5 PM
+          </li>
+          <li>
+            📍 <strong>December 14th</strong> <br />
+            American Legion Post 346 <br />
+            21 Gully Road, Neptune, NJ <br />
+            12 PM - 5 PM
+          </li>
+        </ul>
         <Link href="https://www.instagram.com/aplustruffles" target="_blank">
           <div className="flex justify-center">
-            <button className="mt-4 px-4 py-2 md:px-6 md:py-3 bg-purple-700 border border-[#FFD700] text-white font-semibold rounded-lg shadow-md hover:bg-emerald-700 hover:text-white transition duration-300 flex items-center justify-center space-x-2 cursor-pointer text-sm md:text-base">
+            <button className="mt-6 px-4 py-2 md:px-6 md:py-3 bg-purple-700 border border-[#FFD700] text-white font-semibold rounded-lg shadow-md hover:bg-emerald-700 hover:text-white transition duration-300 flex items-center justify-center space-x-2 cursor-pointer text-sm md:text-base">
               <FaInstagram className="text-lg md:text-2xl" />
               <span>Follow Us on Instagram</span>
             </button>
@@ -63,6 +76,8 @@ const SeasonalSection = () => {
 };
 
 export default SeasonalSection;
+
+
 
 
 

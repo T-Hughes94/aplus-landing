@@ -3,45 +3,53 @@ import { useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
+const collections = ["OG Collection", "Seasonal Collection (December)", "Advent Calendar"];
+
 const ContactPage = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    collection: "",
     message: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission logic
     console.log("Form submitted:", formData);
-    setFormData({ name: "", email: "", message: "" }); // Reset form fields after submission
+    setFormData({ name: "", email: "", collection: "", message: "" }); // Reset form fields after submission
   };
 
   return (
     <main className="bg-black text-white font-custom">
       <Header />
-      
+
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-purple-900 via-purple-800 to-emerald-700 text-center text-white p-6 md:p-16">
-        <h1 className="text-4xl font-bold md:text-5xl">Get in Touch with Us</h1>
-        <p className="mt-4 text-lg md:text-2xl">
-          Thank you for considering A Plus Truffles! We’d love to hear from you.
+      <section className="relative bg-gradient-to-br from-purple-900 via-purple-800 to-emerald-700 text-center p-10 md:p-24">
+        <h1 className="text-4xl font-bold mb-4 md:text-5xl text-[#FFD700]">Get in Touch</h1>
+        <p className="text-lg mt-2 md:text-2xl text-gray-200">
+          We'd love to hear from you! Let us know how we can help.
         </p>
+        <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0]">
+          <hr className="border-[#FFD700] border-t-2" />
+        </div>
       </section>
 
       {/* Contact Form Section */}
-      <section className="p-6 md:p-16 bg-gradient-to-br from-black via-purple-900 to-emerald-700 text-center">
-        <h2 className="text-3xl font-bold text-white md:text-4xl">Contact Us</h2>
-        <p className="text-base text-gray-300 mt-4 md:text-lg max-w-2xl mx-auto">
-          Whether you’re interested in placing an order, learning more about our process, or simply want to say hello, we’re here to help. Fill out the form below, and we’ll get back to you soon.
+      <section className="p-10 md:p-20 bg-black text-center">
+        <h2 className="text-3xl font-bold text-[#FFD700] md:text-4xl">Reach Out to Us</h2>
+        <p className="text-base text-white mt-4 md:text-lg max-w-2xl mx-auto">
+          Whether you’re interested in placing an order, learning more about our process, or simply saying hello, we’re here to help. Fill out the form below, and we’ll get back to you as soon as possible.
         </p>
 
-        <form onSubmit={handleSubmit} className="mt-8 max-w-lg mx-auto bg-gradient-to-br from-purple-800 via-purple-600 to-emerald-700 p-6 md:p-10 rounded-lg shadow-2xl">
+        <form
+          onSubmit={handleSubmit}
+          className="mt-8 max-w-lg mx-auto bg-gradient-to-br from-purple-800 via-purple-600 to-emerald-700 p-8 md:p-12 rounded-xl shadow-2xl"
+        >
           <div className="mb-6">
             <label htmlFor="name" className="block text-left font-semibold text-gray-300">
               Name
@@ -73,6 +81,26 @@ const ContactPage = () => {
             />
           </div>
           <div className="mb-6">
+            <label htmlFor="collection" className="block text-left font-semibold text-gray-300">
+              Which Collection Are You Interested In?
+            </label>
+            <select
+              id="collection"
+              name="collection"
+              value={formData.collection}
+              onChange={handleChange}
+              required
+              className="w-full mt-2 p-3 rounded-lg shadow-inner border border-gray-600 bg-black text-white focus:outline-none focus:ring-2 focus:ring-emerald-400"
+            >
+              <option value="">Select a Collection</option>
+              {collections.map((collection, idx) => (
+                <option key={idx} value={collection}>
+                  {collection}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="mb-6">
             <label htmlFor="message" className="block text-left font-semibold text-gray-300">
               Message
             </label>
@@ -89,7 +117,7 @@ const ContactPage = () => {
           </div>
           <button
             type="submit"
-            className="w-full py-3 px-6 font-semibold rounded-lg shadow-md bg-emerald-400 text-black hover:bg-white hover:text-emerald-400 transition duration-300"
+            className="w-full py-3 px-6 font-semibold rounded-lg shadow-md bg-[#FFD700] text-black hover:bg-white hover:text-[#FFD700] transition duration-300"
           >
             Send Message
           </button>
@@ -102,4 +130,6 @@ const ContactPage = () => {
 };
 
 export default ContactPage;
+
+
 

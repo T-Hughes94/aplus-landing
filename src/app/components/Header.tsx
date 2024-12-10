@@ -1,10 +1,43 @@
-"use client"
+"use client";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/legacy/image";
+import { FaChevronDown } from "react-icons/fa";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [collectionsDropdown, setCollectionsDropdown] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileCollectionsDropdown, setMobileCollectionsDropdown] = useState(false);
+
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const mobileDropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown if clicked outside (desktop)
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setCollectionsDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
+
+  // Close dropdown if clicked outside (mobile)
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (mobileDropdownRef.current && !mobileDropdownRef.current.contains(event.target as Node)) {
+        setMobileCollectionsDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
 
   return (
     <header className="font-custom text-xl text-[#FFD700] shadow-lg sticky top-0 w-full z-50 border border-[#FFD700] bg-black">
@@ -13,13 +46,13 @@ const Header = () => {
         <Link href="/">
           <div
             className="flex items-center space-x-3 cursor-pointer"
-            style={{ marginLeft: "clamp(-15px, -5vw, -10px)" }} // Adjust dynamically
+            style={{ marginLeft: "clamp(-15px, -5vw, -10px)" }}
           >
             <Image
               src="/Apluslogo4.png"
               alt="A Plus Truffles Logo"
-              width={110} // Adjust width as needed
-              height={80} // Adjust height as needed
+              width={110}
+              height={80}
               className="rounded-full"
               loading="lazy"
             />
@@ -27,7 +60,7 @@ const Header = () => {
         </Link>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden md:flex flex-1 justify-center space-x-8 items-center">
+        <nav className="hidden md:flex flex-1 justify-center space-x-8 items-center relative">
           <Link href="/" className="hover:text-purple-500 transition-colors duration-300">
             Home
           </Link>
@@ -40,9 +73,43 @@ const Header = () => {
           <Link href="/gallery" className="hover:text-emerald-600 transition-colors duration-300">
             Gallery
           </Link>
-          <Link href="/collections" className="hover:text-purple-600 transition-colors duration-300">
-            Collections
-          </Link>
+
+          {/* Collections Dropdown */}
+          <div ref={dropdownRef} className="relative">
+            <button
+              onClick={() => setCollectionsDropdown(!collectionsDropdown)}
+              className="flex items-center hover:text-purple-600 transition-colors duration-300 font-semibold"
+            >
+              Collections
+              <FaChevronDown
+                className={`ml-2 transform transition-transform ${
+                  collectionsDropdown ? "rotate-180" : "rotate-0"
+                }`}
+              />
+            </button>
+            {collectionsDropdown && (
+              <div className="absolute left-0 mt-2 bg-black text-white rounded-lg shadow-lg border border-[#FFD700] z-20 w-56">
+                <Link
+                  href="/collections#og-collection"
+                  className="block px-4 py-3 hover:bg-purple-800 transition duration-300"
+                >
+                  OG Collection
+                </Link>
+                <Link
+                  href="/collections#seasonal-collection"
+                  className="block px-4 py-3 hover:bg-purple-800 transition duration-300"
+                >
+                  Seasonal Collection
+                </Link>
+                <Link
+                  href="/collections#advent-calendar"
+                  className="block px-4 py-3 hover:bg-purple-800 transition duration-300"
+                >
+                  Advent Calendar
+                </Link>
+              </div>
+            )}
+          </div>
         </nav>
 
         {/* Contact Button */}
@@ -56,7 +123,7 @@ const Header = () => {
         {/* Mobile Menu Button */}
         <div className="md:hidden">
           <button
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="focus:outline-none"
             aria-label="Toggle Menu"
           >
@@ -68,47 +135,81 @@ const Header = () => {
       </div>
 
       {/* Mobile Menu */}
-      {isOpen && (
-        <nav className="md:hidden bg-black">
+      {mobileMenuOpen && (
+        <nav ref={mobileDropdownRef} className="md:hidden bg-black">
           <Link
             href="/"
             className="block px-4 py-3 text-white hover:bg-gray-500 rounded-md font-bold"
-            onClick={() => setIsOpen(false)}
+            onClick={() => setMobileMenuOpen(false)}
           >
             Home
           </Link>
           <Link
             href="/about"
             className="block px-4 py-3 text-white hover:bg-gray-500 rounded-md font-bold"
-            onClick={() => setIsOpen(false)}
+            onClick={() => setMobileMenuOpen(false)}
           >
             About
           </Link>
           <Link
             href="/services"
             className="block px-4 py-3 text-white hover:bg-gray-500 rounded-md font-bold"
-            onClick={() => setIsOpen(false)}
+            onClick={() => setMobileMenuOpen(false)}
           >
             Services
           </Link>
           <Link
             href="/gallery"
             className="block px-4 py-3 text-white hover:bg-gray-500 rounded-md font-bold"
-            onClick={() => setIsOpen(false)}
+            onClick={() => setMobileMenuOpen(false)}
           >
             Gallery
           </Link>
-          <Link
-            href="/collections"
-            className="block px-4 py-3 text-white hover:bg-gray-500 rounded-md font-bold"
-            onClick={() => setIsOpen(false)}
-          >
-            Collections
-          </Link>
+
+          {/* Mobile Collections Dropdown */}
+          <div>
+            <button
+              onClick={() => setMobileCollectionsDropdown(!mobileCollectionsDropdown)}
+              className="block px-4 py-3 text-white font-bold hover:bg-gray-500 rounded-md w-full text-left flex items-center"
+            >
+              Collections
+              <FaChevronDown
+                className={`ml-2 transform transition-transform ${
+                  mobileCollectionsDropdown ? "rotate-180" : "rotate-0"
+                }`}
+              />
+            </button>
+            {mobileCollectionsDropdown && (
+              <div className="pl-4 bg-gray-900">
+                <Link
+                  href="/collections#og-collection"
+                  className="block px-4 py-3 text-white hover:bg-gray-700 rounded-md font-bold"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  OG Collection
+                </Link>
+                <Link
+                  href="/collections#seasonal-collection"
+                  className="block px-4 py-3 text-white hover:bg-gray-700 rounded-md font-bold"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Seasonal Collection
+                </Link>
+                <Link
+                  href="/collections#advent-calendar"
+                  className="block px-4 py-3 text-white hover:bg-gray-700 rounded-md font-bold"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Advent Calendar
+                </Link>
+              </div>
+            )}
+          </div>
+
           <Link
             href="/contact"
             className="block px-4 py-3 text-white hover:bg-gray-500 rounded-md font-bold"
-            onClick={() => setIsOpen(false)}
+            onClick={() => setMobileMenuOpen(false)}
           >
             Contact
           </Link>
@@ -119,6 +220,9 @@ const Header = () => {
 };
 
 export default Header;
+
+
+
 
 
 
