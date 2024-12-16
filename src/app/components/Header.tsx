@@ -40,7 +40,7 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="font-custom text-xl text-[#FFD700] shadow-lg sticky top-0 w-full z-50 border border-[#FFD700] bg-black">
+    <header className="font-custom text-xl text-[#FFD700] shadow-lg sticky top-0 w-full z-50 border border-[#fdbc6f] bg-black">
       <div className="container mx-auto flex justify-between items-center px-4 py-4 h-24">
         {/* Clickable Company Logo */}
         <Link href="/">
@@ -61,16 +61,16 @@ const Header = () => {
 
         {/* Desktop Navigation Links */}
         <nav className="hidden md:flex flex-1 justify-center space-x-8 items-center relative">
-          <Link href="/" className="hover:text-purple-500 transition-colors duration-300">
+          <Link href="/" className="hover:text-[#ca8f70] transition-colors duration-300">
             Home
           </Link>
-          <Link href="/about" className="hover:text-emerald-600 transition-colors duration-300">
+          <Link href="/about" className="hover:text-[#ca8f70] transition-colors duration-300">
             About
           </Link>
-          <Link href="/services" className="hover:text-purple-600 transition-colors duration-300">
+          <Link href="/services" className="hover:text-[#ca8f70] transition-colors duration-300">
             Services
           </Link>
-          <Link href="/gallery" className="hover:text-emerald-600 transition-colors duration-300">
+          <Link href="/gallery" className="hover:text-[#ca8f70] transition-colors duration-300">
             Gallery
           </Link>
 
@@ -78,7 +78,7 @@ const Header = () => {
           <div ref={dropdownRef} className="relative">
             <button
               onClick={() => setCollectionsDropdown(!collectionsDropdown)}
-              className="flex items-center hover:text-purple-600 transition-colors duration-300 font-semibold"
+              className="flex items-center hover:text-[#ca8f70] transition-colors duration-300 font-semibold"
             >
               Collections
               <FaChevronDown
@@ -91,19 +91,19 @@ const Header = () => {
               <div className="absolute left-0 mt-2 bg-black text-white rounded-lg shadow-lg border border-[#FFD700] z-20 w-56">
                 <Link
                   href="/collections#og-collection"
-                  className="block px-4 py-3 hover:bg-purple-800 transition duration-300"
+                  className="block px-4 py-3 hover:bg-[#ca8f70] transition duration-300"
                 >
                   OG Collection
                 </Link>
                 <Link
                   href="/collections#seasonal-collection"
-                  className="block px-4 py-3 hover:bg-purple-800 transition duration-300"
+                  className="block px-4 py-3 hover:bg-[#ca8f70] transition duration-300"
                 >
                   Seasonal Collection
                 </Link>
                 <Link
                   href="/collections#advent-calendar"
-                  className="block px-4 py-3 hover:bg-purple-800 transition duration-300"
+                  className="block px-4 py-3 hover:bg-[#ca8f70] transition duration-300"
                 >
                   Advent Calendar
                 </Link>
@@ -115,7 +115,7 @@ const Header = () => {
         {/* Contact Button */}
         <Link
           href="/contact"
-          className="hidden md:inline-block bg-[#FFD700] text-black hover:bg-black hover:text-[#FFD700] transition-colors duration-300 px-4 py-2 rounded-md font-semibold"
+          className="hidden md:inline-block bg-[#febf79] text-black hover:bg-black hover:text-[#FFD700] transition-colors duration-300 px-4 py-2 rounded-md font-semibold"
         >
           Contact
         </Link>

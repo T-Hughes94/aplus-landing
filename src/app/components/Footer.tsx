@@ -11,7 +11,7 @@ const Footer = () => {
         
         {/* Company Info */}
         <div className="space-y-4">
-          <h2 className="text-2xl text-purple-600 font-bold">A Plus Truffles</h2>
+          <h2 className="text-2xl text-[#febf79] font-bold">A Plus Truffles</h2>
           <p className="text-sm md:text-base">
             Made from scratch, hand-painted vegan truffles. Experience the finest in flavor and craftsmanship.
           </p>
@@ -33,7 +33,7 @@ const Footer = () => {
 
         {/* Quick Links */}
         <div className="space-y-2 md:space-y-4">
-          <h3 className="text-xl text-emerald-600 font-semibold">Quick Links</h3>
+          <h3 className="text-xl text-[#febf79] font-semibold">Quick Links</h3>
           <div className="flex flex-col space-y-2 text-sm md:text-base">
             <Link href="/">Home</Link>
             <Link href="/about">About</Link>
@@ -46,7 +46,7 @@ const Footer = () => {
 
         {/* Our Gallery */}
         <div className="space-y-4">
-          <h3 className="text-xl text-purple-600 font-semibold">Our Gallery</h3>
+          <h3 className="text-xl text-[#febf79] font-semibold">Our Gallery</h3>
           <div className="grid grid-cols-3 gap-2">
             {["gallery1.webp", "gallery3.webp", "gallery5.webp", "gallery7.webp", "gallery9.webp", "gallery12.webp"].map((image, index) => (
               <div key={index} className="relative w-full h-20 md:h-24 overflow-hidden rounded-lg">

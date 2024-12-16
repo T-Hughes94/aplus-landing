@@ -20,12 +20,12 @@ const HeroSection = () => {
           {/* Buttons */}
           <div className="flex flex-wrap gap-4 mt-6">
             <Link href="/gallery">
-              <button className="px-4 py-2 bg-white text-black font-semibold rounded-lg shadow-md hover:bg-black hover:text-[#FFD700] transition duration-300 md:px-6 md:py-3">
+              <button className="px-4 py-2 bg-[#ca8f70] text-white font-semibold rounded-lg shadow-md hover:bg-black hover:text-[#febf79] transition duration-300 md:px-6 md:py-3">
                 View Gallery
               </button>
             </Link>
             <Link href="/collections">
-              <button className="px-4 py-2 bg-[#FFD700] text-black font-semibold rounded-lg shadow-md hover:bg-white hover:text-[#FFD700] transition duration-300 md:px-6 md:py-3">
+              <button className="px-4 py-2 bg-[#febf79] text-white font-semibold rounded-lg shadow-md hover:bg-black hover:text-[#febf79] transition duration-300 md:px-6 md:py-3">
                 View Collections
               </button>
             </Link>

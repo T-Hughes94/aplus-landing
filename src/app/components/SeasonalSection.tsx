@@ -12,9 +12,9 @@ const SeasonalSection = () => {
       </div>
 
       {/* Seasonal Flavors Card */}
-      <div className="relative max-w-2xl mx-auto mb-12 p-6 bg-gradient-to-br from-[#4b0082] via-purple-700 to-emerald-700 rounded-xl border-2 border-[#FFD700] shadow-2xl transform transition-transform duration-300 hover:scale-105 hover:shadow-[0px_15px_30px_rgba(0,0,0,0.2)]">
-        <h3 className="text-2xl font-extrabold text-[#FFD700] flex items-center justify-center md:text-3xl">
-          🎄 <span className="ml-2">Current Seasonal Flavors</span>
+      <div className="relative max-w-2xl mx-auto mb-12 p-6 bg-gradient-to-br from-[#ca8f70] via-[#ca8f70] to-[#febf79] rounded-xl border-2 border-[#FFD700] shadow-2xl transform transition-transform duration-300 hover:scale-105 hover:shadow-[0px_15px_30px_rgba(0,0,0,0.2)]">
+        <h3 className="text-2xl font-extrabold text-white flex items-center justify-center md:text-3xl">
+          🎄<span className="ml-2">Current Seasonal Flavors</span>🎄
         </h3>
         <p className="text-gray-200 mt-3 mb-5 text-center leading-relaxed text-sm md:text-lg">
           "Check out our December seasonal lineup of Bonbons"
@@ -64,7 +64,7 @@ const SeasonalSection = () => {
         </ul>
         <Link href="https://www.instagram.com/aplustruffles" target="_blank">
           <div className="flex justify-center">
-            <button className="mt-6 px-4 py-2 md:px-6 md:py-3 bg-purple-700 border border-[#FFD700] text-white font-semibold rounded-lg shadow-md hover:bg-emerald-700 hover:text-white transition duration-300 flex items-center justify-center space-x-2 cursor-pointer text-sm md:text-base">
+            <button className="mt-6 px-4 py-2 md:px-6 md:py-3 bg-[#febf79] border border-[#FFD700] text-white font-semibold rounded-lg shadow-md hover:bg-[#ca8f70] hover:text-white transition duration-300 flex items-center justify-center space-x-2 cursor-pointer text-sm md:text-base">
               <FaInstagram className="text-lg md:text-2xl" />
               <span>Follow Us on Instagram</span>
             </button>

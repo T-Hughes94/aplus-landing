@@ -30,28 +30,28 @@ const AboutSection = () => {
           {/* Key Values */}
           <div className="grid gap-4 md:grid-cols-2">
             <div className="flex items-center space-x-4">
-              <FaLeaf className="text-purple-700 text-2xl md:text-3xl" />
+              <FaLeaf className="text-[#ca8f70] text-2xl md:text-3xl" />
               <div>
                 <h3 className="text-base font-semibold text-white md:text-lg">100% Vegan</h3>
                 <p className="text-sm text-white">Committed to plant-based ingredients.</p>
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <FaHandHoldingHeart className="text-emerald-700 text-2xl md:text-3xl" />
+              <FaHandHoldingHeart className="text-[#febf79] text-2xl md:text-3xl" />
               <div>
                 <h3 className="text-base font-semibold text-white md:text-lg">Fair-Trade</h3>
                 <p className="text-sm text-white">Supporting ethical sourcing and fair practices.</p>
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <FaGlobe className="text-emerald-700 text-2xl md:text-3xl" />
+              <FaGlobe className="text-[#febf79] text-2xl md:text-3xl" />
               <div>
                 <h3 className="text-base font-semibold text-white md:text-lg">Sustainably Sourced</h3>
                 <p className="text-sm text-white">Environmentally responsible ingredients.</p>
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <FaSeedling className="text-purple-700 text-2xl md:text-3xl" />
+              <FaSeedling className="text-[#ca8f70] text-2xl md:text-3xl" />
               <div>
                 <h3 className="text-base font-semibold text-white md:text-lg">Handcrafted with Care</h3>
                 <p className="text-sm text-white">Each truffle is individually painted and crafted.</p>
