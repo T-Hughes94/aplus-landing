@@ -7,7 +7,7 @@ const PricingSection = () => {
       <div className="text-center mb-8 md:mb-12">
         <h2 className="text-3xl font-bold text-white underline decoration-[#ca8f70] md:text-4xl">Pricing</h2>
         <p className="text-base text-white mt-2 md:text-lg">
-          Choose your favorite truffles and have them delivered within 15 miles of Piscataway, NJ – or opt for free pickup!
+          Choose your favorite truffles and have them delivered within 15 miles of Wayne, NJ – or opt for free pickup!
         </p>
       </div>
 

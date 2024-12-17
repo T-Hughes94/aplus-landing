@@ -41,7 +41,7 @@ const ContactPage = () => {
 
       {/* Contact Form Section */}
       <section className="p-10 md:p-20 bg-black text-center">
-        <h2 className="text-3xl font-bold text-white underline decoration-[#FFD700] md:text-4xl">Reach Out to Us</h2>
+        <h2 className="text-3xl font-bold text-white underline decoration-[#ca8f70] md:text-4xl">Reach Out to Us</h2>
         <p className="text-base text-white mt-4 md:text-lg max-w-2xl mx-auto">
           Whether you’re interested in placing an order, learning more about our process, or simply saying hello, we’re here to help. Fill out the form below, and we’ll get back to you as soon as possible.
         </p>
