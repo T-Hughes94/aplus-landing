@@ -14,7 +14,7 @@ const SeasonalSection = () => {
       {/* Seasonal Flavors Card */}
       <div className="relative max-w-2xl mx-auto mb-12 p-6 bg-gradient-to-br from-[#ca8f70] via-[#ca8f70] to-[#febf79] rounded-xl border-2 border-[#FFD700] shadow-2xl transform transition-transform duration-300 hover:scale-105 hover:shadow-[0px_15px_30px_rgba(0,0,0,0.2)]">
         <h3 className="text-2xl font-extrabold text-white flex items-center justify-center md:text-3xl">
-          🎄<span className="ml-2">Current Seasonal Flavors</span>🎄
+          🎄<span className="ml-2">Seasonal Flavors</span>🎄
         </h3>
         <p className="text-gray-200 mt-3 mb-5 text-center leading-relaxed text-sm md:text-lg">
           "Check out our December seasonal lineup of Bonbons"
