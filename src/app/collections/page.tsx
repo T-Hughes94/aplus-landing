@@ -61,9 +61,9 @@ const CollectionsPage: React.FC = () => {
       <Header />
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-purple-900 via-purple-800 to-emerald-700 p-10 md:p-24 text-center">
-        <h1 className="text-4xl font-bold mb-4 md:text-5xl text-[#FFD700]">Explore Our Collections</h1>
-        <p className="text-lg mt-2 md:text-2xl text-gray-200">
+      <section className="relative bg-gradient-to-br from-[#febf79] via-[#febf79] to-[#ca8f70] p-10 md:p-24 text-center">
+        <h1 className="text-4xl font-bold mb-4 md:text-5xl text-black">Explore Our Collections</h1>
+        <p className="text-lg mt-2 md:text-2xl text-white">
           Indulge in the exquisite flavors of our handcrafted vegan chocolates.
         </p>
         <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0]">
@@ -87,15 +87,15 @@ const CollectionsPage: React.FC = () => {
             </div>
             {/* Text */}
             <div className="md:w-1/2">
-              <h2 className="text-3xl font-bold text-[#FFD700] mb-6">{collection.title}</h2>
-              <div className="relative p-6 bg-gradient-to-br from-purple-800 via-purple-700 to-emerald-700 rounded-xl border-2 border-[#FFD700] shadow-2xl transform transition-transform duration-300 hover:scale-105">
+              <h2 className="text-3xl font-bold text-white underline underline decoration-[#ca8f70] mb-6">{collection.title}</h2>
+              <div className="relative p-6 bg-gradient-to-br from-[#febf79] via-[#febf79] to-[#ca8f70] rounded-xl border-2 border-[#FFD700] shadow-2xl transform transition-transform duration-300 hover:scale-105">
                 <ul className="space-y-4">
                   {collection.flavors.map((flavor, flavorIdx) => (
                     <li key={flavorIdx} className="flex items-start">
                       <span className="mr-4 text-2xl">{flavor.emoji}</span>
                       <div>
-                        <h3 className="text-lg font-bold text-gray-100">{flavor.name}</h3>
-                        <p className="text-sm text-gray-300">{flavor.description}</p>
+                        <h3 className="text-xl font-bold text-black">{flavor.name}</h3>
+                        <p className="text-lg text-white">{flavor.description}</p>
                       </div>
                     </li>
                   ))}
@@ -109,13 +109,13 @@ const CollectionsPage: React.FC = () => {
       ))}
 
       {/* Call to Action */}
-      <section className="p-10 md:p-20 bg-gradient-to-br from-emerald-700 via-purple-900 to-purple-700 text-center">
-        <h2 className="text-3xl font-bold text-[#FFD700] md:text-4xl">Discover Your Favorites</h2>
+      <section className="p-10 md:p-20 bg-gradient-to-br from-[#ca8f70] via-[#ca8f70] to-[#febf79] text-center">
+        <h2 className="text-3xl font-bold text-white md:text-4xl">Discover Your Favorites</h2>
         <p className="mt-4 text-base text-gray-200 md:text-lg">
           Ready to treat yourself? Explore our collections and find your new favorite truffles.
         </p>
         <Link href="/contact">
-          <button className="mt-6 px-4 py-2 bg-[#FFD700] text-black font-semibold rounded-lg shadow-md hover:bg-white hover:text-[#FFD700] transition duration-300 md:px-6 md:py-3">
+          <button className="mt-6 px-4 py-2 bg-white border border-[#FFD700] text-black font-semibold rounded-lg shadow-md hover:bg-[#ca8f70] hover:text-white transition duration-300 md:px-6 md:py-3">
             Contact Us to Order
           </button>
         </Link>

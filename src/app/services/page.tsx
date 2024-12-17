@@ -11,8 +11,8 @@ const ServicesPage = () => {
       <Header />
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-purple-900 via-purple-800 to-emerald-700 p-10 md:p-24 text-center">
-        <h1 className="text-4xl font-bold mb-4 md:text-5xl text-[#FFD700]">Special Occasions & Gifting</h1>
+      <section className="relative bg-gradient-to-br from-[#febf79] via-[#febf79] to-[#ca8f70] p-10 md:p-24 text-center">
+        <h1 className="text-4xl font-bold mb-4 md:text-5xl text-black">Special Occasions & Gifting</h1>
         <p className="text-lg mt-2 md:text-2xl text-white">
           Celebrate life’s sweetest moments with A Plus Truffles, handcrafted with care and perfect for any occasion.
         </p>
@@ -39,7 +39,7 @@ const ServicesPage = () => {
 
       {/* Services Section */}
       <section className="p-6 md:p-16 bg-black text-center">
-        <h2 className="text-3xl font-bold text-[#FFD700] md:text-4xl">Perfect for Every Occasion</h2>
+        <h2 className="text-3xl font-bold text-white underline decoration-[#ca8f70] md:text-4xl">Perfect for Every Occasion</h2>
         <p className="mt-4 text-lg text-white max-w-2xl mx-auto md:text-xl">
           Our beautifully crafted vegan truffles make a memorable addition to any event. Here are just a few of the
           special occasions where A Plus Truffles can add that perfect touch.
@@ -47,41 +47,45 @@ const ServicesPage = () => {
 
         <div className="grid grid-cols-1 gap-8 mt-12 max-w-4xl mx-auto md:grid-cols-2 lg:grid-cols-4">
           {[
-            { icon: FaHeart, title: "Weddings", text: "Elegant and delicious favors your guests will love." },
-            { icon: FaBaby, title: "Baby Showers", text: "Celebrate with treats that are as sweet as the new arrival." },
-            { icon: FaGift, title: "Bridal Showers", text: "Add a touch of sweetness to pre-wedding celebrations." },
-            { icon: FaBirthdayCake, title: "Birthdays", text: "Make birthdays extra special with a truffle treat." },
-          ].map(({ icon: Icon, title, text }, index) => (
+            { icon: FaHeart, title: "Weddings", text: "Elegant and delicious favors your guests will love.", color: "#ca8f70" },
+            { icon: FaBaby, title: "Baby Showers", text: "Celebrate with treats that are as sweet as the new arrival.", color: "#febf79" },
+            { icon: FaGift, title: "Bridal Showers", text: "Add a touch of sweetness to pre-wedding celebrations.", color: "#ca8f70" },
+            { icon: FaBirthdayCake, title: "Birthdays", text: "Make birthdays extra special with a truffle treat.", color: "#febf79" },
+          ].map(({ icon: Icon, title, text, color }, index) => (
             <div
               key={index}
-              className="relative pt-10 pb-6 bg-gradient-to-br from-purple-800 via-purple-700 to-purple-900 rounded-full shadow-lg border border-[#FFD700] transform transition-transform hover:scale-105 hover:shadow-2xl flex flex-col items-center"
-              style={{ minHeight: "250px", maxWidth: "250px", margin: "0 auto" }}
+              className="relative pt-14 pb-8 bg-black text-white rounded-lg shadow-lg border transform transition-transform hover:scale-105 hover:shadow-2xl flex flex-col items-center"
+              style={{ borderColor: color, borderWidth: "2px" }}
             >
               <div
-                className="absolute -top-10 bg-emerald-500 rounded-full p-5 shadow-md border-4 border-white"
-                style={{ zIndex: 1 }}
+                className="absolute -top-10 bg-black rounded-full p-5 shadow-md border-2"
+                style={{ borderColor: color }}
               >
-                <Icon className="text-5xl text-white" />
+                <Icon className="text-5xl" style={{ color: color }} />
               </div>
               <div className="mt-16 text-center">
-                <h3 className="text-xl font-bold text-[#FFD700]">{title}</h3>
-                <p className="mt-2 text-white text-base">{text}</p>
+                <h3 className="text-xl font-bold" style={{ color: color }}>
+                  {title}
+                </h3>
+                <p className="mt-2 text-gray-300">{text}</p>
               </div>
             </div>
           ))}
         </div>
       </section>
 
+
+
       {/* Gift Box Highlight */}
       <section className="p-6 md:p-16 bg-black to-black text-center">
-        <h3 className="text-3xl font-bold text-[#FFD700] md:text-4xl">A Gift That Always Delights</h3>
+        <h3 className="text-3xl font-bold text-white underline underline decoration-[#ca8f70] md:text-4xl">A Gift That Always Delights</h3>
         <p className="mt-4 text-lg text-white max-w-2xl mx-auto">
           Whether it's for a celebration or "just because," a box of A Plus Truffles is the perfect gift for anyone
           with a taste for the finer things.
         </p>
         <div className="mt-8">
           <Link href="/gallery">
-            <button className="px-6 py-3 bg-[#FFD700] text-black font-semibold rounded-lg shadow-md hover:bg-white hover:text-[#FFD700] transition duration-300">
+            <button className="px-6 py-3 bg-[#ca8f70] text-white font-semibold rounded-lg shadow-md hover:bg-[#febf79] hover:text-black border border-[#FFD700] transition duration-300">
               Explore Our Gallery
             </button>
           </Link>
@@ -89,14 +93,14 @@ const ServicesPage = () => {
       </section>
 
       {/* Call to Action */}
-      <section className="p-6 md:p-16 bg-gradient-to-br from-emerald-700 via-purple-900 to-purple-700 text-center">
-        <h2 className="text-3xl font-bold text-[#FFD700] md:text-4xl">Planning an Event?</h2>
+      <section className="p-6 md:p-16 bg-gradient-to-br from-[#ca8f70] via-[#ca8f70] to-[#febf79] text-center">
+        <h2 className="text-3xl font-bold text-white md:text-4xl">Planning an Event?</h2>
         <p className="mt-4 text-lg text-white">
           Contact us to discuss how A Plus Truffles can make your event unforgettable.
         </p>
         <div className="mt-8">
           <Link href="/contact">
-            <button className="px-6 py-3 bg-[#FFD700] text-black font-semibold rounded-lg shadow-md hover:bg-white hover:text-[#FFD700] transition duration-300">
+            <button className="px-6 py-3 bg-white text-black font-semibold rounded-lg border border-[#FFD700] shadow-md hover:bg-[#ca8f70] hover:text-white transition duration-300">
               Contact Us
             </button>
           </Link>

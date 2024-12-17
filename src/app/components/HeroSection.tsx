@@ -8,7 +8,7 @@ const HeroSection = () => {
       <div className="relative z-10 flex flex-col items-center justify-between md:flex-row">
         {/* Left Side: Text Content */}
         <div className="text-white space-y-4 md:w-1/2">
-          <h1 className="text-3xl font-bold underline decoration-[#FFD700] md:text-5xl">
+          <h1 className="text-3xl font-bold underline decoration-[#febf79] md:text-5xl">
             Handcrafted in Small Batches
           </h1>
           <p className="text-base mt-4 md:text-xl">

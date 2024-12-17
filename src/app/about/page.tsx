@@ -11,9 +11,9 @@ const AboutPage = () => {
       <Header />
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-purple-900 via-purple-800 to-emerald-700 p-10 md:p-24 text-center">
-        <h1 className="text-4xl font-bold mb-4 md:text-5xl text-[#FFD700]">Crafting Sweet Experiences with Care</h1>
-        <p className="text-lg mt-2 md:text-2xl text-gray-200">
+      <section className="relative bg-gradient-to-br from-[#febf79] via-[#febf79] to-[#ca8f70] p-10 md:p-24 text-center">
+        <h1 className="text-4xl font-bold mb-4 md:text-5xl text-black">Crafting Sweet Experiences with Care</h1>
+        <p className="text-lg mt-2 md:text-2xl text-white">
           From the heart of NJ, creating hand-painted vegan truffles with ethical, fair-trade ingredients.
         </p>
         <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0]">
@@ -23,37 +23,41 @@ const AboutPage = () => {
 
       {/* Commitment to Quality Section */}
       <section className="p-6 md:p-16 bg-black text-center">
-        <h2 className="text-3xl font-bold text-gradient-to-br from-purple-900 via-purple-800 to-emerald-700 md:text-4xl">Our Commitment to Quality</h2>
-        <div className="grid grid-cols-1 gap-8 mt-20 max-w-4xl mx-auto md:grid-cols-2">
+        <h2 className="text-3xl text-white font-bold underline decoration-[#ca8f70] text-gradient-to-br from-[#febf79] via-[#febf79] to-[#ca8f70] md:text-4xl">
+          Our Commitment to Quality
+        </h2>
+        <div className="grid grid-cols-1 gap-16 mt-20 max-w-4xl mx-auto md:grid-cols-2">
           {[
-            { icon: FaLeaf, title: "100% Vegan", text: "Plant-based ingredients in every truffle." },
-            { icon: FaHandHoldingHeart, title: "Fair-Trade Sourced", text: "Supporting ethical sourcing practices." },
-            { icon: FaPaintBrush, title: "Hand-Painted", text: "Every truffle an edible work of art." },
-            { icon: FaSeedling, title: "Sustainably Sourced", text: "Crafted with respect for the environment." },
-          ].map(({ icon: Icon, title, text }, index) => (
+            { icon: FaLeaf, title: "100% Vegan", text: "Plant-based ingredients in every truffle.", color: "#febf79" },
+            { icon: FaHandHoldingHeart, title: "Fair-Trade Sourced", text: "Supporting ethical sourcing practices.", color: "#febf79" },
+            { icon: FaPaintBrush, title: "Hand-Painted", text: "Every truffle an edible work of art.", color: "#febf79" },
+            { icon: FaSeedling, title: "Sustainably Sourced", text: "Crafted with respect for the environment.", color: "#febf79" },
+          ].map(({ icon: Icon, title, text, color }, index) => (
             <div
               key={index}
-              className="relative pt-12 pb-12 bg-gradient-to-br from-purple-800 via-purple-700 to-purple-900 rounded-lg shadow-lg border border-[#FFD700] transform transition-transform hover:scale-105 hover:shadow-2xl flex flex-col items-center"
-              style={{ minHeight: "200px" }}
+              className={`relative pt-16 pb-12 bg-[#ca8f70] text-[${color}] rounded-lg shadow-lg border border-[${color}] transform transition-transform hover:scale-105 hover:shadow-2xl flex flex-col items-center`}
+              style={{ minHeight: "250px" }}
             >
               <div
-                className="absolute -top-6 bg-emerald-600 rounded-full p-5 shadow-md border-4 border-white"
-                style={{ zIndex: 1 }}
+                className={`absolute -top-12 bg-black rounded-full p-5 shadow-md border-4`}
+                style={{ borderColor: color, zIndex: 1 }}
               >
-                <Icon className="text-5xl md:text-6xl text-white" />
+                <Icon className={`text-5xl md:text-6xl`} style={{ color: color }} />
               </div>
               <div className="mt-16">
                 <h3 className="text-2xl font-bold text-white">{title}</h3>
-                <p className="text-lg md:text-xl text-center mt-3 text-gray-300">{text}</p>
+                <p className="text-lg md:text-xl text-center mt-3 text-black">{text}</p>
               </div>
             </div>
           ))}
         </div>
       </section>
 
+      
+
       {/* Product Highlight Section */}
       <section className="p-12 md:p-16 bg-black text-center">
-        <h2 className="text-3xl font-bold text-[#FFD700] md:text-4xl">A Unique Take on Candy</h2>
+        <h2 className="text-3xl font-bold underline decoration-[#ca8f70] text-white md:text-4xl">A Unique Take on Candy</h2>
         <p className="mt-4 text-lg md:text-xl leading-relaxed max-w-3xl mx-auto text-white">
           Our truffles aren’t just desserts; they’re an experience. With unique, indulgent flavors and hand-painted
           details, each piece is crafted to surprise and delight. Taste the difference with A Plus Truffles, where
@@ -71,13 +75,13 @@ const AboutPage = () => {
       </section>
 
       {/* Call to Action */}
-      <section className="p-6 md:p-16 relative bg-gradient-to-br from-emerald-700 via-purple-900 to-purple-700 text-center">
+      <section className="p-6 md:p-16 relative bg-gradient-to-br from-[#ca8f70] via-[#ca8f70] to-[#febf79] text-center">
         <h2 className="text-2xl font-bold text-white md:text-3xl">Ready to Try Our Creations?</h2>
         <p className="text-white mt-4 text-lg md:text-xl">
           Contact us to place an order or to learn more about our process.
         </p>
         <Link href="/contact">
-          <button className="mt-6 px-6 py-3 bg-[#FFD700] text-black font-semibold rounded-lg shadow-md hover:bg-white hover:text-[#FFD700] transition duration-300">
+          <button className="mt-6 px-6 py-3 bg-white text-black font-semibold border border-[#FFD700] rounded-lg shadow-md hover:bg-[#ca8f70] hover:text-white transition duration-300">
             Contact Us
           </button>
         </Link>

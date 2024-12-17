@@ -20,7 +20,7 @@ const AboutSection = () => {
 
         {/* Right Side: About Text */}
         <div className="space-y-4 md:w-1/2 md:space-y-6">
-          <h2 className="text-3xl font-bold text-[#FFD700] md:text-4xl">
+          <h2 className="text-3xl font-bold text-white underline decoration-[#ca8f70] md:text-4xl">
             Our Story
           </h2>
           <p className="text-base leading-relaxed text-white md:text-lg">

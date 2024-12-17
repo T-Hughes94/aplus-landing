@@ -5,7 +5,7 @@ const PricingSection = () => {
   return (
     <section className="relative bg-black p-4 md:p-8 lg:p-16 pt-12 md:pt-20 pb-8 md:pb-12 z-10">
       <div className="text-center mb-8 md:mb-12">
-        <h2 className="text-3xl font-bold text-[#FFD700] md:text-4xl">Pricing</h2>
+        <h2 className="text-3xl font-bold text-white underline decoration-[#ca8f70] md:text-4xl">Pricing</h2>
         <p className="text-base text-white mt-2 md:text-lg">
           Choose your favorite truffles and have them delivered within 15 miles of Piscataway, NJ – or opt for free pickup!
         </p>
@@ -14,19 +14,19 @@ const PricingSection = () => {
       {/* Pricing Cards */}
       <div className="grid grid-cols-1 gap-6 max-w-4xl mx-auto md:grid-cols-3 md:gap-8">
         <div className="bg-[#ca8f70] p-4 rounded-lg border border-[#FFD700] shadow-lg text-center md:p-6">
-          <FaBoxOpen className="text-[#febf79] text-4xl mx-auto mb-3 md:text-5xl" />
+          <FaBoxOpen className="text-black text-4xl mx-auto mb-3 md:text-5xl" />
           <h3 className="text-xl font-semibold text-white md:text-2xl">Box of 4</h3>
           <p className="text-lg font-bold text-white mt-1 md:mt-2">$15</p>
         </div>
 
         <div className="bg-[#febf79] p-4 rounded-lg border border-[#FFD700] shadow-lg text-center md:p-6">
-          <FaGift className="text-[#ca8f70] text-4xl mx-auto mb-3 md:text-5xl" />
+          <FaGift className="text-black text-4xl mx-auto mb-3 md:text-5xl" />
           <h3 className="text-xl font-semibold text-white md:text-2xl">Box of a Dozen</h3>
           <p className="text-lg font-bold text-white mt-1 md:mt-2">$38</p>
         </div>
 
         <div className="bg-[#ca8f70] p-4 rounded-lg border border-[#FFD700] shadow-lg text-center md:p-6">
-          <FaShippingFast className="text-[#febf79] text-4xl mx-auto mb-3 md:text-5xl" />
+          <FaShippingFast className="text-black text-4xl mx-auto mb-3 md:text-5xl" />
           <h3 className="text-xl font-semibold text-white md:text-2xl">Trash Can Truffles</h3>
           <p className="text-lg font-bold text-white mt-1 md:mt-2">$18</p>
         </div>

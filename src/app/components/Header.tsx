@@ -40,7 +40,7 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="font-custom text-xl text-[#FFD700] shadow-lg sticky top-0 w-full z-50 border border-[#fdbc6f] bg-black">
+    <header className="font-custom text-xl text-white shadow-lg sticky top-0 w-full z-50 border border-[#fdbc6f] bg-black">
       <div className="container mx-auto flex justify-between items-center px-4 py-4 h-24">
         {/* Clickable Company Logo */}
         <Link href="/">
@@ -64,13 +64,13 @@ const Header = () => {
           <Link href="/" className="hover:text-[#ca8f70] transition-colors duration-300">
             Home
           </Link>
-          <Link href="/about" className="hover:text-[#ca8f70] transition-colors duration-300">
+          <Link href="/about" className="hover:text-[#febf79] transition-colors duration-300">
             About
           </Link>
           <Link href="/services" className="hover:text-[#ca8f70] transition-colors duration-300">
             Services
           </Link>
-          <Link href="/gallery" className="hover:text-[#ca8f70] transition-colors duration-300">
+          <Link href="/gallery" className="hover:text-[#febf79] transition-colors duration-300">
             Gallery
           </Link>
 
@@ -115,7 +115,7 @@ const Header = () => {
         {/* Contact Button */}
         <Link
           href="/contact"
-          className="hidden md:inline-block bg-[#febf79] text-black hover:bg-black hover:text-[#FFD700] transition-colors duration-300 px-4 py-2 rounded-md font-semibold"
+          className="hidden md:inline-block bg-[#febf79] text-black hover:bg-black hover:text-white transition-colors duration-300 px-4 py-2 rounded-md font-semibold"
         >
           Contact
         </Link>
