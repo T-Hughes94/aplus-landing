@@ -139,28 +139,28 @@ const Header = () => {
         <nav ref={mobileDropdownRef} className="md:hidden bg-black">
           <Link
             href="/"
-            className="block px-4 py-3 text-white hover:bg-gray-500 rounded-md font-bold"
+            className="block px-4 py-3 text-white hover:bg-[#febf79] rounded-md font-bold"
             onClick={() => setMobileMenuOpen(false)}
           >
             Home
           </Link>
           <Link
             href="/about"
-            className="block px-4 py-3 text-white hover:bg-gray-500 rounded-md font-bold"
+            className="block px-4 py-3 text-white hover:bg-[#febf79] rounded-md font-bold"
             onClick={() => setMobileMenuOpen(false)}
           >
             About
           </Link>
           <Link
             href="/services"
-            className="block px-4 py-3 text-white hover:bg-gray-500 rounded-md font-bold"
+            className="block px-4 py-3 text-white hover:bg-[#febf79] rounded-md font-bold"
             onClick={() => setMobileMenuOpen(false)}
           >
             Services
           </Link>
           <Link
             href="/gallery"
-            className="block px-4 py-3 text-white hover:bg-gray-500 rounded-md font-bold"
+            className="block px-4 py-3 text-white hover:bg-[#febf79] rounded-md font-bold"
             onClick={() => setMobileMenuOpen(false)}
           >
             Gallery
@@ -170,7 +170,7 @@ const Header = () => {
           <div>
             <button
               onClick={() => setMobileCollectionsDropdown(!mobileCollectionsDropdown)}
-              className="block px-4 py-3 text-white font-bold hover:bg-gray-500 rounded-md w-full text-left flex items-center"
+              className="block px-4 py-3 text-white font-bold hover:bg-[#ca8f70] rounded-md w-full text-left flex items-center"
             >
               Collections
               <FaChevronDown
@@ -180,24 +180,24 @@ const Header = () => {
               />
             </button>
             {mobileCollectionsDropdown && (
-              <div className="pl-4 bg-gray-900">
+              <div className="pl-4 bg-black">
                 <Link
                   href="/collections#og-collection"
-                  className="block px-4 py-3 text-white hover:bg-gray-700 rounded-md font-bold"
+                  className="block px-4 py-3 text-white hover:bg-[#febf79] rounded-md font-bold"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   OG Collection
                 </Link>
                 <Link
                   href="/collections#seasonal-collection"
-                  className="block px-4 py-3 text-white hover:bg-gray-700 rounded-md font-bold"
+                  className="block px-4 py-3 text-white hover:bg-[#febf79] rounded-md font-bold"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Seasonal Collection
                 </Link>
                 <Link
                   href="/collections#advent-calendar"
-                  className="block px-4 py-3 text-white hover:bg-gray-700 rounded-md font-bold"
+                  className="block px-4 py-3 text-white hover:bg-[#febf79] rounded-md font-bold"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Advent Calendar
@@ -208,7 +208,7 @@ const Header = () => {
 
           <Link
             href="/contact"
-            className="block px-4 py-3 text-white hover:bg-gray-500 rounded-md font-bold"
+            className="block px-4 py-3 text-white hover:bg-[#febf79] rounded-md font-bold"
             onClick={() => setMobileMenuOpen(false)}
           >
             Contact
