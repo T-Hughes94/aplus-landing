@@ -1,4 +1,3 @@
-"use client";
 import Link from "next/link";
 import Image from "next/legacy/image";
 import { FaInstagram } from "react-icons/fa";

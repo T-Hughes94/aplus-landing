@@ -1,11 +1,11 @@
 "use client";
+
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/legacy/image";
 import { FaChevronDown } from "react-icons/fa";
 
 const Header = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const [collectionsDropdown, setCollectionsDropdown] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileCollectionsDropdown, setMobileCollectionsDropdown] = useState(false);
@@ -87,28 +87,30 @@ const Header = () => {
                 }`}
               />
             </button>
-            {collectionsDropdown && (
-              <div className="absolute left-0 mt-2 bg-black text-white rounded-lg shadow-lg border border-[#FFD700] z-20 w-56">
-                <Link
-                  href="/collections#og-collection"
-                  className="block px-4 py-3 hover:bg-[#ca8f70] transition duration-300"
-                >
-                  OG Collection
-                </Link>
-                <Link
-                  href="/collections#seasonal-collection"
-                  className="block px-4 py-3 hover:bg-[#ca8f70] transition duration-300"
-                >
-                  Seasonal Collection
-                </Link>
-                <Link
-                  href="/collections#advent-calendar"
-                  className="block px-4 py-3 hover:bg-[#ca8f70] transition duration-300"
-                >
-                  Advent Calendar
-                </Link>
-              </div>
-            )}
+            <div
+              className={`absolute left-0 mt-2 bg-black text-white rounded-lg shadow-lg border border-[#FFD700] z-20 w-56 transition-all duration-300 ease-in-out overflow-hidden ${
+                collectionsDropdown ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+              }`}
+            >
+              <Link
+                href="/collections#og-collection"
+                className="block px-4 py-3 hover:bg-[#ca8f70] transition duration-300"
+              >
+                OG Collection
+              </Link>
+              <Link
+                href="/collections#seasonal-collection"
+                className="block px-4 py-3 hover:bg-[#ca8f70] transition duration-300"
+              >
+                Seasonal Collection
+              </Link>
+              <Link
+                href="/collections#advent-calendar"
+                className="block px-4 py-3 hover:bg-[#ca8f70] transition duration-300"
+              >
+                Advent Calendar
+              </Link>
+            </div>
           </div>
         </nav>
 
@@ -179,31 +181,33 @@ const Header = () => {
                 }`}
               />
             </button>
-            {mobileCollectionsDropdown && (
-              <div className="pl-4 bg-black">
-                <Link
-                  href="/collections#og-collection"
-                  className="block px-4 py-3 text-white hover:bg-[#febf79] rounded-md font-bold"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  OG Collection
-                </Link>
-                <Link
-                  href="/collections#seasonal-collection"
-                  className="block px-4 py-3 text-white hover:bg-[#febf79] rounded-md font-bold"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Seasonal Collection
-                </Link>
-                <Link
-                  href="/collections#advent-calendar"
-                  className="block px-4 py-3 text-white hover:bg-[#febf79] rounded-md font-bold"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Advent Calendar
-                </Link>
-              </div>
-            )}
+            <div
+              className={`pl-4 bg-black transition-all duration-300 ease-in-out overflow-hidden ${
+                mobileCollectionsDropdown ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+              }`}
+            >
+              <Link
+                href="/collections#og-collection"
+                className="block px-4 py-3 text-white hover:bg-[#febf79] rounded-md font-bold"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                OG Collection
+              </Link>
+              <Link
+                href="/collections#seasonal-collection"
+                className="block px-4 py-3 text-white hover:bg-[#febf79] rounded-md font-bold"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Seasonal Collection
+              </Link>
+              <Link
+                href="/collections#advent-calendar"
+                className="block px-4 py-3 text-white hover:bg-[#febf79] rounded-md font-bold"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Advent Calendar
+              </Link>
+            </div>
           </div>
 
           <Link
@@ -220,6 +224,7 @@ const Header = () => {
 };
 
 export default Header;
+
 
 
 

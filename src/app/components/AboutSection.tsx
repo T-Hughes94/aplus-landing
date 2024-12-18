@@ -1,4 +1,3 @@
-"use client";
 import Image from "next/legacy/image";
 import { FaLeaf, FaHandHoldingHeart, FaGlobe, FaSeedling } from "react-icons/fa";
 
@@ -20,9 +19,9 @@ const AboutSection = () => {
 
         {/* Right Side: About Text */}
         <div className="space-y-4 md:w-1/2 md:space-y-6">
-          <h2 className="text-3xl font-bold text-white underline decoration-[#ca8f70] md:text-4xl">
+          <h1 className="text-3xl font-bold text-white underline decoration-[#ca8f70] md:text-4xl">
             Our Story
-          </h2>
+          </h1>
           <p className="text-base leading-relaxed text-white md:text-lg">
             At A Plus Truffles, we are passionate about creating vegan truffles that are both indulgent and ethically made. Our products are crafted with love, using premium ingredients that are both fair-trade and sustainably sourced. Every truffle is hand-painted and made from scratch, ensuring a luxurious experience with every bite.
           </p>
@@ -32,7 +31,7 @@ const AboutSection = () => {
             <div className="flex items-center space-x-4">
               <FaLeaf className="text-[#ca8f70] text-2xl md:text-3xl" />
               <div>
-                <h3 className="text-base font-semibold text-white md:text-lg">100% Vegan</h3>
+                <h2 className="text-base font-semibold text-white md:text-lg">100% Vegan</h2>
                 <p className="text-sm text-white">Committed to plant-based ingredients.</p>
               </div>
             </div>
