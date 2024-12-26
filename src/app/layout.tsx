@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     siteName: "A Plus Truffles",
     images: [
       {
-        url: "/truffle3.webp", // Replace with your hero image path
+        url: "/truffle2.webp", // Replace with your hero image path
         width: 1200,
         height: 630,
         alt: "Handcrafted vegan truffles",
