@@ -9,6 +9,10 @@ export const metadata: Metadata = {
   },
   description: "Delicious handcrafted vegan truffles made with ethical, fair-trade ingredients.",
   keywords: [
+    "vegan",
+    "bon bons",
+    "vegan bon bons",
+    "truffles",
     "vegan truffles",
     "handcrafted chocolates",
     "ethical truffles",
@@ -31,12 +35,6 @@ export const metadata: Metadata = {
     locale: "en_US",
     type: "website",
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "A Plus Truffles",
-    description: "Delicious handcrafted vegan truffles made with ethical, fair-trade ingredients.",
-    images: ["/truffle3.webp"], // Replace with hero image path
-  },
   icons: {
     icon: "/favicon.ico", // Replace with your favicon path in public directory
   },
@@ -56,4 +54,5 @@ export default function RootLayout({
     </html>
   );
 }
+
 

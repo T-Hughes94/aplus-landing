@@ -13,19 +13,19 @@ export const metadata = {
     title: "A Plus Truffles - Handcrafted Vegan Chocolates",
     description:
       "Explore our collection of handcrafted vegan chocolates, perfect for every occasion.",
-    images: ["/truffle2.webp"],
-    url: "https://yourwebsite.com",
+    images: [
+      {
+        url: "/truffle2.webp", // Replace with the correct image path
+        width: 1200,
+        height: 630,
+        alt: "Handcrafted vegan truffles",
+      },
+    ],
+    url: "https://yourwebsite.com", // Replace with your website's actual URL
     type: "website",
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "A Plus Truffles - Handcrafted Vegan Chocolates",
-    description:
-      "Discover the finest handcrafted vegan chocolates with A Plus Truffles.",
-    images: ["/truffle2.webp"],
-  },
   icons: {
-    icon: "/favicon.ico",
+    icon: "/favicon.ico", // Replace with your favicon path
   },
 };
 
@@ -41,5 +41,6 @@ export default function Home() {
     </>
   );
 }
+
 
 
