@@ -1,8 +1,31 @@
-"use client";
 import Image from "next/image";
 import Link from "next/link";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+
+export const metadata = {
+  title: "Collections - A Plus Truffles",
+  description:
+    "Explore our handcrafted vegan truffle collections. Indulge in exquisite flavors, ethical ingredients, and unique designs. Find your favorite today!",
+  openGraph: {
+    title: "Collections - A Plus Truffles",
+    description:
+      "Discover the unique flavors of our handcrafted vegan truffles. From seasonal delights to classic favorites, there's something for everyone.",
+    url: "https://yourwebsite.com/collections",
+    images: [
+      {
+        url: "/Apluslogo4.png", // Update to the appropriate collection image
+        width: 1200,
+        height: 630,
+        alt: "A Plus Truffles Collection",
+      },
+    ],
+    type: "website",
+  },
+  icons: {
+    icon: "/favicon.ico", // Ensure your favicon path is correct
+  },
+};
 
 type Collections = {
   id: string;
@@ -57,12 +80,17 @@ const collections: Collections[] = [
 
 const CollectionsPage: React.FC = () => {
   return (
-    <main className="bg-black text-white font-custom">
+    <main className="bg-black text-white font-custom" role="main">
       <Header />
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-[#febf79] via-[#febf79] to-[#ca8f70] p-10 md:p-24 text-center">
-        <h1 className="text-4xl font-bold mb-4 md:text-5xl text-black">Explore Our Collections</h1>
+      <section
+        className="relative bg-gradient-to-br from-[#febf79] via-[#febf79] to-[#ca8f70] p-10 md:p-24 text-center"
+        aria-labelledby="collections-hero-heading"
+      >
+        <h1 id="collections-hero-heading" className="text-4xl font-bold mb-4 md:text-5xl text-black">
+          Explore Our Collections
+        </h1>
         <p className="text-lg mt-2 md:text-2xl text-white">
           Indulge in the exquisite flavors of our handcrafted vegan chocolates.
         </p>
@@ -73,7 +101,12 @@ const CollectionsPage: React.FC = () => {
 
       {/* Collection Sections */}
       {collections.map((collection, idx) => (
-        <section id={collection.id} key={idx} className="p-10 md:p-20 bg-black">
+        <section
+          id={collection.id}
+          key={idx}
+          className="p-10 md:p-20 bg-black"
+          aria-labelledby={`${collection.id}-heading`}
+        >
           <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12">
             {/* Image */}
             <div className="md:w-1/2">
@@ -87,7 +120,12 @@ const CollectionsPage: React.FC = () => {
             </div>
             {/* Text */}
             <div className="md:w-1/2">
-              <h2 className="text-3xl font-bold text-white underline underline decoration-[#ca8f70] mb-6">{collection.title}</h2>
+              <h2
+                id={`${collection.id}-heading`}
+                className="text-3xl font-bold text-white underline decoration-[#ca8f70] mb-6"
+              >
+                {collection.title}
+              </h2>
               <div className="relative p-6 bg-gradient-to-br from-[#febf79] via-[#febf79] to-[#ca8f70] rounded-xl border-2 border-[#FFD700] shadow-2xl transform transition-transform duration-300 hover:scale-105">
                 <ul className="space-y-4">
                   {collection.flavors.map((flavor, flavorIdx) => (
@@ -109,13 +147,21 @@ const CollectionsPage: React.FC = () => {
       ))}
 
       {/* Call to Action */}
-      <section className="p-10 md:p-20 bg-gradient-to-br from-[#ca8f70] via-[#ca8f70] to-[#febf79] text-center">
-        <h2 className="text-3xl font-bold text-white md:text-4xl">Discover Your Favorites</h2>
+      <section
+        className="p-10 md:p-20 bg-gradient-to-br from-[#ca8f70] via-[#ca8f70] to-[#febf79] text-center"
+        aria-labelledby="collections-cta-heading"
+      >
+        <h2 id="collections-cta-heading" className="text-3xl font-bold text-white md:text-4xl">
+          Discover Your Favorites
+        </h2>
         <p className="mt-4 text-base text-gray-200 md:text-lg">
           Ready to treat yourself? Explore our collections and find your new favorite truffles.
         </p>
         <Link href="/contact">
-          <button className="mt-6 px-4 py-2 bg-white border border-[#FFD700] text-black font-semibold rounded-lg shadow-md hover:bg-[#ca8f70] hover:text-white transition duration-300 md:px-6 md:py-3">
+          <button
+            className="mt-6 px-4 py-2 bg-white border border-[#FFD700] text-black font-semibold rounded-lg shadow-md hover:bg-[#ca8f70] hover:text-white transition duration-300 md:px-6 md:py-3"
+            aria-label="Contact us to place an order or learn more about A Plus Truffles"
+          >
             Contact Us to Order
           </button>
         </Link>
@@ -127,6 +173,7 @@ const CollectionsPage: React.FC = () => {
 };
 
 export default CollectionsPage;
+
 
 
 

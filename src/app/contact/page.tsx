@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -21,34 +22,43 @@ const ContactPage = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
-    setFormData({ name: "", email: "", collection: "", message: "" }); // Reset form fields after submission
+    setFormData({ name: "", email: "", collection: "", message: "" });
   };
 
   return (
-    <main className="bg-black text-white font-custom">
+    <main className="bg-black text-white font-custom" role="main">
       <Header />
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-[#febf79] via-[#febf79] to-[#ca8f70] text-center p-10 md:p-24">
-        <h1 className="text-4xl font-bold mb-4 md:text-5xl text-black">Get in Touch</h1>
-        <p className="text-lg mt-2 md:text-2xl text-white">
-          We'd love to hear from you! Let us know how we can help.
-        </p>
+      <section
+        className="relative bg-gradient-to-br from-[#febf79] via-[#febf79] to-[#ca8f70] text-center p-10 md:p-24"
+        aria-labelledby="contact-hero-heading"
+      >
+        <h1 id="contact-hero-heading" className="text-4xl font-bold mb-4 md:text-5xl text-black">
+          Get in Touch
+        </h1>
         <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0]">
           <hr className="border-[#FFD700] border-t-2" />
         </div>
       </section>
 
       {/* Contact Form Section */}
-      <section className="p-10 md:p-20 bg-black text-center">
-        <h2 className="text-3xl font-bold text-white underline decoration-[#ca8f70] md:text-4xl">Reach Out to Us</h2>
+      <section
+        className="p-10 md:p-20 bg-black text-center"
+        aria-labelledby="contact-form-heading"
+      >
+        <h2 id="contact-form-heading" className="text-3xl font-bold text-white underline decoration-[#ca8f70] md:text-4xl">
+          Reach Out to Us
+        </h2>
         <p className="text-base text-white mt-4 md:text-lg max-w-2xl mx-auto">
-          Whether you’re interested in placing an order, learning more about our process, or simply saying hello, we’re here to help. Fill out the form below, and we’ll get back to you as soon as possible.
+          Whether you’re interested in placing an order, learning more about our process, or simply saying hello,
+          we’re here to help. Fill out the form below, and we’ll get back to you as soon as possible.
         </p>
 
         <form
           onSubmit={handleSubmit}
           className="mt-8 max-w-lg mx-auto bg-gradient-to-br from-[#ca8f70] via-[#ca8f70] to-[#febf79] p-8 md:p-12 rounded-xl shadow-2xl"
+          aria-label="Contact form for A Plus Truffles"
         >
           <div className="mb-6">
             <label htmlFor="name" className="block text-left font-semibold text-gray-300">
@@ -63,6 +73,7 @@ const ContactPage = () => {
               required
               className="w-full mt-2 p-3 rounded-lg shadow-inner border border-gray-600 bg-black text-white focus:outline-none focus:ring-2 focus:ring-emerald-400"
               placeholder="Your Name"
+              aria-required="true"
             />
           </div>
           <div className="mb-6">
@@ -78,6 +89,7 @@ const ContactPage = () => {
               required
               className="w-full mt-2 p-3 rounded-lg shadow-inner border border-gray-600 bg-black text-white focus:outline-none focus:ring-2 focus:ring-emerald-400"
               placeholder="Your Email"
+              aria-required="true"
             />
           </div>
           <div className="mb-6">
@@ -91,6 +103,7 @@ const ContactPage = () => {
               onChange={handleChange}
               required
               className="w-full mt-2 p-3 rounded-lg shadow-inner border border-gray-600 bg-black text-white focus:outline-none focus:ring-2 focus:ring-emerald-400"
+              aria-required="true"
             >
               <option value="">Select a Collection</option>
               {collections.map((collection, idx) => (
@@ -113,11 +126,13 @@ const ContactPage = () => {
               rows={5}
               className="w-full mt-2 p-3 rounded-lg shadow-inner border border-gray-600 bg-black text-white focus:outline-none focus:ring-2 focus:ring-emerald-400"
               placeholder="Your Message"
+              aria-required="true"
             ></textarea>
           </div>
           <button
             type="submit"
             className="w-full py-3 px-6 font-semibold rounded-lg shadow-md bg-white border border-[#FFD700] text-black hover:bg-[#ca8f70] hover:text-white transition duration-300"
+            aria-label="Submit the contact form"
           >
             Send Message
           </button>
@@ -130,6 +145,8 @@ const ContactPage = () => {
 };
 
 export default ContactPage;
+
+
 
 
 

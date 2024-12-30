@@ -16,9 +16,6 @@ const SeasonalSection = () => {
         <h3 className="text-2xl font-extrabold text-white flex items-center justify-center md:text-3xl">
           🎄<span className="ml-2">Seasonal Flavors</span>🎄
         </h3>
-        <p className="text-gray-200 mt-3 mb-5 text-center leading-relaxed text-sm md:text-lg">
-          "Check out our December seasonal lineup of Bonbons"
-        </p>
         <ul className="space-y-3 pl-5 text-gray-100 font-semibold text-base md:text-lg">
           <li className="flex items-center">
             <span className="mr-3 w-3 h-3 bg-[#FFD700] rounded-full"></span> 🍪 Biscoff - Spiced caramelized cookie crumble!
