@@ -1,4 +1,5 @@
-import Image from "next/legacy/image";
+"use client";
+import Image from "next/image";
 import Link from "next/link";
 import { FaGift, FaHeart, FaBaby, FaBirthdayCake } from "react-icons/fa";
 import Header from "../components/Header";
@@ -30,6 +31,24 @@ export const metadata = {
 };
 
 const ServicesPage = () => {
+  const carouselImages = [
+    { src: "/gallery1.webp", alt: "Gallery Image 1" },
+    { src: "/gallery3.webp", alt: "Gallery Image 3" },
+    { src: "/gallery6.webp", alt: "Gallery Image 6" },
+  ];
+
+  const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    adaptiveHeight: true,
+    arrows: false,
+  };
+
   return (
     <main className="bg-black text-white font-custom" role="main">
       <Header />
@@ -39,11 +58,15 @@ const ServicesPage = () => {
         className="relative bg-gradient-to-br from-[#febf79] via-[#febf79] to-[#ca8f70] p-10 md:p-24 text-center"
         aria-labelledby="services-hero-heading"
       >
-        <h1 id="services-hero-heading" className="text-4xl font-bold mb-4 md:text-5xl text-black">
+        <h1
+          id="services-hero-heading"
+          className="text-4xl font-bold mb-4 md:text-5xl text-black"
+        >
           Special Occasions & Gifting
         </h1>
         <p className="text-lg mt-2 md:text-2xl text-white">
-          Celebrate life’s sweetest moments with A Plus Truffles, handcrafted with care and perfect for any occasion.
+          Celebrate life’s sweetest moments with A Plus Truffles, handcrafted
+          with care and perfect for any occasion.
         </p>
         <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0]">
           <hr className="border-[#FFD700] border-t-2" />
@@ -51,41 +74,78 @@ const ServicesPage = () => {
       </section>
 
       {/* Photo Highlight Section */}
-      <section className="p-6 md:p-16 bg-black text-center" aria-labelledby="photo-highlight-heading">
+      <section
+        className="p-6 md:p-16 bg-black text-center"
+        aria-labelledby="photo-highlight-heading"
+      >
         <h2 id="photo-highlight-heading" className="sr-only">
           Celebrations with A Plus Truffles
         </h2>
-        <div className="mt-8 flex justify-center">
-          <Image
-            src="/gallery6.webp"
-            alt="Celebrations with A Plus Truffles"
-            width={600}
-            height={400}
-            className="rounded-lg shadow-lg"
-            priority
-          />
+        <div className="mt-8">
+          <Slider {...sliderSettings}>
+            {carouselImages.map((image, index) => (
+              <div key={index} className="flex justify-center">
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  width={600}
+                  height={400}
+                  className="rounded-lg shadow-lg"
+                  priority={index === 0}
+                />
+              </div>
+            ))}
+          </Slider>
         </div>
         <p className="mt-4 text-lg text-white max-w-2xl mx-auto md:text-xl">
-          A glimpse of our beautifully crafted truffles, made to delight and elevate every occasion.
+          A glimpse of our beautifully crafted truffles, made to delight and
+          elevate every occasion.
         </p>
       </section>
 
       {/* Services Section */}
-      <section className="p-6 md:p-16 bg-black text-center" aria-labelledby="services-heading">
-        <h2 id="services-heading" className="text-3xl font-bold text-white underline decoration-[#ca8f70] md:text-4xl">
+      <section
+        className="p-6 md:p-16 bg-black text-center"
+        aria-labelledby="services-heading"
+      >
+        <h2
+          id="services-heading"
+          className="text-3xl font-bold text-white underline decoration-[#ca8f70] md:text-4xl"
+        >
           Perfect for Every Occasion
         </h2>
         <p className="mt-4 text-lg text-white max-w-2xl mx-auto md:text-xl">
-          Our beautifully crafted vegan truffles make a memorable addition to any event. Here are just a few of the
-          special occasions where A Plus Truffles can add that perfect touch.
+          Our beautifully crafted vegan truffles make a memorable addition to
+          any event. Here are just a few of the special occasions where A Plus
+          Truffles can add that perfect touch.
         </p>
 
         <div className="grid grid-cols-1 gap-8 mt-12 max-w-4xl mx-auto md:grid-cols-2 lg:grid-cols-4">
           {[
-            { icon: FaHeart, title: "Weddings", text: "Elegant and delicious favors your guests will love.", color: "#ca8f70" },
-            { icon: FaBaby, title: "Baby Showers", text: "Celebrate with treats that are as sweet as the new arrival.", color: "#febf79" },
-            { icon: FaGift, title: "Bridal Showers", text: "Add a touch of sweetness to pre-wedding celebrations.", color: "#ca8f70" },
-            { icon: FaBirthdayCake, title: "Birthdays", text: "Make birthdays extra special with a truffle treat.", color: "#febf79" },
+            {
+              icon: FaHeart,
+              title: "Weddings",
+              text: "Elegant and delicious favors your guests will love.",
+              color: "#ca8f70",
+            },
+            {
+              icon: FaBaby,
+              title: "Baby Showers",
+              text: "Celebrate with treats that are as sweet as the new arrival.",
+              color: "#febf79",
+            },
+            {
+              icon: FaGift,
+              title: "Bridal Showers",
+              text: "Add a touch of sweetness to pre-wedding celebrations.",
+              color: "#ca8f70",
+            },
+            {
+              icon: FaBirthdayCake,
+              title: "Birthdays",
+              text: "Make birthdays extra special with a truffle treat.",
+              color: "#febf79",
+            },
           ].map(({ icon: Icon, title, text, color }, index) => (
             <div
               key={index}
@@ -101,7 +161,11 @@ const ServicesPage = () => {
                 <Icon className="text-5xl" style={{ color: color }} />
               </div>
               <div className="mt-16 text-center">
-                <h3 id={`service-title-${index}`} className="text-xl font-bold" style={{ color: color }}>
+                <h3
+                  id={`service-title-${index}`}
+                  className="text-xl font-bold"
+                  style={{ color: color }}
+                >
                   {title}
                 </h3>
                 <p className="mt-2 text-gray-300">{text}</p>
@@ -116,11 +180,15 @@ const ServicesPage = () => {
         className="p-6 md:p-16 bg-black to-black text-center"
         aria-labelledby="gift-highlight-heading"
       >
-        <h3 id="gift-highlight-heading" className="text-3xl font-bold text-white underline decoration-[#ca8f70] md:text-4xl">
+        <h3
+          id="gift-highlight-heading"
+          className="text-3xl font-bold text-white underline decoration-[#ca8f70] md:text-4xl"
+        >
           A Gift That Always Delights
         </h3>
         <p className="mt-4 text-lg text-white max-w-2xl mx-auto">
-          It&apos;s a simple process to &quot;choose&quot; the best options for your needs.
+          It&apos;s a simple process to &quot;choose&quot; the best options for
+          your needs.
         </p>
         <div className="mt-8">
           <Link href="/gallery">
@@ -143,7 +211,8 @@ const ServicesPage = () => {
           Planning an Event?
         </h2>
         <p className="mt-4 text-lg text-white">
-          Contact us to discuss how A Plus Truffles can make your event unforgettable.
+          Contact us to discuss how A Plus Truffles can make your event
+          unforgettable.
         </p>
         <div className="mt-8">
           <Link href="/contact">
@@ -163,6 +232,7 @@ const ServicesPage = () => {
 };
 
 export default ServicesPage;
+
 
 
 
