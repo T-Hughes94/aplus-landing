@@ -1,4 +1,4 @@
-"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { FaGift, FaHeart, FaBaby, FaBirthdayCake } from "react-icons/fa";
@@ -74,34 +74,23 @@ const ServicesPage = () => {
       </section>
 
       {/* Photo Highlight Section */}
-      <section
-        className="p-6 md:p-16 bg-black text-center"
-        aria-labelledby="photo-highlight-heading"
-      >
-        <h2 id="photo-highlight-heading" className="sr-only">
-          Celebrations with A Plus Truffles
-        </h2>
-        <div className="mt-8">
-          <Slider {...sliderSettings}>
-            {carouselImages.map((image, index) => (
-              <div key={index} className="flex justify-center">
-                <Image
-                  src={image.src}
-                  alt={image.alt}
-                  width={600}
-                  height={400}
-                  className="rounded-lg shadow-lg"
-                  priority={index === 0}
-                />
-              </div>
-            ))}
-          </Slider>
+      <section className="p-6 md:p-16 bg-black text-center" aria-labelledby="photo-highlight-heading">
+        <h2 id="photo-highlight-heading" className="sr-only">Celebrations with A Plus Truffles</h2>
+        <div className="mt-8 flex justify-center">
+          <Image
+            src="/gallery6.webp"
+            alt="Celebrations with A Plus Truffles"
+            width={600}
+            height={400}
+            className="rounded-lg shadow-lg"
+            priority
+          />
         </div>
         <p className="mt-4 text-lg text-white max-w-2xl mx-auto md:text-xl">
-          A glimpse of our beautifully crafted truffles, made to delight and
-          elevate every occasion.
+          A glimpse of our beautifully crafted truffles, made to delight and elevate every occasion.
         </p>
       </section>
+
 
       {/* Services Section */}
       <section
