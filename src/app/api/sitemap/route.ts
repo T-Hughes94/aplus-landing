@@ -6,9 +6,9 @@ export async function GET() {
     const pages = [
         "/",               // Home
         "/about",          // About
-        "/services",       // Services (was missing)
+        "/services",       // Services 
         "/gallery",        // Gallery
-        "/collections",    // Collections (was missing)
+        "/collections",    // Collections 
         "/contact"
     ];
 
