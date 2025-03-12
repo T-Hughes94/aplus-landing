@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://aplus-truffles.vercel.app/sitemap.xml

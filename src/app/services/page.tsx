@@ -31,23 +31,7 @@ export const metadata = {
 };
 
 const ServicesPage = () => {
-  const carouselImages = [
-    { src: "/gallery1.webp", alt: "Gallery Image 1" },
-    { src: "/gallery3.webp", alt: "Gallery Image 3" },
-    { src: "/gallery6.webp", alt: "Gallery Image 6" },
-  ];
-
-  const sliderSettings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3000,
-    adaptiveHeight: true,
-    arrows: false,
-  };
+ 
 
   return (
     <main className="bg-black text-white font-custom" role="main">
