@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-// Metadata for SEO and Social Sharing
 export const metadata: Metadata = {
   title: {
     default: "A Plus Truffles",
@@ -36,23 +35,25 @@ export const metadata: Metadata = {
     type: "website",
   },
   icons: {
-    icon: "/favicon.ico", // Replace with your favicon path in public directory
+    icon: "/favicon.ico",
   },
-  metadataBase: new URL("https://yourwebsite.com"), // Base URL for all relative links
+  metadataBase: new URL("https://yourwebsite.com"),
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        {/* Explicit Favicon Fix */}
+        <link rel="icon" href="/favicon.ico" sizes="any" type="image/x-icon" />
+        <meta name="theme-color" content="#000000" />
+      </head>
       <body className="font-custom bg-black text-white">
         {children}
       </body>
     </html>
   );
 }
+
 
 
