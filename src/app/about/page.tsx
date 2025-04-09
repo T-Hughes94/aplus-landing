@@ -33,33 +33,23 @@ const AboutPage = () => {
 
       {/* Hero Section */}
       <section
-        className="relative isolate overflow-hidden p-10 md:p-24 text-center bg-black"
-        aria-labelledby="about-hero-heading"
-      >
-        {/* Animated radial gradient background */}
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-gradient-radial from-[#febf79] via-[#f8b870] to-[#ca8f70] opacity-80 animate-pulse-slow"
-        />
-        {/* Subtle radial dot pattern overlay */}
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-[radial-gradient(circle,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[length:40px_40px]"
-        />
+          className="relative isolate overflow-hidden p-10 md:p-24 text-center bg-black"
+          aria-labelledby="services-hero-heading"
+        >
+          <div className="relative z-10 flex flex-col items-center justify-center space-y-6 max-w-4xl mx-auto">
+            <h1
+              id="services-hero-heading"
+              className="text-4xl md:text-5xl font-extrabold text-white tracking-tight"
+            >
+              Special Occasions & Gifting
+            </h1>
+            <p className="text-lg md:text-2xl text-white/90 max-w-2xl">
+              Celebrate life’s sweetest moments with A Plus Truffles — handcrafted with care and perfect for any occasion.
+            </p>
+            <hr className="border-[#FFD700] border-t-2 w-20 mx-auto mt-4" />
+          </div>
+        </section>
 
-        <div className="relative z-10 flex flex-col items-center justify-center space-y-6 max-w-4xl mx-auto">
-          <h1
-            id="about-hero-heading"
-            className="text-4xl md:text-5xl font-extrabold text-white tracking-tight drop-shadow-lg"
-          >
-            Crafting Sweet Experiences with Care
-          </h1>
-          <p className="text-lg md:text-2xl text-white/90 max-w-2xl">
-            From the heart of NJ, creating hand-painted vegan truffles with ethical, fair-trade ingredients.
-          </p>
-          <hr className="border-[#FFD700] border-t-2 w-20 mx-auto mt-4" />
-        </div>
-      </section>
 
       {/* Commitment to Quality Section */}
       <section
