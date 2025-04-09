@@ -33,24 +33,31 @@ const AboutPage = () => {
 
       {/* Hero Section */}
       <section
-        className="relative bg-gradient-to-br from-[#febf79] via-[#febf79] to-[#ca8f70] p-10 md:p-24 text-center"
+        className="relative isolate overflow-hidden p-10 md:p-24 text-center bg-black"
         aria-labelledby="about-hero-heading"
-        style={{
-          backgroundSize: "cover",
-          backgroundBlendMode: "overlay",
-        }}
       >
-        <h1
-          id="about-hero-heading"
-          className="text-4xl font-bold mb-4 md:text-5xl text-black"
-        >
-          Crafting Sweet Experiences with Care
-        </h1>
-        <p className="text-lg mt-2 md:text-2xl text-white">
-          From the heart of NJ, creating hand-painted vegan truffles with ethical, fair-trade ingredients.
-        </p>
-        <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0]">
-          <hr className="border-[#FFD700] border-t-2" />
+        {/* Animated radial gradient background */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-gradient-radial from-[#febf79] via-[#f8b870] to-[#ca8f70] opacity-80 animate-pulse-slow"
+        />
+        {/* Subtle radial dot pattern overlay */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-[radial-gradient(circle,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[length:40px_40px]"
+        />
+
+        <div className="relative z-10 flex flex-col items-center justify-center space-y-6 max-w-4xl mx-auto">
+          <h1
+            id="about-hero-heading"
+            className="text-4xl md:text-5xl font-extrabold text-white tracking-tight drop-shadow-lg"
+          >
+            Crafting Sweet Experiences with Care
+          </h1>
+          <p className="text-lg md:text-2xl text-white/90 max-w-2xl">
+            From the heart of NJ, creating hand-painted vegan truffles with ethical, fair-trade ingredients.
+          </p>
+          <hr className="border-[#FFD700] border-t-2 w-20 mx-auto mt-4" />
         </div>
       </section>
 
@@ -147,6 +154,8 @@ const AboutPage = () => {
 };
 
 export default AboutPage;
+
+
 
 
 

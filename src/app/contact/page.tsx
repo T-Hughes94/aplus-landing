@@ -11,10 +11,13 @@ const ContactPage = () => {
     name: "",
     email: "",
     collection: "",
+    quantity: "",
     message: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
@@ -22,7 +25,13 @@ const ContactPage = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
-    setFormData({ name: "", email: "", collection: "", message: "" });
+    setFormData({
+      name: "",
+      email: "",
+      collection: "",
+      quantity: "",
+      message: "",
+    });
   };
 
   return (
@@ -60,6 +69,7 @@ const ContactPage = () => {
           className="mt-8 max-w-lg mx-auto bg-gradient-to-br from-[#ca8f70] via-[#ca8f70] to-[#febf79] p-8 md:p-12 rounded-xl shadow-2xl"
           aria-label="Contact form for A Plus Truffles"
         >
+          {/* Name */}
           <div className="mb-6">
             <label htmlFor="name" className="block text-left font-semibold text-gray-300">
               Name
@@ -76,6 +86,8 @@ const ContactPage = () => {
               aria-required="true"
             />
           </div>
+
+          {/* Email */}
           <div className="mb-6">
             <label htmlFor="email" className="block text-left font-semibold text-gray-300">
               Email
@@ -92,6 +104,8 @@ const ContactPage = () => {
               aria-required="true"
             />
           </div>
+
+          {/* Collection */}
           <div className="mb-6">
             <label htmlFor="collection" className="block text-left font-semibold text-gray-300">
               Which Collection Are You Interested In?
@@ -113,6 +127,27 @@ const ContactPage = () => {
               ))}
             </select>
           </div>
+
+          {/* Quantity */}
+          <div className="mb-6">
+            <label htmlFor="quantity" className="block text-left font-semibold text-gray-300">
+              Quantity
+            </label>
+            <input
+              type="number"
+              id="quantity"
+              name="quantity"
+              value={formData.quantity}
+              onChange={handleChange}
+              min="1"
+              required
+              className="w-full mt-2 p-3 rounded-lg shadow-inner border border-gray-600 bg-black text-white focus:outline-none focus:ring-2 focus:ring-emerald-400"
+              placeholder="How many packages would you like?"
+              aria-required="true"
+            />
+          </div>
+
+          {/* Message */}
           <div className="mb-6">
             <label htmlFor="message" className="block text-left font-semibold text-gray-300">
               Message
@@ -129,6 +164,7 @@ const ContactPage = () => {
               aria-required="true"
             ></textarea>
           </div>
+
           <button
             type="submit"
             className="w-full py-3 px-6 font-semibold rounded-lg shadow-md bg-white border border-[#FFD700] text-black hover:bg-[#ca8f70] hover:text-white transition duration-300"
