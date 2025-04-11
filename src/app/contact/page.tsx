@@ -1,13 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import emailjs from "@emailjs/browser";
 
 const collections = ["OG Collection", "Seasonal Collection (December)", "Trashcan Truffles"];
 const boxOptions = ["Box of 4", "Box of Dozen"];
 
 const ContactPage = () => {
+  const form = useRef<HTMLFormElement | null>(null);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -26,15 +29,33 @@ const ContactPage = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    setFormData({
-      name: "",
-      email: "",
-      collection: "",
-      boxType: "",
-      quantity: "",
-      message: "",
-    });
+
+    if (!form.current) return;
+
+    emailjs
+      .sendForm(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        form.current,
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+      )
+      .then(
+        () => {
+          alert("Message sent successfully!");
+          setFormData({
+            name: "",
+            email: "",
+            collection: "",
+            boxType: "",
+            quantity: "",
+            message: "",
+          });
+        },
+        (error) => {
+          alert("Failed to send message. Please try again later.");
+          console.error("EmailJS Error:", error);
+        }
+      );
   };
 
   return (
@@ -46,17 +67,14 @@ const ContactPage = () => {
         className="relative isolate overflow-hidden p-10 md:p-24 text-center bg-black"
         aria-labelledby="contact-hero-heading"
       >
-        {/* Animated radial gradient background */}
         <div
           aria-hidden="true"
           className="absolute inset-0 bg-gradient-radial from-[#febf79] via-[#f8b870] to-[#ca8f70] opacity-80 animate-pulse-slow"
         />
-        {/* Subtle dot pattern overlay */}
         <div
           aria-hidden="true"
           className="absolute inset-0 bg-[radial-gradient(circle,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[length:40px_40px]"
         />
-
         <div className="relative z-10 flex flex-col items-center justify-center space-y-6 max-w-4xl mx-auto">
           <h1
             id="contact-hero-heading"
@@ -71,54 +89,41 @@ const ContactPage = () => {
         </div>
       </section>
 
-
-      {/* Contact Form Section */}
+      {/* Contact Form */}
       <section
         className="p-10 md:p-20 bg-black text-center"
         aria-labelledby="contact-form-heading"
       >
         <form
+          ref={form}
           onSubmit={handleSubmit}
           className="mt-8 max-w-lg mx-auto bg-gradient-to-br from-[#ca8f70] via-[#ca8f70] to-[#febf79] p-8 md:p-12 rounded-xl shadow-2xl"
           aria-label="Contact form for A Plus Truffles"
         >
-          {/* Name */}
-          <div className="mb-6">
-            <label htmlFor="name" className="block text-left font-semibold text-gray-300">
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              className="w-full mt-2 p-3 rounded-lg shadow-inner border border-gray-600 bg-black text-white focus:outline-none focus:ring-2 focus:ring-emerald-400"
-              placeholder="Your Name"
-              aria-required="true"
-            />
-          </div>
+          {[
+            { label: "Name", name: "name", type: "text", placeholder: "Your Name" },
+            { label: "Email", name: "email", type: "email", placeholder: "Your Email" },
+            { label: "Quantity", name: "quantity", type: "number", placeholder: "How many would you like?" },
+          ].map(({ label, name, type, placeholder }) => (
+            <div className="mb-6" key={name}>
+              <label htmlFor={name} className="block text-left font-semibold text-gray-300">
+                {label}
+              </label>
+              <input
+                type={type}
+                id={name}
+                name={name}
+                value={(formData as any)[name]}
+                onChange={handleChange}
+                required
+                className="w-full mt-2 p-3 rounded-lg shadow-inner border border-gray-600 bg-black text-white focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                placeholder={placeholder}
+                aria-required="true"
+              />
+            </div>
+          ))}
 
-          {/* Email */}
-          <div className="mb-6">
-            <label htmlFor="email" className="block text-left font-semibold text-gray-300">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              className="w-full mt-2 p-3 rounded-lg shadow-inner border border-gray-600 bg-black text-white focus:outline-none focus:ring-2 focus:ring-emerald-400"
-              placeholder="Your Email"
-              aria-required="true"
-            />
-          </div>
-
-          {/* Truffle Collection */}
+          {/* Collection Select */}
           <div className="mb-6">
             <label htmlFor="collection" className="block text-left font-semibold text-gray-300">
               Choose Your Collection
@@ -129,8 +134,7 @@ const ContactPage = () => {
               value={formData.collection}
               onChange={handleChange}
               required
-              className="w-full mt-2 p-3 rounded-lg shadow-inner border border-gray-600 bg-black text-white focus:outline-none focus:ring-2 focus:ring-emerald-400"
-              aria-required="true"
+              className="w-full mt-2 p-3 rounded-lg shadow-inner border border-gray-600 bg-black text-white"
             >
               <option value="">Select a Collection</option>
               {collections.map((collection, idx) => (
@@ -141,7 +145,7 @@ const ContactPage = () => {
             </select>
           </div>
 
-          {/* Box Type */}
+          {/* Box Type Select */}
           <div className="mb-6">
             <label htmlFor="boxType" className="block text-left font-semibold text-gray-300">
               Choose Your Box Size
@@ -152,8 +156,7 @@ const ContactPage = () => {
               value={formData.boxType}
               onChange={handleChange}
               required
-              className="w-full mt-2 p-3 rounded-lg shadow-inner border border-gray-600 bg-black text-white focus:outline-none focus:ring-2 focus:ring-emerald-400"
-              aria-required="true"
+              className="w-full mt-2 p-3 rounded-lg shadow-inner border border-gray-600 bg-black text-white"
             >
               <option value="">Select a Box</option>
               {boxOptions.map((option, idx) => (
@@ -162,25 +165,6 @@ const ContactPage = () => {
                 </option>
               ))}
             </select>
-          </div>
-
-          {/* Quantity */}
-          <div className="mb-6">
-            <label htmlFor="quantity" className="block text-left font-semibold text-gray-300">
-              Quantity
-            </label>
-            <input
-              type="number"
-              id="quantity"
-              name="quantity"
-              value={formData.quantity}
-              onChange={handleChange}
-              min="1"
-              required
-              className="w-full mt-2 p-3 rounded-lg shadow-inner border border-gray-600 bg-black text-white focus:outline-none focus:ring-2 focus:ring-emerald-400"
-              placeholder="How many would you like?"
-              aria-required="true"
-            />
           </div>
 
           {/* Message */}
@@ -195,9 +179,8 @@ const ContactPage = () => {
               onChange={handleChange}
               required
               rows={5}
-              className="w-full mt-2 p-3 rounded-lg shadow-inner border border-gray-600 bg-black text-white focus:outline-none focus:ring-2 focus:ring-emerald-400"
+              className="w-full mt-2 p-3 rounded-lg shadow-inner border border-gray-600 bg-black text-white"
               placeholder="Your Message"
-              aria-required="true"
             ></textarea>
           </div>
 
@@ -205,7 +188,6 @@ const ContactPage = () => {
           <button
             type="submit"
             className="w-full py-3 px-6 font-semibold rounded-lg shadow-md bg-white border border-[#FFD700] text-black hover:bg-[#ca8f70] hover:text-white transition duration-300"
-            aria-label="Submit the contact form"
           >
             Send Message
           </button>
@@ -218,4 +200,5 @@ const ContactPage = () => {
 };
 
 export default ContactPage;
+
 
