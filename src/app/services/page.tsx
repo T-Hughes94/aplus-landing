@@ -39,10 +39,21 @@ const ServicesPage = () => {
         className="relative isolate overflow-hidden p-10 md:p-24 text-center bg-black"
         aria-labelledby="services-hero-heading"
       >
+        {/* Animated radial gradient background */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-gradient-radial from-[#febf79] via-[#f8b870] to-[#ca8f70] opacity-80 animate-pulse-slow"
+        />
+        {/* Subtle radial dot pattern overlay */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-[radial-gradient(circle,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[length:40px_40px]"
+        />
+
         <div className="relative z-10 flex flex-col items-center justify-center space-y-6 max-w-4xl mx-auto">
           <h1
             id="services-hero-heading"
-            className="text-4xl md:text-5xl font-extrabold text-white tracking-tight"
+            className="text-4xl md:text-5xl font-extrabold text-white tracking-tight drop-shadow-lg"
           >
             Special Occasions & Gifting
           </h1>
@@ -53,12 +64,13 @@ const ServicesPage = () => {
         </div>
       </section>
 
+
       {/* Photo Highlight Section */}
       <section className="p-6 md:p-16 bg-black text-center" aria-labelledby="photo-highlight-heading">
         <h2 id="photo-highlight-heading" className="sr-only">Celebrations with A Plus Truffles</h2>
         <div className="mt-8 flex justify-center">
           <Image
-            src="/gallery6.webp"
+            src="/servicepic1.jpg"
             alt="Celebrations with A Plus Truffles"
             width={600}
             height={400}

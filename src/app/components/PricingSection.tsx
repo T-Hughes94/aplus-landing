@@ -16,13 +16,13 @@ const PricingSection = () => {
         <div className="bg-[#ca8f70] p-4 rounded-lg border border-[#FFD700] shadow-lg text-center md:p-6">
           <FaBoxOpen className="text-black text-4xl mx-auto mb-3 md:text-5xl" />
           <h3 className="text-xl font-semibold text-white md:text-2xl">Box of 4</h3>
-          <p className="text-lg font-bold text-white mt-1 md:mt-2">$15</p>
+          <p className="text-lg font-bold text-white mt-1 md:mt-2">$17</p>
         </div>
 
         <div className="bg-[#febf79] p-4 rounded-lg border border-[#FFD700] shadow-lg text-center md:p-6">
           <FaGift className="text-black text-4xl mx-auto mb-3 md:text-5xl" />
           <h3 className="text-xl font-semibold text-white md:text-2xl">Box of a Dozen</h3>
-          <p className="text-lg font-bold text-white mt-1 md:mt-2">$38</p>
+          <p className="text-lg font-bold text-white mt-1 md:mt-2">$17</p>
         </div>
 
         <div className="bg-[#ca8f70] p-4 rounded-lg border border-[#FFD700] shadow-lg text-center md:p-6">

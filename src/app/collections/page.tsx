@@ -14,7 +14,7 @@ export const metadata = {
     url: "https://yourwebsite.com/collections",
     images: [
       {
-        url: "/Apluslogo4.png", // Update to the appropriate collection image
+        url: "/Apluslogo4.png",
         width: 1200,
         height: 630,
         alt: "A Plus Truffles Collection",
@@ -23,7 +23,7 @@ export const metadata = {
     type: "website",
   },
   icons: {
-    icon: "/favicon.ico", // Ensure your favicon path is correct
+    icon: "/favicon.ico",
   },
 };
 
@@ -44,7 +44,7 @@ const collections: Collections[] = [
       { name: "Chocolate Lovers", emoji: "🍫", description: "A dream for chocolate aficionados." },
       { name: "Cookies n Cream", emoji: "🍪", description: "Crunchy cookie bits in velvety white chocolate." },
     ],
-    image: "/Apluslogo4.png",
+    image: "/ogpic.jpg",
   },
   {
     id: "seasonal-collection",
@@ -56,7 +56,7 @@ const collections: Collections[] = [
       { name: "Peppermint in Milk Chocolate", emoji: "🍬", description: "Cool peppermint wrapped in milk chocolate." },
       { name: "Cinnamon Chai", emoji: "☕", description: "Spiced chai flavors with a cinnamon kick." },
     ],
-    image: "/Apluslogo4.png",
+    image: "/seasonalpic.jpg",
   },
   {
     id: "advent-calendar",
@@ -85,17 +85,29 @@ const CollectionsPage: React.FC = () => {
 
       {/* Hero Section */}
       <section
-        className="relative bg-gradient-to-br from-[#febf79] via-[#febf79] to-[#ca8f70] p-10 md:p-24 text-center"
+        className="relative isolate overflow-hidden p-10 md:p-24 text-center bg-black"
         aria-labelledby="collections-hero-heading"
       >
-        <h1 id="collections-hero-heading" className="text-4xl font-bold mb-4 md:text-5xl text-black">
-          Explore Our Collections
-        </h1>
-        <p className="text-lg mt-2 md:text-2xl text-white">
-          Indulge in the exquisite flavors of our handcrafted vegan chocolates.
-        </p>
-        <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0]">
-          <hr className="border-[#FFD700] border-t-2" />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-gradient-radial from-[#febf79] via-[#f8b870] to-[#ca8f70] opacity-80"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-[radial-gradient(circle,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[length:40px_40px]"
+        />
+
+        <div className="relative z-10 flex flex-col items-center justify-center space-y-6 max-w-4xl mx-auto">
+          <h1
+            id="collections-hero-heading"
+            className="text-4xl md:text-5xl font-extrabold text-white tracking-tight drop-shadow-lg"
+          >
+            Explore Our Collections
+          </h1>
+          <p className="text-lg md:text-2xl text-white/90 max-w-2xl">
+            Indulge in the exquisite flavors of our handcrafted vegan chocolates.
+          </p>
+          <hr className="border-[#FFD700] border-t-2 w-20 mx-auto mt-4" />
         </div>
       </section>
 
@@ -107,17 +119,11 @@ const CollectionsPage: React.FC = () => {
           className="p-10 md:p-20 bg-black"
           aria-labelledby={`${collection.id}-heading`}
         >
-          <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12">
-            {/* Image */}
-            <div className="md:w-1/2">
-              <Image
-                src={collection.image}
-                alt={`${collection.title} image`}
-                width={500}
-                height={400}
-                className="rounded-lg shadow-lg transform transition-transform hover:scale-105"
-              />
-            </div>
+          <div
+            className={`max-w-7xl mx-auto flex flex-col-reverse ${
+              idx % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
+            } items-center gap-12`}
+          >
             {/* Text */}
             <div className="md:w-1/2">
               <h2
@@ -126,20 +132,33 @@ const CollectionsPage: React.FC = () => {
               >
                 {collection.title}
               </h2>
-              <div className="relative p-6 bg-gradient-to-br from-[#febf79] via-[#febf79] to-[#ca8f70] rounded-xl border-2 border-[#FFD700] shadow-2xl transform transition-transform duration-300 hover:scale-105">
+              <div className="relative p-6 bg-gradient-to-br from-[#febf79] via-[#febf79] to-[#ca8f70] rounded-xl border-2 border-[#FFD700] shadow-2xl">
                 <ul className="space-y-4">
                   {collection.flavors.map((flavor, flavorIdx) => (
                     <li key={flavorIdx} className="flex items-start">
-                      <span className="mr-4 text-2xl">{flavor.emoji}</span>
+                      <span className="mr-3 text-2xl">{flavor.emoji}</span>
                       <div>
-                        <h3 className="text-xl font-bold text-black">{flavor.name}</h3>
-                        <p className="text-lg text-white">{flavor.description}</p>
+                        <h3 className="text-lg font-semibold text-black">{flavor.name}</h3>
+                        <p className="text-sm text-white">{flavor.description}</p>
                       </div>
                     </li>
                   ))}
                 </ul>
-                <div className="absolute top-0 right-0 w-20 h-20 bg-[#FFD700] rounded-full opacity-30 blur-2xl -translate-x-6 -translate-y-6"></div>
-                <div className="absolute bottom-0 left-0 w-24 h-24 bg-[#FFD700] rounded-full opacity-30 blur-2xl translate-x-6 translate-y-6"></div>
+                <div className="absolute top-0 right-0 w-16 h-16 bg-[#FFD700] rounded-full opacity-30 blur-2xl -translate-x-4 -translate-y-4"></div>
+                <div className="absolute bottom-0 left-0 w-20 h-20 bg-[#FFD700] rounded-full opacity-30 blur-2xl translate-x-4 translate-y-4"></div>
+              </div>
+            </div>
+
+            {/* Image */}
+            <div className="md:w-1/2 flex justify-center">
+              <div className="w-full max-w-md h-auto aspect-[4/3] overflow-hidden rounded-lg shadow-lg transform transition-transform hover:scale-105">
+                <Image
+                  src={collection.image}
+                  alt={`${collection.title} image`}
+                  width={500}
+                  height={375}
+                  className="object-cover w-full h-full rounded-lg"
+                />
               </div>
             </div>
           </div>
@@ -155,7 +174,7 @@ const CollectionsPage: React.FC = () => {
           Discover Your Favorites
         </h2>
         <p className="mt-4 text-base text-gray-200 md:text-lg">
-          Ready to treat yourself? Explore our collections and find your new favorite truffles.
+          Ready to treat yourself or place a custom order? Reach out and we’ll make something special just for you.
         </p>
         <Link href="/contact">
           <button
@@ -173,6 +192,7 @@ const CollectionsPage: React.FC = () => {
 };
 
 export default CollectionsPage;
+
 
 
 

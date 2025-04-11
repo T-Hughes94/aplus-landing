@@ -4,13 +4,15 @@ import { useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
-const collections = ["OG Collection", "Seasonal Collection (December)", "Advent Calendar"];
+const collections = ["OG Collection", "Seasonal Collection (December)", "Trashcan Truffles"];
+const boxOptions = ["Box of 4", "Box of Dozen"];
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     collection: "",
+    boxType: "",
     quantity: "",
     message: "",
   });
@@ -29,6 +31,7 @@ const ContactPage = () => {
       name: "",
       email: "",
       collection: "",
+      boxType: "",
       quantity: "",
       message: "",
     });
@@ -40,30 +43,40 @@ const ContactPage = () => {
 
       {/* Hero Section */}
       <section
-        className="relative bg-gradient-to-br from-[#febf79] via-[#febf79] to-[#ca8f70] text-center p-10 md:p-24"
+        className="relative isolate overflow-hidden p-10 md:p-24 text-center bg-black"
         aria-labelledby="contact-hero-heading"
       >
-        <h1 id="contact-hero-heading" className="text-4xl font-bold mb-4 md:text-5xl text-black">
-          Get in Touch
-        </h1>
-        <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0]">
-          <hr className="border-[#FFD700] border-t-2" />
+        {/* Animated radial gradient background */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-gradient-radial from-[#febf79] via-[#f8b870] to-[#ca8f70] opacity-80 animate-pulse-slow"
+        />
+        {/* Subtle dot pattern overlay */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-[radial-gradient(circle,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[length:40px_40px]"
+        />
+
+        <div className="relative z-10 flex flex-col items-center justify-center space-y-6 max-w-4xl mx-auto">
+          <h1
+            id="contact-hero-heading"
+            className="text-4xl md:text-5xl font-extrabold text-white tracking-tight drop-shadow-lg"
+          >
+            Get in Touch
+          </h1>
+          <p className="text-lg md:text-2xl text-white/90 max-w-2xl">
+            Whether you’re placing an order or simply saying hello, we’d love to hear from you.
+          </p>
+          <hr className="border-[#FFD700] border-t-2 w-20 mx-auto mt-4" />
         </div>
       </section>
+
 
       {/* Contact Form Section */}
       <section
         className="p-10 md:p-20 bg-black text-center"
         aria-labelledby="contact-form-heading"
       >
-        <h2 id="contact-form-heading" className="text-3xl font-bold text-white underline decoration-[#ca8f70] md:text-4xl">
-          Reach Out to Us
-        </h2>
-        <p className="text-base text-white mt-4 md:text-lg max-w-2xl mx-auto">
-          Whether you’re interested in placing an order, learning more about our process, or simply saying hello,
-          we’re here to help. Fill out the form below, and we’ll get back to you as soon as possible.
-        </p>
-
         <form
           onSubmit={handleSubmit}
           className="mt-8 max-w-lg mx-auto bg-gradient-to-br from-[#ca8f70] via-[#ca8f70] to-[#febf79] p-8 md:p-12 rounded-xl shadow-2xl"
@@ -105,10 +118,10 @@ const ContactPage = () => {
             />
           </div>
 
-          {/* Collection */}
+          {/* Truffle Collection */}
           <div className="mb-6">
             <label htmlFor="collection" className="block text-left font-semibold text-gray-300">
-              Which Collection Are You Interested In?
+              Choose Your Collection
             </label>
             <select
               id="collection"
@@ -128,6 +141,29 @@ const ContactPage = () => {
             </select>
           </div>
 
+          {/* Box Type */}
+          <div className="mb-6">
+            <label htmlFor="boxType" className="block text-left font-semibold text-gray-300">
+              Choose Your Box Size
+            </label>
+            <select
+              id="boxType"
+              name="boxType"
+              value={formData.boxType}
+              onChange={handleChange}
+              required
+              className="w-full mt-2 p-3 rounded-lg shadow-inner border border-gray-600 bg-black text-white focus:outline-none focus:ring-2 focus:ring-emerald-400"
+              aria-required="true"
+            >
+              <option value="">Select a Box</option>
+              {boxOptions.map((option, idx) => (
+                <option key={idx} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
+
           {/* Quantity */}
           <div className="mb-6">
             <label htmlFor="quantity" className="block text-left font-semibold text-gray-300">
@@ -142,7 +178,7 @@ const ContactPage = () => {
               min="1"
               required
               className="w-full mt-2 p-3 rounded-lg shadow-inner border border-gray-600 bg-black text-white focus:outline-none focus:ring-2 focus:ring-emerald-400"
-              placeholder="How many packages would you like?"
+              placeholder="How many would you like?"
               aria-required="true"
             />
           </div>
@@ -165,6 +201,7 @@ const ContactPage = () => {
             ></textarea>
           </div>
 
+          {/* Submit */}
           <button
             type="submit"
             className="w-full py-3 px-6 font-semibold rounded-lg shadow-md bg-white border border-[#FFD700] text-black hover:bg-[#ca8f70] hover:text-white transition duration-300"
@@ -181,3 +218,4 @@ const ContactPage = () => {
 };
 
 export default ContactPage;
+
