@@ -57,25 +57,7 @@ const collections: Collections[] = [
       { name: "Cinnamon Chai", emoji: "☕", description: "Spiced chai flavors with a cinnamon kick." },
     ],
     image: "/seasonalpic.jpg",
-  },
-  {
-    id: "advent-calendar",
-    title: "Advent Calendar",
-    flavors: [
-      { name: "Hot Cocoa", emoji: "☕", description: "Classic hot cocoa in truffle form." },
-      { name: "Creme Brule", emoji: "🍮", description: "Caramelized sugar with a creamy center." },
-      { name: "Peppermint in Dark", emoji: "🍬", description: "Bold dark chocolate with a peppermint burst." },
-      { name: "Peppermint in White", emoji: "🍬", description: "Cool peppermint in smooth white chocolate." },
-      { name: "Cinnamon Caramel Crunch", emoji: "🍬", description: "Crispy caramel with a hint of cinnamon." },
-      { name: "No Egg Nog", emoji: "🥚", description: "Non-dairy twist on the holiday classic." },
-      { name: "PB Cups in White", emoji: "🥜", description: "Peanut butter in creamy white chocolate." },
-      { name: "PB Cups in Dark", emoji: "🥜", description: "Peanut butter encased in bold dark chocolate." },
-      { name: "Peppermint Patties", emoji: "🍬", description: "Refreshing peppermint covered in chocolate." },
-      { name: "Cranberry Caramel", emoji: "🍇", description: "Tangy cranberry meets smooth caramel." },
-      { name: "Fruit & Nut Mendiants", emoji: "🍎", description: "A medley of fruits and nuts in chocolate." },
-    ],
-    image: "/Apluslogo4.png",
-  },
+  }
 ];
 
 const CollectionsPage: React.FC = () => {
@@ -158,6 +140,7 @@ const CollectionsPage: React.FC = () => {
                   width={500}
                   height={375}
                   className="object-cover w-full h-full rounded-lg"
+                  priority
                 />
               </div>
             </div>
@@ -192,6 +175,7 @@ const CollectionsPage: React.FC = () => {
 };
 
 export default CollectionsPage;
+
 
 
 

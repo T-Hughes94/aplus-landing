@@ -4,7 +4,6 @@ import { FaGift, FaHeart, FaBaby, FaBirthdayCake } from "react-icons/fa";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
-// Metadata for the Services Page
 export const metadata = {
   title: "Services - A Plus Truffles",
   description:
@@ -34,27 +33,18 @@ const ServicesPage = () => {
     <main className="bg-black text-white font-custom" role="main">
       <Header />
 
-      {/* Hero Section */}
-      <section
-        className="relative isolate overflow-hidden p-10 md:p-24 text-center bg-black"
-        aria-labelledby="services-hero-heading"
-      >
-        {/* Animated radial gradient background */}
+      {/* Hero */}
+      <section className="relative isolate overflow-hidden p-10 md:p-24 text-center bg-black">
         <div
           aria-hidden="true"
           className="absolute inset-0 bg-gradient-radial from-[#febf79] via-[#f8b870] to-[#ca8f70] opacity-80 animate-pulse-slow"
         />
-        {/* Subtle radial dot pattern overlay */}
         <div
           aria-hidden="true"
           className="absolute inset-0 bg-[radial-gradient(circle,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[length:40px_40px]"
         />
-
         <div className="relative z-10 flex flex-col items-center justify-center space-y-6 max-w-4xl mx-auto">
-          <h1
-            id="services-hero-heading"
-            className="text-4xl md:text-5xl font-extrabold text-white tracking-tight drop-shadow-lg"
-          >
+          <h1 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight drop-shadow-lg">
             Special Occasions & Gifting
           </h1>
           <p className="text-lg md:text-2xl text-white/90 max-w-2xl">
@@ -64,10 +54,8 @@ const ServicesPage = () => {
         </div>
       </section>
 
-
-      {/* Photo Highlight Section */}
-      <section className="p-6 md:p-16 bg-black text-center" aria-labelledby="photo-highlight-heading">
-        <h2 id="photo-highlight-heading" className="sr-only">Celebrations with A Plus Truffles</h2>
+      {/* Image Highlight */}
+      <section className="p-6 md:p-16 bg-black text-center">
         <div className="mt-8 flex justify-center">
           <Image
             src="/servicepic1.jpg"
@@ -83,20 +71,16 @@ const ServicesPage = () => {
         </p>
       </section>
 
-      {/* Services Section */}
-      <section className="p-6 md:p-16 bg-black text-center" aria-labelledby="services-heading">
-        <h2
-          id="services-heading"
-          className="text-3xl font-bold text-white underline decoration-[#ca8f70] md:text-4xl"
-        >
+      {/* Services Grid (Updated) */}
+      <section className="p-6 md:p-16 bg-black text-center">
+        <h2 className="text-3xl font-bold text-white underline decoration-[#ca8f70] md:text-4xl">
           Perfect for Every Occasion
         </h2>
         <p className="mt-4 text-lg text-white max-w-2xl mx-auto md:text-xl">
-          Our beautifully crafted vegan truffles make a memorable addition to any event. Here are just a few of the
-          special occasions where A Plus Truffles can add that perfect touch.
+          Our handcrafted vegan truffles add elegance to every celebration.
         </p>
 
-        <div className="grid grid-cols-1 gap-8 mt-12 max-w-4xl mx-auto md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-12 mt-12 max-w-4xl mx-auto md:grid-cols-2">
           {[
             {
               icon: FaHeart,
@@ -125,64 +109,44 @@ const ServicesPage = () => {
           ].map(({ icon: Icon, title, text, color }, index) => (
             <div
               key={index}
-              className="relative pt-14 pb-8 bg-black text-white rounded-lg shadow-lg border transform transition-transform hover:scale-105 hover:shadow-2xl flex flex-col items-center"
-              style={{ borderColor: color, borderWidth: "2px" }}
-              aria-labelledby={`service-title-${index}`}
+              className="relative pt-16 pb-12 bg-[#ca8f70] rounded-lg shadow-lg border border-[#FFD700] transform transition-transform hover:scale-105 hover:shadow-2xl flex flex-col items-center"
             >
               <div
-                className="absolute -top-10 bg-black rounded-full p-5 shadow-md border-2"
-                style={{ borderColor: color }}
+                className="absolute -top-12 bg-black rounded-full p-5 shadow-md border-4"
+                style={{ borderColor: "#ffffff", zIndex: 1 }}
                 aria-hidden="true"
               >
-                <Icon className="text-5xl" style={{ color: color }} />
+                <Icon className="text-5xl md:text-6xl" style={{ color: color }} />
               </div>
               <div className="mt-16 text-center">
-                <h3
-                  id={`service-title-${index}`}
-                  className="text-xl font-bold"
-                  style={{ color: color }}
-                >
-                  {title}
-                </h3>
-                <p className="mt-2 text-gray-300">{text}</p>
+                <h3 className="text-2xl font-bold text-white">{title}</h3>
+                <p className="text-lg md:text-xl mt-3 text-black">{text}</p>
               </div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Gift Box Highlight */}
-      <section
-        className="p-6 md:p-16 bg-black text-center"
-        aria-labelledby="gift-highlight-heading"
-      >
-        <h3
-          id="gift-highlight-heading"
-          className="text-3xl font-bold text-white underline decoration-[#ca8f70] md:text-4xl"
-        >
+      {/* Gift CTA */}
+      <section className="p-6 md:p-16 bg-black text-center">
+        <h3 className="text-3xl font-bold text-white underline decoration-[#ca8f70] md:text-4xl">
           A Gift That Always Delights
         </h3>
         <p className="mt-4 text-lg text-white max-w-2xl mx-auto">
-          It&apos;s a simple process to &quot;choose&quot; the best options for your needs.
+          Choose from our ready-made boxes or reach out to build something custom.
         </p>
         <div className="mt-8">
           <Link href="/gallery">
-            <button
-              className="px-6 py-3 bg-[#ca8f70] text-white font-semibold rounded-lg shadow-md hover:bg-[#febf79] hover:text-black border border-[#FFD700] transition duration-300"
-              aria-label="Explore our gallery"
-            >
+            <button className="px-6 py-3 bg-[#ca8f70] text-white font-semibold rounded-lg shadow-md hover:bg-[#febf79] hover:text-black border border-[#FFD700] transition duration-300">
               Explore Our Gallery
             </button>
           </Link>
         </div>
       </section>
 
-      {/* Call to Action */}
-      <section
-        className="p-6 md:p-16 bg-gradient-to-br from-[#ca8f70] via-[#ca8f70] to-[#febf79] text-center"
-        aria-labelledby="cta-heading"
-      >
-        <h2 id="cta-heading" className="text-3xl font-bold text-white md:text-4xl">
+      {/* Contact CTA */}
+      <section className="p-6 md:p-16 bg-gradient-to-br from-[#ca8f70] via-[#ca8f70] to-[#febf79] text-center">
+        <h2 className="text-3xl font-bold text-white md:text-4xl">
           Planning an Event?
         </h2>
         <p className="mt-4 text-lg text-white">
@@ -190,10 +154,7 @@ const ServicesPage = () => {
         </p>
         <div className="mt-8">
           <Link href="/contact">
-            <button
-              className="px-6 py-3 bg-white text-black font-semibold rounded-lg border border-[#FFD700] shadow-md hover:bg-[#ca8f70] hover:text-white transition duration-300"
-              aria-label="Contact us to plan your event"
-            >
+            <button className="px-6 py-3 bg-white text-black font-semibold rounded-lg border border-[#FFD700] shadow-md hover:bg-[#ca8f70] hover:text-white transition duration-300">
               Contact Us
             </button>
           </Link>
@@ -206,6 +167,7 @@ const ServicesPage = () => {
 };
 
 export default ServicesPage;
+
 
 
 

@@ -5,7 +5,7 @@ import { HiOutlineMail } from "react-icons/hi";
 
 const Footer = () => {
   return (
-    <footer className="relative bg-black border border-[#FFD700] text-white p-8 md:p-12">
+    <footer className="relative bg-black border border-white text-white p-8 md:p-12">
       <div className="max-w-6xl mx-auto grid gap-8 text-center md:text-left md:grid-cols-3">
         
         {/* Company Info */}

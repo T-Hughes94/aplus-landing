@@ -31,18 +31,15 @@ const AboutPage = () => {
     <main className="bg-black text-white font-custom" role="main">
       <Header />
 
-     
-          {/* Hero Section */}
+      {/* Hero Section */}
       <section
         className="relative isolate overflow-hidden p-10 md:p-24 text-center bg-black"
         aria-labelledby="about-hero-heading"
       >
-        {/* Radial gradient background */}
         <div
           aria-hidden="true"
           className="absolute inset-0 bg-gradient-radial from-[#febf79] via-[#f8b870] to-[#ca8f70] opacity-80 animate-pulse-slow"
         />
-        {/* Subtle dot pattern overlay */}
         <div
           aria-hidden="true"
           className="absolute inset-0 bg-[radial-gradient(circle,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[length:40px_40px]"
@@ -62,8 +59,6 @@ const AboutPage = () => {
         </div>
       </section>
 
-
-
       {/* Commitment to Quality Section */}
       <section
         className="p-6 md:p-16 bg-black text-center"
@@ -77,22 +72,22 @@ const AboutPage = () => {
         </h2>
         <div className="grid grid-cols-1 gap-16 mt-20 max-w-4xl mx-auto md:grid-cols-2">
           {[
-            { icon: FaLeaf, title: "100% Vegan", text: "Plant-based ingredients in every truffle.", color: "#febf79" },
-            { icon: FaHandHoldingHeart, title: "Fair-Trade Sourced", text: "Supporting ethical sourcing practices.", color: "#febf79" },
-            { icon: FaPaintBrush, title: "Hand-Painted", text: "Every truffle an edible work of art.", color: "#febf79" },
-            { icon: FaSeedling, title: "Sustainably Sourced", text: "Crafted with respect for the environment.", color: "#febf79" },
-          ].map(({ icon: Icon, title, text, color }, index) => (
+            { icon: FaLeaf, title: "100% Vegan", text: "Plant-based ingredients in every truffle." },
+            { icon: FaHandHoldingHeart, title: "Fair-Trade Sourced", text: "Supporting ethical sourcing practices." },
+            { icon: FaPaintBrush, title: "Hand-Painted", text: "Every truffle an edible work of art." },
+            { icon: FaSeedling, title: "Sustainably Sourced", text: "Crafted with respect for the environment." },
+          ].map(({ icon: Icon, title, text }, index) => (
             <div
               key={index}
-              className="relative pt-16 pb-12 bg-[#ca8f70] rounded-lg shadow-lg border border-[#FFD700] transform transition-transform hover:scale-105 hover:shadow-2xl flex flex-col items-center"
+              className="relative pt-16 pb-12 bg-[#ca8f70] rounded-lg shadow-lg border border-white transform transition-transform hover:scale-105 hover:shadow-2xl flex flex-col items-center"
               style={{ minHeight: "250px" }}
             >
               <div
                 className="absolute -top-12 bg-black rounded-full p-5 shadow-md border-4"
-                style={{ borderColor: color, zIndex: 1 }}
+                style={{ borderColor: "#ffffff", zIndex: 1 }}
                 aria-hidden="true"
               >
-                <Icon className="text-5xl md:text-6xl" style={{ color: color }} />
+                <Icon className="text-5xl md:text-6xl" style={{ color: "#febf79" }} />
               </div>
               <div className="mt-16 text-center">
                 <h3 className="text-2xl font-bold text-white">{title}</h3>
@@ -157,6 +152,7 @@ const AboutPage = () => {
 };
 
 export default AboutPage;
+
 
 
 

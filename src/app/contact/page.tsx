@@ -20,6 +20,10 @@ const ContactPage = () => {
     message: "",
   });
 
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+
+  type FormField = keyof typeof formData;
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
@@ -29,33 +33,31 @@ const ContactPage = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
     if (!form.current) return;
 
-    emailjs
-      .sendForm(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
-        form.current,
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
-      )
-      .then(
-        () => {
-          alert("Message sent successfully!");
-          setFormData({
-            name: "",
-            email: "",
-            collection: "",
-            boxType: "",
-            quantity: "",
-            message: "",
-          });
-        },
-        (error) => {
-          alert("Failed to send message. Please try again later.");
-          console.error("EmailJS Error:", error);
-        }
-      );
+    const serviceID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "your_fallback_service_id";
+    const templateID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "your_fallback_template_id";
+    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "your_fallback_public_key";
+
+    console.log("ENV CHECK:", { serviceID, templateID, publicKey });
+
+    emailjs.sendForm(serviceID, templateID, form.current, publicKey).then(
+      () => {
+        setStatus("success");
+        setFormData({
+          name: "",
+          email: "",
+          collection: "",
+          boxType: "",
+          quantity: "",
+          message: "",
+        });
+      },
+      (error) => {
+        console.error("EmailJS Error:", error);
+        setStatus("error");
+      }
+    );
   };
 
   return (
@@ -63,10 +65,7 @@ const ContactPage = () => {
       <Header />
 
       {/* Hero Section */}
-      <section
-        className="relative isolate overflow-hidden p-10 md:p-24 text-center bg-black"
-        aria-labelledby="contact-hero-heading"
-      >
+      <section className="relative isolate overflow-hidden p-10 md:p-24 text-center bg-black">
         <div
           aria-hidden="true"
           className="absolute inset-0 bg-gradient-radial from-[#febf79] via-[#f8b870] to-[#ca8f70] opacity-80 animate-pulse-slow"
@@ -76,10 +75,7 @@ const ContactPage = () => {
           className="absolute inset-0 bg-[radial-gradient(circle,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[length:40px_40px]"
         />
         <div className="relative z-10 flex flex-col items-center justify-center space-y-6 max-w-4xl mx-auto">
-          <h1
-            id="contact-hero-heading"
-            className="text-4xl md:text-5xl font-extrabold text-white tracking-tight drop-shadow-lg"
-          >
+          <h1 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight drop-shadow-lg">
             Get in Touch
           </h1>
           <p className="text-lg md:text-2xl text-white/90 max-w-2xl">
@@ -90,10 +86,7 @@ const ContactPage = () => {
       </section>
 
       {/* Contact Form */}
-      <section
-        className="p-10 md:p-20 bg-black text-center"
-        aria-labelledby="contact-form-heading"
-      >
+      <section className="p-10 md:p-20 bg-black text-center">
         <form
           ref={form}
           onSubmit={handleSubmit}
@@ -113,7 +106,7 @@ const ContactPage = () => {
                 type={type}
                 id={name}
                 name={name}
-                value={(formData as any)[name]}
+                value={formData[name as FormField]}
                 onChange={handleChange}
                 required
                 className="w-full mt-2 p-3 rounded-lg shadow-inner border border-gray-600 bg-black text-white focus:outline-none focus:ring-2 focus:ring-emerald-400"
@@ -191,6 +184,14 @@ const ContactPage = () => {
           >
             Send Message
           </button>
+
+          {/* Status messages */}
+          {status === "success" && (
+            <p className="mt-4 text-green-500 font-medium">Message sent successfully!</p>
+          )}
+          {status === "error" && (
+            <p className="mt-4 text-red-500 font-medium">Message failed. Please try again.</p>
+          )}
         </form>
       </section>
 
@@ -200,5 +201,10 @@ const ContactPage = () => {
 };
 
 export default ContactPage;
+
+
+
+
+
 
 
