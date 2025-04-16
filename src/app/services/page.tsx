@@ -82,7 +82,7 @@ const ServicesPage = () => {
         <div className="grid grid-cols-1 gap-12 mt-12 max-w-4xl mx-auto md:grid-cols-2">
           {[
             {
-              src: "/icon1.jpg",
+              src: "/icon5.png",
               title: "Weddings",
               text: "Elegant and delicious favors your guests will love.",
             },
