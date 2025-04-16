@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { FaGift, FaHeart, FaBaby, FaBirthdayCake } from "react-icons/fa";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
@@ -58,7 +57,7 @@ const ServicesPage = () => {
       <section className="p-6 md:p-16 bg-black text-center">
         <div className="mt-8 flex justify-center">
           <Image
-            src="/servicepic1.jpg"
+            src="/gallery2.webp"
             alt="Celebrations with A Plus Truffles"
             width={600}
             height={400}
@@ -67,11 +66,11 @@ const ServicesPage = () => {
           />
         </div>
         <p className="mt-4 text-lg text-white max-w-2xl mx-auto md:text-xl">
-          A glimpse of our beautifully crafted truffles, made to delight and elevate every occasion.
+          A glimpse of our beautifully crafted truffles, and custom dislpays made to delight and elevate every occasion.
         </p>
       </section>
 
-      {/* Services Grid (Updated) */}
+      {/* Services Grid with Truffle Images */}
       <section className="p-6 md:p-16 bg-black text-center">
         <h2 className="text-3xl font-bold text-white underline decoration-[#ca8f70] md:text-4xl">
           Perfect for Every Occasion
@@ -83,40 +82,42 @@ const ServicesPage = () => {
         <div className="grid grid-cols-1 gap-12 mt-12 max-w-4xl mx-auto md:grid-cols-2">
           {[
             {
-              icon: FaHeart,
+              src: "/icon1.jpg",
               title: "Weddings",
               text: "Elegant and delicious favors your guests will love.",
-              color: "#ca8f70",
             },
             {
-              icon: FaBaby,
+              src: "/icon2.jpg",
               title: "Baby Showers",
               text: "Celebrate with treats that are as sweet as the new arrival.",
-              color: "#febf79",
             },
             {
-              icon: FaGift,
+              src: "/icon3.jpg",
               title: "Bridal Showers",
               text: "Add a touch of sweetness to pre-wedding celebrations.",
-              color: "#ca8f70",
             },
             {
-              icon: FaBirthdayCake,
+              src: "/icon4.jpg",
               title: "Birthdays",
               text: "Make birthdays extra special with a truffle treat.",
-              color: "#febf79",
             },
-          ].map(({ icon: Icon, title, text, color }, index) => (
+          ].map(({ src, title, text }, index) => (
             <div
               key={index}
               className="relative pt-16 pb-12 bg-[#ca8f70] rounded-lg shadow-lg border border-[#FFD700] transform transition-transform hover:scale-105 hover:shadow-2xl flex flex-col items-center"
             >
               <div
-                className="absolute -top-12 bg-black rounded-full p-5 shadow-md border-4"
-                style={{ borderColor: "#ffffff", zIndex: 1 }}
+                className="absolute -top-12 w-24 h-24 rounded-full overflow-hidden shadow-md border-4 border-white bg-white"
+                style={{ zIndex: 1 }}
                 aria-hidden="true"
               >
-                <Icon className="text-5xl md:text-6xl" style={{ color: color }} />
+                <Image
+                  src={src}
+                  alt={`${title} icon`}
+                  width={96}
+                  height={96}
+                  className="object-cover w-full h-full"
+                />
               </div>
               <div className="mt-16 text-center">
                 <h3 className="text-2xl font-bold text-white">{title}</h3>
@@ -127,7 +128,7 @@ const ServicesPage = () => {
         </div>
       </section>
 
-      {/* Gift CTA */}
+      {/* Gallery CTA */}
       <section className="p-6 md:p-16 bg-black text-center">
         <h3 className="text-3xl font-bold text-white underline decoration-[#ca8f70] md:text-4xl">
           A Gift That Always Delights
@@ -167,6 +168,7 @@ const ServicesPage = () => {
 };
 
 export default ServicesPage;
+
 
 
 
