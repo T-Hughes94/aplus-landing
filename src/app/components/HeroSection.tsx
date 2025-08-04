@@ -1,12 +1,12 @@
-import Image from "next/legacy/image";
+import Image from "next/image";
 import Link from "next/link";
 
 const HeroSection = () => {
   return (
-    <section className="relative bg-black px-4 py-10 md:py-20 md:px-16 text-center md:text-left">
+    <section className="relative bg-black px-4 py-10 md:py-20 md:px-16 text-center md:text-left overflow-hidden">
       <div className="relative z-10 flex flex-col-reverse md:flex-row items-center justify-between gap-10 md:gap-20">
         
-        {/* Left: Text Content */}
+        {/* Text Section */}
         <div className="text-white space-y-6 md:w-1/2">
           <h1 className="text-3xl font-extrabold underline decoration-[#febf79] leading-snug md:text-5xl">
             Handcrafted in Small Batches
@@ -32,32 +32,28 @@ const HeroSection = () => {
           </div>
         </div>
 
-        {/* Right: Image */}
+        {/* Image Section */}
         <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto md:mx-0">
-          <div className="transform hover:scale-105 transition-transform duration-300">
+          <div className="transform hover:scale-105 transition-transform duration-300 will-change-transform">
             <Image
               src="/truffle2.webp"
               alt="Hand-painted vegan truffles"
-              width={500}
-              height={500}
-              className="rounded-lg shadow-lg w-full h-auto"
-              priority
-              style={{
-                border: "4px solid white",
-                borderRadius: "12px",
-              }}
+              width={300}
+              height={300}
+              priority // or remove if not needed for initial LCP
             />
           </div>
         </div>
       </div>
 
-      {/* Divider Line */}
+      {/* Divider */}
       <div className="absolute bottom-0 left-0 w-full h-[4px] bg-white"></div>
     </section>
   );
 };
 
 export default HeroSection;
+
 
 
 

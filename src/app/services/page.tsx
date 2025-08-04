@@ -11,7 +11,7 @@ export const metadata = {
     title: "Services - A Plus Truffles",
     description:
       "Handcrafted vegan truffles to celebrate life's sweetest moments, from weddings to birthdays.",
-    url: "https://yourwebsite.com/services",
+    url: "https://aplus-truffles.vercel.app/services",
     images: [
       {
         url: "/gallery6.webp",
@@ -66,11 +66,11 @@ const ServicesPage = () => {
           />
         </div>
         <p className="mt-4 text-lg text-white max-w-2xl mx-auto md:text-xl">
-          A glimpse of our beautifully crafted truffles, and custom dislpays made to delight and elevate every occasion.
+          A glimpse of our beautifully crafted truffles, and custom displays made to delight and elevate every occasion.
         </p>
       </section>
 
-      {/* Services Grid with Truffle Images */}
+      {/* Services Grid */}
       <section className="p-6 md:p-16 bg-black text-center">
         <h2 className="text-3xl font-bold text-white underline decoration-[#ca8f70] md:text-4xl">
           Perfect for Every Occasion
@@ -82,45 +82,41 @@ const ServicesPage = () => {
         <div className="grid grid-cols-1 gap-12 mt-12 max-w-4xl mx-auto md:grid-cols-2">
           {[
             {
-              src: "/icon5.png",
               title: "Weddings",
               text: "Elegant and delicious favors your guests will love.",
             },
             {
-              src: "/icon2.jpg",
               title: "Baby Showers",
               text: "Celebrate with treats that are as sweet as the new arrival.",
             },
             {
-              src: "/icon3.jpg",
               title: "Bridal Showers",
               text: "Add a touch of sweetness to pre-wedding celebrations.",
             },
             {
-              src: "/icon4.jpg",
               title: "Birthdays",
               text: "Make birthdays extra special with a truffle treat.",
             },
-          ].map(({ src, title, text }, index) => (
+          ].map(({ title, text }, index) => (
             <div
               key={index}
-              className="relative pt-16 pb-12 bg-[#ca8f70] rounded-lg shadow-lg border border-[#FFD700] transform transition-transform hover:scale-105 hover:shadow-2xl flex flex-col items-center"
+              className="relative pt-20 pb-12 bg-[#ca8f70] rounded-lg shadow-lg border border-[#FFD700] transform transition-transform hover:scale-105 hover:shadow-2xl flex flex-col items-center"
             >
+              {/* Large floating truffle icon with soft shadow + hover glow */}
               <div
-                className="absolute -top-12 w-24 h-24 rounded-full overflow-hidden shadow-md border-4 border-white bg-white"
-                style={{ zIndex: 1 }}
+                className="absolute -top-[110px] z-10 w-[500px] h-[240px] flex items-center justify-center"
                 aria-hidden="true"
               >
                 <Image
-                  src={src}
-                  alt={`${title} icon`}
-                  width={96}
-                  height={96}
-                  className="object-cover w-full h-full"
+                  src="/icon4.png"
+                  alt="Truffle"
+                  width={220}
+                  height={420}
+                  className="object-contain drop-shadow-md hover:drop-shadow-glow transition duration-300"
                 />
               </div>
-              <div className="mt-16 text-center">
-                <h3 className="text-2xl font-bold text-white">{title}</h3>
+              <div className="mt-4 text-center">
+                <h3 className="text-3xl font-bold pt-2 text-white">{title}</h3>
                 <p className="text-lg md:text-xl mt-3 text-black">{text}</p>
               </div>
             </div>
@@ -168,6 +164,14 @@ const ServicesPage = () => {
 };
 
 export default ServicesPage;
+
+
+
+
+
+
+
+
 
 
 

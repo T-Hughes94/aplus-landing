@@ -7,3 +7,6 @@
 @tailwind components;
 @tailwind utilities;
 
+.drop-shadow-glow {
+    filter: drop-shadow(0 0 12px #FFD700);
+  }

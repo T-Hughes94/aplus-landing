@@ -26,7 +26,9 @@ const PricingSection = () => {
   return (
     <section className="relative bg-black p-4 md:p-8 lg:p-16 pt-12 md:pt-20 pb-8 md:pb-12 z-10">
       <div className="text-center mb-8 md:mb-12">
-        <h2 className="text-3xl font-bold text-white underline decoration-[#ca8f70] md:text-4xl">Pricing</h2>
+        <h2 className="text-3xl font-bold text-white underline decoration-[#ca8f70] md:text-4xl">
+          Pricing
+        </h2>
         <p className="text-base text-white mt-2 md:text-lg">
           Choose your favorite truffles and have them delivered within 15 miles of Wayne, NJ – or opt for free pickup!
         </p>
@@ -38,8 +40,8 @@ const PricingSection = () => {
           <Link
             key={idx}
             href="/contact"
-            className={`${bg} p-4 md:p-6 rounded-lg border border-[#FFD700] shadow-lg text-center cursor-pointer transform transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#FFD700]`}
             aria-label={`Order ${title}`}
+            className={`${bg} p-4 md:p-6 rounded-lg border border-[#FFD700] shadow-lg text-center cursor-pointer transform hover:scale-[1.03] transition-transform duration-300 will-change-transform focus:outline-none focus:ring-2 focus:ring-[#FFD700]`}
           >
             {icon}
             <h3 className="text-xl font-semibold text-white md:text-2xl">{title}</h3>
@@ -48,26 +50,27 @@ const PricingSection = () => {
         ))}
       </div>
 
-      {/* Delivery and CTA */}
+      {/* Delivery Note and CTA */}
       <div className="text-center mt-8 md:mt-12 relative z-20">
         <p className="text-white text-base md:text-lg">
           Delivery is free within 15 miles of Wayne, NJ, or opt for free pickup!
         </p>
         <Link
           href="/contact"
-          className="inline-block mt-4 px-4 py-2 md:px-6 md:py-3 border border-[#FFD700] bg-[#febf79] text-white font-semibold rounded-lg shadow-md hover:bg-[#ca8f70] hover:text-white transition duration-300 text-sm md:text-base"
           aria-label="Contact us to place an order"
+          className="inline-block mt-4 px-4 py-2 md:px-6 md:py-3 border border-[#FFD700] bg-[#febf79] text-white font-semibold rounded-lg shadow-md hover:bg-[#ca8f70] hover:text-white transition duration-300 text-sm md:text-base"
         >
           Contact Us to Order
         </Link>
       </div>
 
-      <div className="absolute bottom-0 left-0 w-full h-[4px] bg-white"></div>
+      <div className="absolute bottom-0 left-0 w-full h-[4px] bg-white" />
     </section>
   );
 };
 
 export default PricingSection;
+
 
 
 
