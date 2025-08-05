@@ -41,6 +41,7 @@ const Header = () => {
           <Link href="/" className="hover:text-[#ca8f70] transition">Home</Link>
           <Link href="/about" className="hover:text-[#febf79] transition">About</Link>
           <Link href="/services" className="hover:text-[#ca8f70] transition">Services</Link>
+          <Link href="/shipping" className="hover:text-[#ca8f70] transition">Shipping</Link>
           <Link href="/gallery" className="hover:text-[#febf79] transition">Gallery</Link>
 
           {/* Dropdown */}
