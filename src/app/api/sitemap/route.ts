@@ -6,7 +6,8 @@ export async function GET() {
     const pages = [
         "/",               // Home
         "/about",          // About
-        "/services",       // Services 
+        "/services",
+        "/shipping",       // Services 
         "/gallery",        // Gallery
         "/collections",    // Collections 
         "/contact"

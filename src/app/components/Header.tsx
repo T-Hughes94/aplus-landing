@@ -41,6 +41,7 @@ const Header = () => {
           <Link href="/" className="hover:text-[#ca8f70] transition">Home</Link>
           <Link href="/about" className="hover:text-[#febf79] transition">About</Link>
           <Link href="/services" className="hover:text-[#ca8f70] transition">Services</Link>
+          <Link href="/shop" className="hover:text-[#ca8f70] transition">Shop</Link>
           <Link href="/shipping" className="hover:text-[#ca8f70] transition">Shipping</Link>
           <Link href="/gallery" className="hover:text-[#febf79] transition">Gallery</Link>
 
@@ -108,6 +109,8 @@ const Header = () => {
           <Link href="/" className="block py-2 hover:bg-[#febf79] rounded-md text-white">Home</Link>
           <Link href="/about" className="block py-2 hover:bg-[#febf79] rounded-md text-white">About</Link>
           <Link href="/services" className="block py-2 hover:bg-[#febf79] rounded-md text-white">Services</Link>
+          <Link href="/shop" className="block py-2 hover:bg-[#febf79] rounded-md text-white">Shop</Link>
+          <Link href="/shipping" className="block py-2 hover:bg-[#febf79] rounded-md text-white">Shipping</Link>
           <Link href="/gallery" className="block py-2 hover:bg-[#febf79] rounded-md text-white">Gallery</Link>
           <details className="bg-black rounded-md">
             <summary className="py-2 cursor-pointer hover:bg-[#ca8f70] text-white">Collections</summary>
