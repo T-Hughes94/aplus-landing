@@ -1,63 +1,58 @@
 // src/app/api/checkout/route.ts
 import { NextRequest, NextResponse } from "next/server";
-import { shopifyFetch, CHECKOUT_CREATE } from "../../lib/shopify";
+import { shopifyFetch, CART_CREATE } from "@/app/lib/shopify";
 
 export async function POST(req: NextRequest) {
   try {
     const { variantId, quantity = 1 } = await req.json();
 
     if (!variantId) {
-      return NextResponse.json({ error: "Missing variantId" }, { status: 400 });
+      return NextResponse.json({ ok: false, error: "Missing variantId" }, { status: 400 });
     }
 
-    const resp = await shopifyFetch(CHECKOUT_CREATE, {
+    // Cart API uses merchandiseId (variant GID)
+    const resp = await shopifyFetch(CART_CREATE, {
       variables: {
         input: {
-          lineItems: [{ variantId, quantity: Number(quantity) }],
+          lines: [
+            {
+              quantity: Number(quantity),
+              merchandiseId: variantId,
+            },
+          ],
         },
       },
     });
 
-    console.log("[checkout] raw response:", JSON.stringify(resp, null, 2));
+    console.log("[cartCreate] raw:", JSON.stringify(resp, null, 2));
 
-    // Top-level GraphQL errors
     if ((resp as any).errors?.length) {
-      console.error("[checkout] top-level errors:", (resp as any).errors);
-      return NextResponse.json(
-        { error: "Storefront API error", details: (resp as any).errors },
-        { status: 400 }
-      );
+      return NextResponse.json({ ok: false, error: "Storefront API error", details: (resp as any).errors }, { status: 400 });
     }
 
-    const data = (resp as any).data?.checkoutCreate ?? (resp as any).checkoutCreate;
+    const data = (resp as any).data?.cartCreate;
     if (!data) {
-      console.error("[checkout] missing checkoutCreate field");
-      return NextResponse.json(
-        { error: "checkoutCreate missing in response" },
-        { status: 400 }
-      );
+      return NextResponse.json({ ok: false, error: "cartCreate missing in response", details: resp }, { status: 400 });
     }
 
-    const userErr = data.userErrors?.[0];
-    if (userErr) {
-      console.error("[checkout] userErrors:", data.userErrors);
-      return NextResponse.json({ error: userErr.message }, { status: 400 });
+    const userErrs = data.userErrors;
+    if (userErrs?.length) {
+      return NextResponse.json({ ok: false, errors: userErrs }, { status: 400 });
     }
 
-    const url = data.checkout?.webUrl;
-    if (!url) {
-      return NextResponse.json({ error: "No checkout URL returned" }, { status: 400 });
-    }
+    const url = data.cart?.checkoutUrl;
+    if (!url) return NextResponse.json({ ok: false, error: "No checkoutUrl from cartCreate" }, { status: 400 });
 
-    return NextResponse.json({ url }, { status: 200 });
+    return NextResponse.json({ ok: true, url });
   } catch (e: any) {
-    console.error("[checkout] route error:", e);
-    return NextResponse.json(
-      { error: e?.message ?? "Unknown error" },
-      { status: 500 }
-    );
+    console.error("[cartCreate] route error:", e);
+    return NextResponse.json({ ok: false, error: e?.message ?? "Unknown error" }, { status: 500 });
   }
 }
+
+
+
+
 
 
 
