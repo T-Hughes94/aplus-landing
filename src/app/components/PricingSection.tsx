@@ -40,8 +40,8 @@ const PricingSection = () => {
           <Link
             key={idx}
             href="/contact"
-            aria-label={`Order ${title}`}
-            className={`${bg} p-4 md:p-6 rounded-lg border border-[#FFD700] shadow-lg text-center cursor-pointer transform hover:scale-[1.03] transition-transform duration-300 will-change-transform focus:outline-none focus:ring-2 focus:ring-[#FFD700]`}
+            aria-label={`Contact to order: ${title}`}
+            className={`${bg} p-5 md:p-6 rounded-2xl border border-[#FFD700] shadow-lg text-center cursor-pointer transform hover:scale-[1.03] transition-transform duration-300 will-change-transform focus:outline-none focus:ring-2 focus:ring-[#FFD700]`}
           >
             {icon}
             <h3 className="text-xl font-semibold text-white md:text-2xl">{title}</h3>
@@ -50,18 +50,32 @@ const PricingSection = () => {
         ))}
       </div>
 
-      {/* Delivery Note and CTA */}
-      <div className="text-center mt-8 md:mt-12 relative z-20">
-        <p className="text-white text-base md:text-lg">
+      {/* Delivery Note + CTA Buttons */}
+      <div className="mt-10 md:mt-14 max-w-4xl mx-auto">
+        <p className="text-center text-white text-base md:text-lg">
           Delivery is free within 15 miles of Wayne, NJ, or opt for free pickup!
         </p>
-        <Link
-          href="/contact"
-          aria-label="Contact us to place an order"
-          className="inline-block mt-4 px-4 py-2 md:px-6 md:py-3 border border-[#FFD700] bg-[#febf79] text-white font-semibold rounded-lg shadow-md hover:bg-[#ca8f70] hover:text-white transition duration-300 text-sm md:text-base"
-        >
-          Contact Us to Order
-        </Link>
+
+        {/* Buttons: roomy, balanced, not squished */}
+        <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 justify-items-center">
+          {/* Contact */}
+          <Link
+            href="/contact"
+            aria-label="Contact us"
+            className="inline-flex items-center justify-center w-full sm:w-56 md:w-60 px-6 py-3 rounded-xl border border-[#FFD700] bg-[#febf79] text-black font-semibold shadow-lg hover:-translate-y-0.5 hover:bg-[#ca8f70] hover:text-white transition duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FFD700]"
+          >
+            Contact
+          </Link>
+
+          {/* Shop */}
+          <Link
+            href="/shop"
+            aria-label="Go to shop"
+            className="inline-flex items-center justify-center w-full sm:w-56 md:w-60 px-6 py-3 rounded-xl border border-[#FFD700] bg-[#ca8f70] text-white font-semibold shadow-lg hover:-translate-y-0.5 hover:bg-[#febf79] hover:text-black transition duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FFD700]"
+          >
+            Shop
+          </Link>
+        </div>
       </div>
 
       <div className="absolute bottom-0 left-0 w-full h-[4px] bg-white" />
@@ -70,6 +84,8 @@ const PricingSection = () => {
 };
 
 export default PricingSection;
+
+
 
 
 

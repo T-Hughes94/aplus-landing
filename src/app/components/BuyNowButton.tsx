@@ -31,8 +31,6 @@ export default function BuyNowButton({
       });
 
       const data = await res.json();
-      console.log("[BuyNowButton] /api/checkout result:", data);
-
       if (!res.ok) {
         alert(data?.error || "Storefront API error");
         return;
@@ -52,15 +50,18 @@ export default function BuyNowButton({
 
   return (
     <button
+      type="button"
       onClick={onClick}
       disabled={disabled || loading}
-      className={className}
       aria-disabled={disabled || loading}
+      aria-busy={loading}
+      className={className}
     >
       {loading ? "Processing..." : children ?? "Buy now"}
     </button>
   );
 }
+
 
 
 

@@ -1,46 +1,94 @@
-import Header from './components/Header';
-import HeroSection from './components/HeroSection';
-import AboutSection from './components/AboutSection';
-import PricingSection from './components/PricingSection';
-import SeasonalSection from './components/SeasonalSection';
-import Footer from './components/Footer';
+// src/app/page.tsx
+import type { Metadata } from "next";
+import Header from "./components/Header";
+import HeroSection from "./components/HeroSection";
+import AboutSection from "./components/AboutSection";
+import PricingSection from "./components/PricingSection";
+import SeasonalSection from "./components/SeasonalSection";
+import Footer from "./components/Footer";
 
-export const metadata = {
-  title: "A Plus Truffles - Handcrafted Vegan Chocolates",
+export const metadata: Metadata = {
+  title: "A Plus Truffles | Hand-Painted Vegan Truffles",
   description:
-    "Discover the finest handcrafted vegan chocolates with A Plus Truffles. From special occasions to everyday treats, our indulgent and ethical chocolates are perfect for all.",
+    "Handcrafted, hand-painted vegan truffles made with fair-trade ingredients. Small-batch quality for people searching for the best chocolate.",
+  keywords: [
+    "A Plus Truffles",
+    "The Best Chocolate",
+    "vegan truffles",
+    "artisan chocolate",
+    "hand-painted chocolates",
+    "fair-trade chocolate",
+    "gourmet candy",
+    "chocolate gift boxes",
+  ],
   openGraph: {
-    title: "A Plus Truffles - Handcrafted Vegan Chocolates",
+    title: "A Plus Truffles | Hand-Painted Vegan Truffles",
     description:
-      "Explore our collection of handcrafted vegan chocolates, perfect for every occasion.",
+      "Elegantly airbrushed, hand-painted truffles made from premium, fair-trade ingredients.",
+    url: "/",
     images: [
       {
-        url: "/truffle2.webp", // Replace with the correct image path
+        url: "/truffle2.webp",
         width: 1200,
         height: 630,
-        alt: "Handcrafted vegan truffles",
+        alt: "Hand-painted vegan truffles",
       },
     ],
-    url: "https://yourwebsite.com", // Replace with your website's actual URL
     type: "website",
   },
-  icons: {
-    icon: "/favicon.ico", // Replace with your favicon path
+  twitter: {
+    card: "summary_large_image",
+    title: "A Plus Truffles | Hand-Painted Vegan Truffles",
+    description:
+      "Small-batch vegan truffles crafted for people who love the best chocolate.",
   },
+  icons: { icon: "/favicon.ico" },
+  // alternates: { canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/` }
 };
 
 export default function Home() {
+  const base = process.env.NEXT_PUBLIC_SITE_URL ?? "";
+
+  // JSON-LD structured data
+  const webSiteLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "A Plus Truffles",
+    url: base || "https://aplustruffles.com",
+    publisher: {
+      "@type": "Organization",
+      name: "A Plus Truffles",
+      logo: `${base}/Apluslogo4.png`,
+    },
+  };
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: `${base}/` }],
+  };
+
   return (
     <>
+      {/* JSON-LD */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+
+      {/* Header contains the skip link; this <main> is the jump target */}
       <Header />
-      <HeroSection />
-      <AboutSection />
-      <PricingSection />
-      <SeasonalSection />
+
+      <main id="main-content" className="bg-black text-white font-custom" role="main">
+        <HeroSection />
+        <AboutSection />
+        <PricingSection />
+        <SeasonalSection />
+      </main>
+
       <Footer />
     </>
   );
 }
+
 
 
 

@@ -1,13 +1,43 @@
-// src/app/shop/page.tsx
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import BuyNowButton from "../components/BuyNowButton";
 import { shopifyFetch, PRODUCTS_WITH_VARIANTS } from "../lib/shopify";
+import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
 
+export const metadata: Metadata = {
+  title: "Shop | A Plus Truffles",
+  description:
+    "Browse hand-painted vegan truffles crafted with fair-trade ingredients. Small-batch quality for people searching for the best chocolate.",
+  keywords: [
+    "A Plus Truffles",
+    "The Best Chocolate",
+    "vegan truffles",
+    "artisan chocolate",
+    "hand-painted chocolates",
+    "gourmet candy",
+    "chocolate gift boxes",
+  ],
+  openGraph: {
+    title: "Shop | A Plus Truffles",
+    description: "Explore our latest truffle boxes and flavors.",
+    url: "/shop",
+    images: [{ url: "/truffle2.webp", width: 1200, height: 630, alt: "Hand-painted vegan truffles" }],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Shop | A Plus Truffles",
+    description:
+      "Hand-painted vegan truffles made with fair-trade ingredients—crafted for people who love the best chocolate.",
+  },
+  icons: { icon: "/favicon.ico" },
+  // alternates: { canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/shop` }
+};
+
 type ProductNode = {
-  id: string;
+  id: string; // product GID
   title: string;
   description?: string | null;
   featuredImage?: { url: string; altText?: string | null } | null;
@@ -15,7 +45,7 @@ type ProductNode = {
   variants: {
     edges: {
       node: {
-        id: string; // variant GID
+        id: string; // variant GID (merchandiseId)
         title: string;
         availableForSale: boolean;
         price: { amount: string; currencyCode: string };
@@ -24,7 +54,9 @@ type ProductNode = {
   };
 };
 
-export default async function Page() {
+export default async function ShopPage() {
+  const base = process.env.NEXT_PUBLIC_SITE_URL ?? "";
+
   let edges: { node: ProductNode }[] = [];
   try {
     const resp = await shopifyFetch<any>(PRODUCTS_WITH_VARIANTS, { variables: { first: 20 } });
@@ -33,11 +65,47 @@ export default async function Page() {
     console.error("[shop page] products fetch failed:", e);
   }
 
+  // Build JSON-LD ItemList of Products using first variant & primary image
+  const itemListLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "A Plus Truffles — Shop",
+    itemListElement: edges.map(({ node }, idx) => {
+      const img =
+        node.featuredImage ??
+        node.images?.edges?.[0]?.node ??
+        null;
+      const firstVariant = node.variants?.edges?.[0]?.node;
+      const price = firstVariant?.price?.amount
+        ? Number(firstVariant.price.amount)
+        : undefined;
+
+      const product: any = {
+        "@type": "Product",
+        name: node.title,
+        image: img?.url ? [img.url] : undefined,
+        description: node.description ?? undefined,
+        offers: price
+          ? {
+              "@type": "Offer",
+              price: price,
+              priceCurrency: firstVariant?.price?.currencyCode ?? "USD",
+              availability: firstVariant?.availableForSale ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+            }
+          : undefined,
+      };
+
+      return { "@type": "ListItem", position: idx + 1, item: product };
+    }),
+  };
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListLd) }} />
+
       <Header />
 
-      <main className="bg-black text-white font-custom">
+      <main id="main-content" className="bg-black text-white font-custom" role="main">
         <section className="mx-auto max-w-5xl p-6 md:p-10 space-y-8">
           <h1 className="text-4xl font-extrabold tracking-tight">Shop</h1>
 
@@ -53,27 +121,31 @@ export default async function Page() {
 
                 const firstVariant = node.variants?.edges?.[0]?.node;
                 const canBuy = Boolean(firstVariant?.id) && (firstVariant?.availableForSale ?? true);
+                const price =
+                  firstVariant?.price?.amount && firstVariant?.price?.currencyCode
+                    ? new Intl.NumberFormat(undefined, {
+                        style: "currency",
+                        currency: firstVariant.price.currencyCode,
+                      }).format(Number(firstVariant.price.amount))
+                    : null;
 
                 return (
                   <li key={node.id} className="rounded-2xl border border-white/10 bg-white/5 p-4 space-y-3">
                     {img?.url && (
                       <div className="relative w-full aspect-square overflow-hidden rounded-xl border border-white/10">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        {/* Using <img> so you don't have to whitelist Shopify image domains yet */}
                         <img
                           src={img.url}
                           alt={img.altText ?? node.title}
                           className="h-full w-full object-cover"
+                          loading="lazy"
                         />
                       </div>
                     )}
 
                     <div className="space-y-1">
                       <h2 className="text-lg font-semibold">{node.title}</h2>
-                      {firstVariant?.price?.amount && (
-                        <p className="text-sm opacity-90">
-                          ${Number(firstVariant.price.amount).toFixed(2)} {firstVariant.price.currencyCode}
-                        </p>
-                      )}
+                      {price && <p className="text-sm opacity-90">{price}</p>}
                     </div>
 
                     <div className="pt-2">
@@ -98,6 +170,7 @@ export default async function Page() {
     </>
   );
 }
+
 
 
 

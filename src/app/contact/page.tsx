@@ -5,13 +5,10 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { sendEmail } from "../lib/email";
 
-type BoxSelection = {
-  orderDate: string;
-  quantity: string;
-};
+type BoxSelection = { orderDate: string; quantity: string };
 
-const ContactPage = () => {
-  const form = useRef<HTMLFormElement | null>(null);
+export default function ContactPage() {
+  const formRef = useRef<HTMLFormElement | null>(null);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -19,9 +16,12 @@ const ContactPage = () => {
     message: "",
     boxes: [{ orderDate: "", quantity: "" }] as BoxSelection[],
     eventInquiry: "",
+    // honeypot for bots:
+    company: "",
   });
 
-  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const isSending = status === "sending";
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -29,28 +29,37 @@ const ContactPage = () => {
   };
 
   const handleBoxChange = (index: number, field: keyof BoxSelection, value: string) => {
-    const updatedBoxes = [...formData.boxes];
-    updatedBoxes[index][field] = value;
-    setFormData((prev) => ({ ...prev, boxes: updatedBoxes }));
+    const updated = [...formData.boxes];
+    updated[index][field] = value;
+    setFormData((prev) => ({ ...prev, boxes: updated }));
   };
 
   const addBox = () => {
-    setFormData((prev) => ({
-      ...prev,
-      boxes: [...prev.boxes, { orderDate: "", quantity: "" }],
-    }));
+    setFormData((prev) => ({ ...prev, boxes: [...prev.boxes, { orderDate: "", quantity: "" }] }));
   };
 
   const removeBox = (index: number) => {
-    const updatedBoxes = formData.boxes.filter((_, i) => i !== index);
-    setFormData((prev) => ({ ...prev, boxes: updatedBoxes }));
+    setFormData((prev) => ({ ...prev, boxes: prev.boxes.filter((_, i) => i !== index) }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // simple honeypot: if filled, silently "succeed"
+    if (formData.company.trim()) {
+      setStatus("success");
+      return;
+    }
+
+    setStatus("sending");
     try {
-      await sendEmail(formData);
+      await sendEmail({
+        name: formData.name,
+        email: formData.email,
+        message: formData.message,
+        boxes: formData.boxes,
+        eventInquiry: formData.eventInquiry,
+      });
       setStatus("success");
       setFormData({
         name: "",
@@ -58,154 +67,240 @@ const ContactPage = () => {
         message: "",
         boxes: [{ orderDate: "", quantity: "" }],
         eventInquiry: "",
+        company: "",
       });
+      formRef.current?.reset();
     } catch (error) {
-      console.error("EmailJS Error:", error);
+      console.error("Email send error:", error);
       setStatus("error");
     }
   };
 
   return (
-    <main className="bg-black text-white font-sans">
+    <main id="main-content" className="bg-black text-white font-sans" role="main">
       <Header />
 
-      <section className="relative p-10 md:p-24 text-center">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#febf79] via-[#f8b870] to-[#ca8f70] opacity-80 z-0 animate-pulse-slow" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[length:40px_40px] z-0" />
+      {/* Hero */}
+      <section
+        className="relative p-10 md:p-24 text-center"
+        aria-labelledby="contact-hero-heading"
+      >
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-gradient-to-br from-[#febf79] via-[#f8b870] to-[#ca8f70] opacity-80 z-0 animate-pulse-slow"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-[radial-gradient(circle,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[length:40px_40px] z-0"
+        />
         <div className="relative z-10 flex flex-col items-center space-y-6 max-w-4xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">Get in Touch</h1>
-          <p className="text-lg md:text-2xl text-white/90">Place an order or inquire about events — we’d love to hear from you.</p>
+          <h1 id="contact-hero-heading" className="text-4xl md:text-5xl font-extrabold tracking-tight">
+            Get in Touch
+          </h1>
+          <p className="text-lg md:text-2xl text-white/90">
+            Place an order or inquire about events — we’d love to hear from you.
+          </p>
           <hr className="border-[#FFD700] border-t-2 w-20 mx-auto mt-4" />
         </div>
       </section>
 
+      {/* Form */}
       <section className="p-10 md:p-20">
         <form
-          ref={form}
+          ref={formRef}
           onSubmit={handleSubmit}
           className="max-w-2xl mx-auto bg-white text-black p-8 md:p-12 rounded-xl shadow-2xl space-y-8"
+          noValidate
+          aria-describedby="contact-form-instructions"
         >
+          <p id="contact-form-instructions" className="text-sm text-gray-600">
+            Fields marked with <span aria-hidden="true">*</span> are required.
+          </p>
+
+          {/* Honeypot (hidden from users) */}
+          <div className="hidden" aria-hidden="true">
+            <label htmlFor="company">Company</label>
+            <input
+              id="company"
+              name="company"
+              type="text"
+              value={formData.company}
+              onChange={handleChange}
+              tabIndex={-1}
+              autoComplete="off"
+            />
+          </div>
+
           {/* Name & Email */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-semibold text-gray-700">Name</label>
+              <label htmlFor="name" className="block text-sm font-semibold text-gray-700">
+                Name <span aria-hidden="true">*</span>
+              </label>
               <input
-                type="text"
+                id="name"
                 name="name"
+                type="text"
+                required
+                autoComplete="name"
                 value={formData.name}
                 onChange={handleChange}
-                required
+                aria-invalid={!!(status === "error" && !formData.name)}
+                className="w-full mt-2 p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#ca8f70]"
                 placeholder="Your Name"
-                className="w-full mt-2 p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#ca8f70]"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700">Email</label>
+              <label htmlFor="email" className="block text-sm font-semibold text-gray-700">
+                Email <span aria-hidden="true">*</span>
+              </label>
               <input
-                type="email"
+                id="email"
                 name="email"
+                type="email"
+                required
+                autoComplete="email"
+                inputMode="email"
                 value={formData.email}
                 onChange={handleChange}
-                required
-                placeholder="Your Email"
-                className="w-full mt-2 p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#ca8f70]"
+                aria-invalid={!!(status === "error" && !formData.email)}
+                className="w-full mt-2 p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#ca8f70]"
+                placeholder="your@email.com"
               />
             </div>
           </div>
 
           {/* Box Orders */}
-          {formData.boxes.map((box, index) => (
-            <div key={index} className="p-6 bg-gray-100 rounded-lg space-y-4">
-              <div>
-                <label className="block text-sm font-semibold text-gray-700">Order Date (Min. 1 Week Notice)</label>
-                <input
-                  type="date"
-                  value={box.orderDate}
-                  onChange={(e) => handleBoxChange(index, "orderDate", e.target.value)}
-                  required
-                  className="w-full mt-2 p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#ca8f70]"
-                />
-              </div>
+          <fieldset className="space-y-4">
+            <legend className="text-base font-semibold text-gray-800">
+              Box Orders (Optional)
+            </legend>
 
-              <div>
-                <label className="block text-sm font-semibold text-gray-700">Quantity (30+ Chocolates)</label>
-                <input
-                  type="number"
-                  min={30}
-                  value={box.quantity}
-                  onChange={(e) => handleBoxChange(index, "quantity", e.target.value)}
-                  required
-                  className="w-full mt-2 p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#ca8f70]"
-                />
-              </div>
+            {formData.boxes.map((box, index) => {
+              const dateId = `orderDate-${index}`;
+              const qtyId = `quantity-${index}`;
+              return (
+                <div key={index} className="p-6 bg-gray-100 rounded-lg space-y-4">
+                  <div>
+                    <label htmlFor={dateId} className="block text-sm font-semibold text-gray-700">
+                      Order Date (min. 1 week notice)
+                    </label>
+                    <input
+                      id={dateId}
+                      type="date"
+                      value={box.orderDate}
+                      onChange={(e) => handleBoxChange(index, "orderDate", e.target.value)}
+                      className="w-full mt-2 p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#ca8f70]"
+                    />
+                  </div>
 
-              {formData.boxes.length > 1 && (
-                <button
-                  type="button"
-                  onClick={() => removeBox(index)}
-                  className="text-sm text-red-500 hover:underline"
-                >
-                  Remove Box
-                </button>
-              )}
-            </div>
-          ))}
+                  <div>
+                    <label htmlFor={qtyId} className="block text-sm font-semibold text-gray-700">
+                      Quantity (30+ chocolates)
+                    </label>
+                    <input
+                      id={qtyId}
+                      type="number"
+                      min={30}
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      value={box.quantity}
+                      onChange={(e) => handleBoxChange(index, "quantity", e.target.value)}
+                      className="w-full mt-2 p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#ca8f70]"
+                    />
+                  </div>
 
-          <button
-            type="button"
-            onClick={addBox}
-            className="w-full py-2 px-4 border border-[#ca8f70] text-[#ca8f70] font-medium rounded-md hover:bg-[#ca8f70] hover:text-white transition"
-          >
-            + Add Another Order
-          </button>
+                  {formData.boxes.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => removeBox(index)}
+                      className="text-sm text-red-600 hover:underline"
+                    >
+                      Remove Box
+                    </button>
+                  )}
+                </div>
+              );
+            })}
+
+            <button
+              type="button"
+              onClick={addBox}
+              className="w-full py-2 px-4 border border-[#ca8f70] text-[#ca8f70] font-medium rounded-md hover:bg-[#ca8f70] hover:text-white transition"
+            >
+              + Add Another Order
+            </button>
+          </fieldset>
 
           {/* Event Inquiry */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700">Event Inquiry</label>
+            <label htmlFor="eventInquiry" className="block text-sm font-semibold text-gray-700">
+              Event Inquiry (Optional)
+            </label>
             <textarea
+              id="eventInquiry"
               name="eventInquiry"
               value={formData.eventInquiry}
               onChange={handleChange}
               rows={4}
               placeholder="Tell us about your event, guest count, etc."
-              className="w-full mt-2 p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#ca8f70]"
+              className="w-full mt-2 p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#ca8f70]"
             />
           </div>
 
           {/* General Message */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700">General Message</label>
+            <label htmlFor="message" className="block text-sm font-semibold text-gray-700">
+              General Message <span aria-hidden="true">*</span>
+            </label>
             <textarea
+              id="message"
               name="message"
-              value={formData.message}
-              onChange={handleChange}
               required
               rows={4}
+              value={formData.message}
+              onChange={handleChange}
               placeholder="Any custom requests or notes?"
-              className="w-full mt-2 p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#ca8f70]"
+              className="w-full mt-2 p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#ca8f70]"
             />
           </div>
 
-          {/* Submit Button */}
+          {/* Submit */}
           <button
             type="submit"
-            className="w-full py-3 px-6 font-semibold rounded-lg bg-[#ca8f70] text-white hover:bg-[#a56a50] transition"
+            disabled={isSending}
+            aria-disabled={isSending}
+            aria-busy={isSending}
+            className="w-full py-3 px-6 font-semibold rounded-lg bg-[#ca8f70] text-white hover:bg-[#a56a50] transition disabled:opacity-60"
           >
-            Send Message
+            {isSending ? "Sending…" : "Send Message"}
           </button>
 
-          {status === "success" && <p className="text-green-600 mt-4">Message sent successfully!</p>}
-          {status === "error" && <p className="text-red-600 mt-4">Message failed. Please try again.</p>}
+          {/* Live region for feedback */}
+          <div
+            role="status"
+            aria-live="polite"
+            className="min-h-[1.5rem] pt-2"
+          >
+            {status === "success" && <p className="text-green-700">Message sent successfully!</p>}
+            {status === "error" && (
+              <p className="text-red-700">
+                Message failed. Please try again, or email us directly at{" "}
+                <a href="mailto:Aplustruffles@yahoo.com" className="underline">
+                  Aplustruffles@yahoo.com
+                </a>.
+              </p>
+            )}
+          </div>
         </form>
       </section>
 
       <Footer />
     </main>
   );
-};
+}
 
-export default ContactPage;
 
 
 
