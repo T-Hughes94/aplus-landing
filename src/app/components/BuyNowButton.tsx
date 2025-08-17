@@ -1,6 +1,5 @@
 // src/app/components/BuyNowButton.tsx
 "use client";
-
 import * as React from "react";
 
 type BuyNowButtonProps = {
@@ -15,18 +14,9 @@ type CheckoutResponse = {
   ok: boolean;
   url?: string | null;
   error?: string;
-  errors?: unknown;
-  details?: unknown;
 };
 
-function getErrorMessage(err: unknown): string {
-  if (typeof err === "string") return err;
-  if (err && typeof err === "object" && "message" in err) {
-    const m = (err as { message?: unknown }).message;
-    if (typeof m === "string") return m;
-  }
-  return "Unknown error";
-}
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://aplustruffles.com"; // set this in Vercel
 
 export default function BuyNowButton({
   variantId,
@@ -41,28 +31,27 @@ export default function BuyNowButton({
     if (disabled || loading) return;
     setLoading(true);
     try {
-      const res = await fetch("/api/checkout", {
+      const res = await fetch(`${SITE_URL}/api/checkout`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        // stay on apex; no cross-origin redirect
         body: JSON.stringify({ variantId, quantity }),
       });
 
       const data = (await res.json()) as CheckoutResponse;
 
       if (!res.ok || !data.ok) {
-        alert(data.error ?? "Storefront API error");
+        alert(data?.error ?? "Storefront API error");
         return;
       }
-
-      if (data.url) {
+      if (data?.url) {
         window.location.href = data.url;
       } else {
         alert("No checkout URL returned");
       }
-    } catch (err: unknown) {
-      // eslint-disable-next-line no-console
+    } catch (err) {
       console.error("[BuyNowButton] error:", err);
-      alert(getErrorMessage(err));
+      alert("Unexpected error");
     } finally {
       setLoading(false);
     }
@@ -81,6 +70,7 @@ export default function BuyNowButton({
     </button>
   );
 }
+
 
 
 
