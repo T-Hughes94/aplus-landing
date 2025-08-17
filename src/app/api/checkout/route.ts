@@ -1,132 +1,112 @@
-// src/app/api/checkout/route.ts
 import { NextRequest, NextResponse } from "next/server";
-import { shopifyFetch, CART_CREATE } from "@/app/lib/shopify";
 
-const ALLOWED_ORIGINS = new Set<string>([
-  "https://aplustruffles.com",
-  "https://www.aplustruffles.com",
-  // add your preview domain below if you want to test directly:
-  "https://aplus-landing-v1.vercel.app",
-]);
-
-/** CORS headers helper */
-function corsHeaders(origin: string | null) {
-  const allowOrigin = origin && ALLOWED_ORIGINS.has(origin) ? origin : "";
-  return {
-    "Access-Control-Allow-Origin": allowOrigin,
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type",
-    "Access-Control-Max-Age": "86400",
-    "Vary": "Origin",
+interface GraphQLError {
+  message: string;
+  extensions?: {
+    code?: string;
   };
 }
 
-/** Request body coming from the client */
-interface CartCreateBody {
-  variantId: string;
-  quantity?: number;
-}
-
-/** Minimal shapes from Shopify Storefront API for cartCreate */
-interface GraphQLError {
-  message: string;
-  extensions?: Record<string, unknown>;
-}
-interface CartCreateUserError {
-  field?: string[] | null;
-  message: string;
-  code?: string | null;
-}
-interface CartCreatePayload {
-  cart?: { checkoutUrl?: string | null } | null;
-  userErrors?: CartCreateUserError[] | null;
-}
-interface CartCreateResponse {
-  data?: { cartCreate?: CartCreatePayload | null };
+interface CheckoutResponse {
+  data?: {
+    checkoutCreate?: {
+      checkout?: {
+        webUrl: string;
+      };
+      userErrors?: { message: string }[];
+    };
+  };
   errors?: GraphQLError[];
 }
 
 function hasGraphQLErrors<T extends { errors?: unknown }>(
   resp: T
 ): resp is T & { errors: GraphQLError[] } {
-  return typeof resp === "object" && resp !== null && Array.isArray((resp as any).errors);
-}
-function getErrorMessage(err: unknown): string {
-  if (typeof err === "string") return err;
-  if (err && typeof err === "object" && "message" in err) {
-    const m = (err as { message?: unknown }).message;
-    if (typeof m === "string") return m;
-  }
-  return "Unknown error";
-}
-
-export async function OPTIONS(req: NextRequest) {
-  const origin = req.headers.get("origin");
-  return new NextResponse(null, { status: 204, headers: corsHeaders(origin) });
+  return (
+    typeof resp === "object" &&
+    resp !== null &&
+    Array.isArray((resp as { errors?: unknown }).errors)
+  );
 }
 
 export async function POST(req: NextRequest) {
-  const origin = req.headers.get("origin");
-  const headers = corsHeaders(origin);
-
-  // Enforce allowed origins (if there is an Origin header)
-  if (origin && !ALLOWED_ORIGINS.has(origin)) {
-    return NextResponse.json({ ok: false, error: "Unauthorized origin" }, { status: 401, headers });
-  }
-
   try {
-    const body = (await req.json()) as Partial<CartCreateBody>;
-    const variantId = body.variantId;
-    const quantity = Number.isFinite(body.quantity) ? Number(body.quantity) : 1;
+    const { variantId, quantity } = await req.json();
 
-    if (!variantId) {
-      return NextResponse.json({ ok: false, error: "Missing variantId" }, { status: 400, headers });
+    if (!variantId || !quantity) {
+      return NextResponse.json(
+        { error: "Missing variantId or quantity" },
+        { status: 400 }
+      );
     }
 
-    const resp = (await shopifyFetch(CART_CREATE, {
-      variables: {
-        input: {
-          lines: [{ quantity, merchandiseId: variantId }],
-        },
+    const checkoutMutation = `
+      mutation checkoutCreate($input: CheckoutCreateInput!) {
+        checkoutCreate(input: $input) {
+          checkout {
+            webUrl
+          }
+          userErrors {
+            message
+          }
+        }
+      }
+    `;
+
+    const variables = {
+      input: {
+        lineItems: [{ variantId, quantity }],
       },
-    })) as CartCreateResponse;
+    };
 
-    if (hasGraphQLErrors(resp) && resp.errors.length > 0) {
+    const response = await fetch(
+      `https://${process.env.SHOPIFY_STORE_DOMAIN}/api/2025-01/graphql.json`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Shopify-Storefront-Access-Token":
+            process.env.SHOPIFY_STOREFRONT_API_TOKEN || "",
+        },
+        body: JSON.stringify({ query: checkoutMutation, variables }),
+      }
+    );
+
+    const data: CheckoutResponse = await response.json();
+
+    if (hasGraphQLErrors(data)) {
       return NextResponse.json(
-        { ok: false, error: "Storefront API error", details: resp.errors },
-        { status: 400, headers }
+        { error: data.errors.map((e) => e.message).join(", ") },
+        { status: 500 }
       );
     }
 
-    const payload = resp.data?.cartCreate;
-    if (!payload) {
+    if (data.data?.checkoutCreate?.userErrors?.length) {
       return NextResponse.json(
-        { ok: false, error: "cartCreate missing in response", details: resp },
-        { status: 400, headers }
+        { error: data.data.checkoutCreate.userErrors[0].message },
+        { status: 400 }
       );
     }
 
-    const userErrors = payload.userErrors ?? [];
-    if (userErrors.length > 0) {
-      return NextResponse.json({ ok: false, errors: userErrors }, { status: 400, headers });
-    }
+    const checkoutUrl = data.data?.checkoutCreate?.checkout?.webUrl;
 
-    const checkoutUrl = payload.cart?.checkoutUrl ?? null;
     if (!checkoutUrl) {
       return NextResponse.json(
-        { ok: false, error: "No checkoutUrl from cartCreate" },
-        { status: 400, headers }
+        { error: "No checkout URL returned" },
+        { status: 500 }
       );
     }
 
-    return NextResponse.json({ ok: true, url: checkoutUrl }, { headers });
-  } catch (err: unknown) {
-    const message = getErrorMessage(err);
-    // eslint-disable-next-line no-console
-    console.error("[cartCreate] route error:", message, err);
-    return NextResponse.json({ ok: false, error: message }, { status: 500, headers });
+    return NextResponse.json({ checkoutUrl });
+  } catch (error) {
+    console.error("Checkout API Error:", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }
+
 
 
 
