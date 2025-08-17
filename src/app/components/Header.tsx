@@ -76,9 +76,7 @@ const Header = () => {
                 <Link href="/collections#seasonal-collection" className="block px-4 py-2 hover:bg-[#ca8f70] transition" role="menuitem">
                   Seasonal Collection
                 </Link>
-                <Link href="/collections#advent-calendar" className="block px-4 py-2 hover:bg-[#ca8f70] transition" role="menuitem">
-                  Advent Calendar
-                </Link>
+    
               </div>
             )}
           </div>
@@ -121,7 +119,6 @@ const Header = () => {
             <div className="pl-4 space-y-1 mt-1">
               <Link href="/collections#og-collection" className="block py-1 hover:text-[#febf79]">OG Collection</Link>
               <Link href="/collections#seasonal-collection" className="block py-1 hover:text-[#febf79]">Seasonal</Link>
-              <Link href="/collections#advent-calendar" className="block py-1 hover:text-[#febf79]">Advent Calendar</Link>
             </div>
           </details>
           <Link href="/contact" className="block py-2 bg-[#febf79] text-black rounded-md font-semibold text-center hover:bg-[#ca8f70]">

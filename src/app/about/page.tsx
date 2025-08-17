@@ -34,7 +34,6 @@ export const metadata: Metadata = {
       "Hand-painted vegan truffles made with fair-trade ingredients—crafted for people who love the best chocolate.",
   },
   icons: { icon: "/favicon.ico" },
-  // alternates: { canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/about` }
 };
 
 export default function AboutPage() {
@@ -63,10 +62,7 @@ export default function AboutPage() {
     name: "A Plus Truffles",
     url: base || "https://aplustruffles.com",
     logo: `${base}/Apluslogo4.png`,
-    sameAs: [
-      // "https://www.instagram.com/aplustruffles",
-      // "https://www.facebook.com/..."
-    ]
+    sameAs: []
   };
 
   const FEATURES = [
@@ -113,13 +109,17 @@ export default function AboutPage() {
             {FEATURES.map(({ icon: Icon, title, text }) => (
               <article
                 key={title}
-                className="relative pt-16 pb-12 bg-[#ca8f70] rounded-lg shadow-lg border border-white transform transition-transform hover:scale-105 hover:shadow-2xl focus-within:scale-105"
+                className="relative pt-16 md:pt-20 pb-12 bg-[#ca8f70] rounded-lg shadow-lg border border-white transform transition-transform hover:scale-105 hover:shadow-2xl focus-within:scale-105"
                 style={{ minHeight: "250px" }}
               >
-                <div aria-hidden className="absolute -top-12 bg-black rounded-full p-5 shadow-md border-4 border-white">
-                  <Icon className="text-5xl md:text-6xl" style={{ color: "#febf79" }} />
+                {/* Floating, centered icon (overlaps card by ~50%) */}
+                <div className="absolute -top-10 left-1/2 -translate-x-1/2">
+                  <div className="bg-black rounded-full p-5 md:p-6 shadow-md border-4 border-white">
+                    <Icon className="text-5xl md:text-6xl" style={{ color: "#febf79" }} />
+                  </div>
                 </div>
-                <div className="mt-16 text-center px-6">
+
+                <div className="mt-10 md:mt-12 text-center px-6">
                   <h3 className="text-2xl font-bold text-white">{title}</h3>
                   <p className="text-lg md:text-xl mt-3 text-black">{text}</p>
                 </div>
@@ -174,7 +174,7 @@ export default function AboutPage() {
             <Link
               href="/shop"
               aria-label="Browse the shop to find hand-painted vegan truffles"
-              className="inline-flex items-center justify-center rounded-lg border border-white/70 bg-black/20 px-6 py-3 font-semibold text-white shadow-md transition duration-300 hover:bg-black/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-black/80"
+              className="inline-flex items-center justify-center rounded-lg border border-[#FFD700] bg-white px-6 py-3 font-semibold text-black shadow-md transition duration-300 hover:bg-[#ca8f70] hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-black/80"
             >
               Visit the Shop
             </Link>
@@ -186,6 +186,8 @@ export default function AboutPage() {
     </>
   );
 }
+
+
 
 
 

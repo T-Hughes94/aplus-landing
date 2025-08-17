@@ -121,7 +121,7 @@ export default function GalleryPage() {
             <Link
               href="/shop"
               aria-label="Browse the shop to explore our latest truffles"
-              className="inline-flex items-center justify-center rounded-lg border border-white/70 bg-black/20 px-6 py-3 font-semibold text-white shadow-md transition duration-300 hover:bg-black/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-black/80"
+              className="px-6 py-3 inline-flex items-center justify-center bg-white text-black font-semibold border border-[#FFD700] rounded-lg shadow-md hover:bg-[#ca8f70] hover:text-white transition duration-300"
             >
               Visit the Shop
             </Link>

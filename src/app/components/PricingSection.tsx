@@ -1,3 +1,4 @@
+// src/app/components/PricingSection.tsx
 import Link from "next/link";
 import { FaBoxOpen, FaGift, FaShippingFast } from "react-icons/fa";
 
@@ -37,16 +38,23 @@ const PricingSection = () => {
       {/* Pricing Cards */}
       <div className="grid grid-cols-1 gap-6 max-w-4xl mx-auto md:grid-cols-3 md:gap-8">
         {cards.map(({ icon, title, price, bg }, idx) => (
-          <Link
+          <div
             key={idx}
-            href="/contact"
-            aria-label={`Contact to order: ${title}`}
-            className={`${bg} p-5 md:p-6 rounded-2xl border border-[#FFD700] shadow-lg text-center cursor-pointer transform hover:scale-[1.03] transition-transform duration-300 will-change-transform focus:outline-none focus:ring-2 focus:ring-[#FFD700]`}
+            className={`${bg} p-5 md:p-6 rounded-2xl border border-[#FFD700] shadow-lg text-center transform hover:scale-[1.03] transition-transform duration-300 will-change-transform`}
           >
             {icon}
             <h3 className="text-xl font-semibold text-white md:text-2xl">{title}</h3>
             <p className="text-lg font-bold text-white mt-1 md:mt-2">{price}</p>
-          </Link>
+
+            {/* Buy Button */}
+            <Link
+              href="/shop"
+              aria-label={`Buy ${title}`}
+              className="mt-4 inline-block w-full px-4 py-2 rounded-lg bg-black text-white font-semibold border border-[#FFD700] hover:bg-white hover:text-black transition duration-200"
+            >
+              Buy Now
+            </Link>
+          </div>
         ))}
       </div>
 
@@ -56,9 +64,7 @@ const PricingSection = () => {
           Delivery is free within 15 miles of Wayne, NJ, or opt for free pickup!
         </p>
 
-        {/* Buttons: roomy, balanced, not squished */}
         <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 justify-items-center">
-          {/* Contact */}
           <Link
             href="/contact"
             aria-label="Contact us"
@@ -67,7 +73,6 @@ const PricingSection = () => {
             Contact
           </Link>
 
-          {/* Shop */}
           <Link
             href="/shop"
             aria-label="Go to shop"
@@ -84,6 +89,7 @@ const PricingSection = () => {
 };
 
 export default PricingSection;
+
 
 
 

@@ -1,8 +1,10 @@
+// src/app/shop/page.tsx
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import BuyNowButton from "../components/BuyNowButton";
 import { shopifyFetch, PRODUCTS_WITH_VARIANTS } from "../lib/shopify";
 import type { Metadata } from "next";
+import Image from "next/image";
 
 export const dynamic = "force-dynamic";
 
@@ -41,58 +43,61 @@ type ProductNode = {
   title: string;
   description?: string | null;
   featuredImage?: { url: string; altText?: string | null } | null;
-  images?: { edges: { node: { url: string; altText?: string | null } }[] };
+  images?: { edges: Array<{ node: { url: string; altText?: string | null } }> } | null;
   variants: {
-    edges: {
+    edges: Array<{
       node: {
         id: string; // variant GID (merchandiseId)
         title: string;
         availableForSale: boolean;
         price: { amount: string; currencyCode: string };
       };
-    }[];
+    }>;
+  };
+};
+
+type ProductsQuery = {
+  products: {
+    edges: Array<{ node: ProductNode }>;
   };
 };
 
 export default async function ShopPage() {
-  const base = process.env.NEXT_PUBLIC_SITE_URL ?? "";
-
-  let edges: { node: ProductNode }[] = [];
+  let edges: Array<{ node: ProductNode }> = [];
   try {
-    const resp = await shopifyFetch<any>(PRODUCTS_WITH_VARIANTS, { variables: { first: 20 } });
-    edges = resp?.data?.products?.edges ?? [];
+    const resp = await shopifyFetch<ProductsQuery>(PRODUCTS_WITH_VARIANTS, { variables: { first: 20 } });
+    edges = resp.data?.products?.edges ?? [];
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.error("[shop page] products fetch failed:", e);
   }
 
   // Build JSON-LD ItemList of Products using first variant & primary image
-  const itemListLd = {
+  const itemListLd: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "ItemList",
     name: "A Plus Truffles — Shop",
     itemListElement: edges.map(({ node }, idx) => {
-      const img =
-        node.featuredImage ??
-        node.images?.edges?.[0]?.node ??
-        null;
+      const img = node.featuredImage ?? node.images?.edges?.[0]?.node ?? null;
       const firstVariant = node.variants?.edges?.[0]?.node;
-      const price = firstVariant?.price?.amount
-        ? Number(firstVariant.price.amount)
-        : undefined;
+      const priceAmount = firstVariant?.price?.amount ? Number(firstVariant.price.amount) : undefined;
 
-      const product: any = {
+      const product: Record<string, unknown> = {
         "@type": "Product",
         name: node.title,
         image: img?.url ? [img.url] : undefined,
         description: node.description ?? undefined,
-        offers: price
-          ? {
-              "@type": "Offer",
-              price: price,
-              priceCurrency: firstVariant?.price?.currencyCode ?? "USD",
-              availability: firstVariant?.availableForSale ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
-            }
-          : undefined,
+        offers:
+          priceAmount !== undefined
+            ? {
+                "@type": "Offer",
+                price: priceAmount,
+                priceCurrency: firstVariant?.price?.currencyCode ?? "USD",
+                availability: firstVariant?.availableForSale
+                  ? "https://schema.org/InStock"
+                  : "https://schema.org/OutOfStock",
+              }
+            : undefined,
       };
 
       return { "@type": "ListItem", position: idx + 1, item: product };
@@ -114,11 +119,7 @@ export default async function ShopPage() {
           ) : (
             <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {edges.map(({ node }) => {
-                const img =
-                  node.featuredImage ??
-                  node.images?.edges?.[0]?.node ??
-                  null;
-
+                const img = node.featuredImage ?? node.images?.edges?.[0]?.node ?? null;
                 const firstVariant = node.variants?.edges?.[0]?.node;
                 const canBuy = Boolean(firstVariant?.id) && (firstVariant?.availableForSale ?? true);
                 const price =
@@ -133,12 +134,14 @@ export default async function ShopPage() {
                   <li key={node.id} className="rounded-2xl border border-white/10 bg-white/5 p-4 space-y-3">
                     {img?.url && (
                       <div className="relative w-full aspect-square overflow-hidden rounded-xl border border-white/10">
-                        {/* Using <img> so you don't have to whitelist Shopify image domains yet */}
-                        <img
+                        {/* Next/Image for optimized LCP. Make sure to allow the domain below */}
+                        <Image
                           src={img.url}
                           alt={img.altText ?? node.title}
-                          className="h-full w-full object-cover"
-                          loading="lazy"
+                          fill
+                          sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
+                          className="object-cover"
+                          priority={false}
                         />
                       </div>
                     )}
@@ -170,6 +173,7 @@ export default async function ShopPage() {
     </>
   );
 }
+
 
 
 

@@ -11,6 +11,23 @@ type BuyNowButtonProps = {
   children?: React.ReactNode;
 };
 
+type CheckoutResponse = {
+  ok: boolean;
+  url?: string | null;
+  error?: string;
+  errors?: unknown;
+  details?: unknown;
+};
+
+function getErrorMessage(err: unknown): string {
+  if (typeof err === "string") return err;
+  if (err && typeof err === "object" && "message" in err) {
+    const m = (err as { message?: unknown }).message;
+    if (typeof m === "string") return m;
+  }
+  return "Unknown error";
+}
+
 export default function BuyNowButton({
   variantId,
   quantity = 1,
@@ -30,19 +47,22 @@ export default function BuyNowButton({
         body: JSON.stringify({ variantId, quantity }),
       });
 
-      const data = await res.json();
-      if (!res.ok) {
-        alert(data?.error || "Storefront API error");
+      const data = (await res.json()) as CheckoutResponse;
+
+      if (!res.ok || !data.ok) {
+        alert(data.error ?? "Storefront API error");
         return;
       }
-      if (data?.url) {
+
+      if (data.url) {
         window.location.href = data.url;
       } else {
         alert("No checkout URL returned");
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
+      // eslint-disable-next-line no-console
       console.error("[BuyNowButton] error:", err);
-      alert(err?.message ?? "Unknown error");
+      alert(getErrorMessage(err));
     } finally {
       setLoading(false);
     }
@@ -61,6 +81,7 @@ export default function BuyNowButton({
     </button>
   );
 }
+
 
 
 

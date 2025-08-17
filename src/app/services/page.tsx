@@ -34,7 +34,6 @@ export const metadata: Metadata = {
       "Custom, hand-painted vegan truffles for events and gifting—crafted for people who love the best chocolate.",
   },
   icons: { icon: "/favicon.ico" },
-  // alternates: { canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/services` }
 };
 
 const SERVICES = [
@@ -47,7 +46,6 @@ const SERVICES = [
 export default function ServicesPage() {
   const base = process.env.NEXT_PUBLIC_SITE_URL ?? "";
 
-  // Structured data: the page + the service list
   const collectionLd = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
@@ -100,7 +98,10 @@ export default function ServicesPage() {
             className="absolute inset-0 bg-[radial-gradient(circle,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[length:40px_40px]"
           />
           <div className="relative z-10 flex flex-col items-center justify-center space-y-6 max-w-4xl mx-auto">
-            <h1 id="services-hero-heading" className="text-4xl md:text-5xl font-extrabold text-white tracking-tight drop-shadow-lg">
+            <h1
+              id="services-hero-heading"
+              className="text-4xl md:text-5xl font-extrabold text-white tracking-tight drop-shadow-lg"
+            >
               Special Occasions &amp; Gifting
             </h1>
             <p className="text-lg md:text-2xl text-white/90 max-w-2xl">
@@ -129,8 +130,14 @@ export default function ServicesPage() {
         </section>
 
         {/* Services Grid */}
-        <section className="p-6 md:p-16 bg-black text-center" aria-labelledby="services-grid-heading">
-          <h2 id="services-grid-heading" className="text-3xl font-bold text-white underline decoration-[#ca8f70] md:text-4xl">
+        <section
+          className="p-6 md:p-16 bg-black text-center"
+          aria-labelledby="services-grid-heading"
+        >
+          <h2
+            id="services-grid-heading"
+            className="text-3xl font-bold text-white underline decoration-[#ca8f70] md:text-4xl"
+          >
             Perfect for Every Occasion
           </h2>
           <p className="mt-4 text-lg text-white max-w-2xl mx-auto md:text-xl">
@@ -141,19 +148,22 @@ export default function ServicesPage() {
             {SERVICES.map(({ title, text }) => (
               <article
                 key={title}
-                className="relative pt-20 pb-12 bg-[#ca8f70] rounded-lg shadow-lg border border-[#FFD700] transform transition-transform hover:scale-105 hover:shadow-2xl"
+                className="relative pt-4 pb-10 bg-[#ca8f70] rounded-lg shadow-lg border border-[#FFD700] transform transition-transform hover:scale-105 hover:shadow-2xl"
               >
                 {/* Decorative truffle image */}
-                <div className="absolute -top-[110px] z-10 w-[500px] h-[240px] flex items-center justify-center" aria-hidden="true">
+                <div
+                  className="absolute -top-[110px] left-1/2 -translate-x-1/2 z-10 w-[220px] h-[220px] flex items-center justify-center"
+                  aria-hidden="true"
+                >
                   <Image
                     src="/icon4.png"
                     alt=""
-                    width={220}
-                    height={420}
+                    width={200}
+                    height={200}
                     className="object-contain drop-shadow-md"
                   />
                 </div>
-                <div className="mt-4 text-center px-6">
+                <div className="mt-16 text-center px-6">
                   <h3 className="text-3xl font-bold pt-2 text-white">{title}</h3>
                   <p className="text-lg md:text-xl mt-3 text-black">{text}</p>
                 </div>
@@ -163,8 +173,14 @@ export default function ServicesPage() {
         </section>
 
         {/* Gallery CTA */}
-        <section className="p-6 md:p-16 bg-black text-center" aria-labelledby="services-gallery-cta">
-          <h2 id="services-gallery-cta" className="text-3xl font-bold text-white underline decoration-[#ca8f70] md:text-4xl">
+        <section
+          className="p-6 md:p-16 bg-black text-center"
+          aria-labelledby="services-gallery-cta"
+        >
+          <h2
+            id="services-gallery-cta"
+            className="text-3xl font-bold text-white underline decoration-[#ca8f70] md:text-4xl"
+          >
             A Gift That Always Delights
           </h2>
           <p className="mt-4 text-lg text-white max-w-2xl mx-auto">
@@ -181,7 +197,7 @@ export default function ServicesPage() {
             <Link
               href="/shop"
               aria-label="Browse the shop to explore our latest truffles"
-              className="inline-flex items-center justify-center px-6 py-3 bg-black/20 text-white font-semibold rounded-lg shadow-md border border-white/70 hover:bg-black/40 transition duration-300"
+              className="inline-flex items-center justify-center px-6 py-3 bg-[#febf79] text-black font-semibold rounded-lg shadow-md hover:bg-[#ca8f70] hover:text-white border border-[#FFD700] transition duration-300"
             >
               Visit the Shop
             </Link>
@@ -193,7 +209,10 @@ export default function ServicesPage() {
           className="p-6 md:p-16 bg-gradient-to-br from-[#ca8f70] via-[#ca8f70] to-[#febf79] text-center"
           aria-labelledby="services-contact-cta"
         >
-          <h2 id="services-contact-cta" className="text-3xl font-bold text-white md:text-4xl">
+          <h2
+            id="services-contact-cta"
+            className="text-3xl font-bold text-white md:text-4xl"
+          >
             Planning an Event?
           </h2>
           <p className="mt-4 text-lg text-white">
@@ -215,6 +234,7 @@ export default function ServicesPage() {
     </>
   );
 }
+
 
 
 

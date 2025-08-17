@@ -201,7 +201,7 @@ export default function CollectionsPage() {
           <h2 id="collections-cta-heading" className="text-3xl font-bold text-white md:text-4xl">
             Discover Your Favorites
           </h2>
-          <p className="mt-4 text-base text-gray-200 md:text-lg">
+          <p className="mt-4 text-base text-gray-100 md:text-lg">
             Ready to treat yourself or place a custom order? Reach out—or browse the shop to find the best chocolate for any occasion.
           </p>
 
@@ -217,7 +217,7 @@ export default function CollectionsPage() {
             <Link
               href="/shop"
               aria-label="Browse the shop to explore our truffle collections"
-              className="inline-flex items-center justify-center rounded-lg border border-white/70 bg-black/20 px-6 py-3 font-semibold text-white shadow-md transition duration-300 hover:bg-black/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-black/80"
+              className="px-6 py-3 inline-flex items-center justify-center bg-white text-black font-semibold border border-[#FFD700] rounded-lg shadow-md hover:bg-[#ca8f70] hover:text-white transition duration-300"
             >
               Visit the Shop
             </Link>

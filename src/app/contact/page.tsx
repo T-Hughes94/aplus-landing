@@ -184,7 +184,7 @@ export default function ContactPage() {
                 <div key={index} className="p-6 bg-gray-100 rounded-lg space-y-4">
                   <div>
                     <label htmlFor={dateId} className="block text-sm font-semibold text-gray-700">
-                      Order Date (min. 1 week notice)
+                      Order Date (min. 3 week notice)
                     </label>
                     <input
                       id={dateId}
@@ -236,7 +236,7 @@ export default function ContactPage() {
           {/* Event Inquiry */}
           <div>
             <label htmlFor="eventInquiry" className="block text-sm font-semibold text-gray-700">
-              Event Inquiry (Optional)
+              Event Inquiry
             </label>
             <textarea
               id="eventInquiry"
