@@ -2,18 +2,27 @@
 import { NextRequest, NextResponse } from "next/server";
 import { shopifyFetch, CART_CREATE } from "@/app/lib/shopify";
 
-/** Allow only our sites (adjust the vercel.app value to your actual project) */
-const ALLOWED_ORIGINS = new Set<string>([
-  "https://aplustruffles.com",
-  "https://www.aplustruffles.com",
-  "https://aplus-landing-v1.vercel.app",
-]);
+/** Accept apex/www + any *.vercel.app (preview/production), and also accept requests with no Origin (curl). */
+function isAllowedOrigin(origin: string | null): boolean {
+  if (!origin) return true; // allow server-to-server / curl (no Origin header)
+  try {
+    const { hostname, protocol } = new URL(origin);
+    if (protocol !== "https:") return false;
+    return (
+      hostname === "aplustruffles.com" ||
+      hostname === "www.aplustruffles.com" ||
+      hostname.endsWith(".vercel.app")
+    );
+  } catch {
+    return false;
+  }
+}
 
-/** CORS headers */
+/** Build CORS headers (echo allowed origin, otherwise empty) */
 function corsHeaders(origin: string | null) {
-  const allowOrigin = origin && ALLOWED_ORIGINS.has(origin) ? origin : "";
+  const allow = isAllowedOrigin(origin) && origin ? origin : "";
   return {
-    "Access-Control-Allow-Origin": allowOrigin,
+    "Access-Control-Allow-Origin": allow,
     "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
     "Access-Control-Max-Age": "86400",
@@ -76,8 +85,8 @@ export async function POST(req: NextRequest) {
   const origin = req.headers.get("origin");
   const headers = corsHeaders(origin);
 
-  // Enforce allowed origins if Origin header present
-  if (origin && !ALLOWED_ORIGINS.has(origin)) {
+  // If an Origin *is* present, enforce the allowlist. (No Origin = allowed for curl.)
+  if (origin && !isAllowedOrigin(origin)) {
     return NextResponse.json({ ok: false, error: "Unauthorized origin" }, { status: 401, headers });
   }
 
@@ -99,7 +108,7 @@ export async function POST(req: NextRequest) {
       },
     })) as CartCreateResponse;
 
-    // Uncomment for debugging in Vercel logs:
+    // Debug if needed:
     // console.debug("[cartCreate] raw:", JSON.stringify(resp, null, 2));
 
     if (hasGraphQLErrors(resp) && resp.errors.length > 0) {
@@ -135,6 +144,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: false, error: message }, { status: 500, headers });
   }
 }
+
 
 
 
