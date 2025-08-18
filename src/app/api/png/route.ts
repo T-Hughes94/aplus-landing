@@ -8,8 +8,9 @@ export async function GET() {
   return NextResponse.json({
     hasDomain,
     hasToken,
-    domain: process.env.NEXT_PUBLIC_SHOPIFY_DOMAIN || null, // optional, for debugging
+    domain: process.env.NEXT_PUBLIC_SHOPIFY_DOMAIN || null, // optional
   });
 }
+
 
   
