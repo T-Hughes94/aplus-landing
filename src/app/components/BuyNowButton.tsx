@@ -2,7 +2,7 @@
 "use client";
 import * as React from "react";
 
-type BuyNowButtonProps = {
+type Props = {
   variantId: string;
   quantity?: number;
   disabled?: boolean;
@@ -10,13 +10,9 @@ type BuyNowButtonProps = {
   children?: React.ReactNode;
 };
 
-type CheckoutResponse = {
-  ok: boolean;
-  url?: string | null;
-  error?: string;
-};
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://aplustruffles.com"; // set this in Vercel
+type CheckoutResponse =
+  | { ok: true; url: string }
+  | { ok: false; error?: string };
 
 export default function BuyNowButton({
   variantId,
@@ -24,35 +20,51 @@ export default function BuyNowButton({
   disabled,
   className,
   children,
-}: BuyNowButtonProps) {
+}: Props) {
   const [loading, setLoading] = React.useState(false);
 
   const onClick = async () => {
-    if (disabled || loading) return;
+    if (!variantId || disabled || loading) return;
+
     setLoading(true);
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 10000);
+
     try {
-      const res = await fetch(`${SITE_URL}/api/checkout`, {
+      // IMPORTANT: relative URL keeps this same-origin (no CORS, no DNS issues)
+      const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        // stay on apex; no cross-origin redirect
         body: JSON.stringify({ variantId, quantity }),
+        signal: controller.signal,
       });
 
-      const data = (await res.json()) as CheckoutResponse;
+      // If the API ever returns non-JSON (e.g., a 404 HTML), avoid JSON parse blowups
+      const text = await res.text();
+      let data: CheckoutResponse;
+      try {
+        data = JSON.parse(text);
+      } catch {
+        data = { ok: false, error: `Unexpected response (${res.status})` };
+      }
 
-      if (!res.ok || !data.ok) {
-        alert(data?.error ?? "Storefront API error");
+      if (!res.ok || !("ok" in data) || !data.ok || !("url" in data)) {
+        const msg =
+          (data as any)?.error ||
+          (res.status === 401
+            ? "Unauthorized (middleware blocked request)"
+            : `Checkout failed (${res.status})`);
+        alert(msg);
         return;
       }
-      if (data?.url) {
-        window.location.href = data.url;
-      } else {
-        alert("No checkout URL returned");
-      }
+
+      // Success -> jump to Shopify
+      window.location.href = data.url;
     } catch (err) {
       console.error("[BuyNowButton] error:", err);
-      alert("Unexpected error");
+      alert("Network error. Please try again.");
     } finally {
+      clearTimeout(timer);
       setLoading(false);
     }
   };
@@ -70,6 +82,7 @@ export default function BuyNowButton({
     </button>
   );
 }
+
 
 
 
