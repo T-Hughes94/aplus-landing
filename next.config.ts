@@ -3,14 +3,11 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    remotePatterns: [
-      { protocol: "https", hostname: "cdn.shopify.com" },
-    ],
+    remotePatterns: [{ protocol: "https", hostname: "cdn.shopify.com" }],
   },
   async headers() {
     return [
       {
-        // Apply to all routes
         source: "/(.*)",
         headers: [
           { key: "X-Frame-Options", value: "DENY" },
@@ -22,9 +19,10 @@ const nextConfig: NextConfig = {
     ];
   },
   reactStrictMode: true,
-  swcMinify: true,
+  // swcMinify: true, // ❌ remove in Next 15
 };
 
 export default nextConfig;
+
 
 

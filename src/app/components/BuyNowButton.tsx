@@ -1,66 +1,87 @@
+// src/app/components/BuyNowButton.tsx
 "use client";
-
-import { useState } from "react";
+import * as React from "react";
 
 type BuyNowButtonProps = {
   variantId: string;
   quantity?: number;
+  disabled?: boolean;
+  className?: string;
+  children?: React.ReactNode;
 };
 
-export default function BuyNowButton({ variantId, quantity = 1 }: BuyNowButtonProps) {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+type CheckoutResponse = {
+  ok: boolean;
+  url?: string | null;
+  error?: string;
+};
 
-  const handleClick = async () => {
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://aplustruffles.com";
+
+function isCheckoutResponse(value: unknown): value is CheckoutResponse {
+  if (typeof value !== "object" || value === null) return false;
+  const v = value as Record<string, unknown>;
+  return typeof v.ok === "boolean" && ("url" in v || "error" in v || true);
+}
+
+export default function BuyNowButton({
+  variantId,
+  quantity = 1,
+  disabled,
+  className,
+  children,
+}: BuyNowButtonProps) {
+  const [loading, setLoading] = React.useState(false);
+
+  const onClick = async () => {
+    if (disabled || loading) return;
     setLoading(true);
-    setError(null);
-
     try {
-      const res = await fetch("/api/checkout", {
+      const res = await fetch(`${SITE_URL}/api/checkout`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          // No need for x-api-key here, same-origin browser request
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ variantId, quantity }),
       });
 
-      if (!res.ok) {
-        const text = await res.text();
-        throw new Error(`Checkout failed: ${text}`);
-      }
+      const raw: unknown = await res.json();
 
-      const data = await res.json();
-      if (data?.ok && data?.url) {
-        window.location.href = data.url; // jump to Shopify checkout
+      if (!res.ok || !isCheckoutResponse(raw) || !raw.ok) {
+        const msg =
+          (isCheckoutResponse(raw) && raw.error) ||
+          `Checkout failed (${res.status})`;
+        alert(msg);
+        return;
+        }
+
+      if (raw.url) {
+        window.location.href = raw.url;
       } else {
-        throw new Error("Checkout response missing URL");
+        alert("No checkout URL returned");
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
+      // keep err as unknown to satisfy strict typing
       console.error("[BuyNowButton] error:", err);
-      setError(err.message || "Unexpected error");
+      alert("Unexpected error");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div>
-      <button
-        onClick={handleClick}
-        disabled={loading}
-        className="px-6 py-3 bg-pink-600 text-white font-semibold rounded-lg shadow-md hover:bg-pink-700 disabled:opacity-50"
-      >
-        {loading ? "Processing..." : "Buy Now"}
-      </button>
-      {error && (
-        <p className="mt-2 text-sm text-red-500">
-          {error}
-        </p>
-      )}
-    </div>
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled || loading}
+      aria-disabled={disabled || loading}
+      aria-busy={loading}
+      className={className}
+    >
+      {loading ? "Processing..." : children ?? "Buy now"}
+    </button>
   );
 }
+
 
 
 
