@@ -1,75 +1,57 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
+import * as React from "react";
 
-import { useState } from "react";
-
-type CheckoutOK = {
-  ok: true;
-  url: string;
-};
-
-type CheckoutErr = {
-  ok: false;
-  error: string;
-};
-
-type CheckoutResponse = CheckoutOK | CheckoutErr;
-
-// runtime type guard
-function isCheckoutResponse(x: any): x is CheckoutResponse {
-  return x && typeof x.ok === "boolean";
-}
-
-interface BuyNowButtonProps {
+type BuyNowButtonProps = {
   variantId: string;
   quantity?: number;
-}
+  disabled?: boolean;
+  className?: string;
+  children?: React.ReactNode;
+};
 
-export default function BuyNowButton({ variantId, quantity = 1 }: BuyNowButtonProps) {
-  const [loading, setLoading] = useState(false);
+type CheckoutResponse = {
+  ok: boolean;
+  url?: string | null;
+  error?: string;
+};
 
-  const handleClick = async () => {
-    if (loading) return;
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://aplustruffles.com").replace(/\/$/, "");
+
+export default function BuyNowButton({
+  variantId,
+  quantity = 1,
+  disabled,
+  className,
+  children,
+}: BuyNowButtonProps) {
+  const [loading, setLoading] = React.useState(false);
+
+  const onClick = async () => {
+    if (disabled || loading) return;
     setLoading(true);
-
     try {
-      const res = await fetch("/api/checkout", {
+      const res = await fetch(`${SITE_URL}/api/checkout`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-api-key": process.env.NEXT_PUBLIC_INTERNAL_API_KEY ?? "",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ variantId, quantity }),
       });
 
-      const text = await res.text();
-      let parsed: unknown;
-      try {
-        parsed = JSON.parse(text);
-      } catch {
-        parsed = { ok: false, error: "Unexpected response from server." };
-      }
+      const data: CheckoutResponse = (await res.json()) as any;
 
-      if (!isCheckoutResponse(parsed) || !res.ok) {
-        const msg =
-          (isCheckoutResponse(parsed) && parsed.ok === false && parsed.error) ||
-          (res.status === 401
-            ? "Unauthorized (middleware blocked request)"
-            : `Checkout failed (${res.status})`);
-        alert(msg);
+      if (!res.ok || !data.ok) {
+        alert(data?.error ?? "Storefront API error");
         return;
       }
-
-      if (!parsed.ok) {
-        // parsed is CheckoutErr
-        alert(parsed.error);
-        return;
+      if (data?.url) {
+        window.location.href = data.url;
+      } else {
+        alert("No checkout URL returned");
       }
-
-      // parsed is CheckoutOK → safe to access url
-      window.location.href = parsed.url;
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error("[BuyNowButton] error:", err);
-      alert("Unexpected error. Please try again.");
+      alert("Unexpected error");
     } finally {
       setLoading(false);
     }
@@ -77,14 +59,18 @@ export default function BuyNowButton({ variantId, quantity = 1 }: BuyNowButtonPr
 
   return (
     <button
-      onClick={handleClick}
-      disabled={loading}
-      className="px-4 py-2 rounded bg-amber-600 text-white hover:bg-amber-700 disabled:opacity-50"
+      type="button"
+      onClick={onClick}
+      disabled={disabled || loading}
+      aria-disabled={disabled || loading}
+      aria-busy={loading}
+      className={className}
     >
-      {loading ? "Processing..." : "Buy now"}
+      {loading ? "Processing..." : children ?? "Buy now"}
     </button>
   );
 }
+
 
 
 
