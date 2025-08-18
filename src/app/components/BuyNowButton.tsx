@@ -1,8 +1,10 @@
 // src/app/components/BuyNowButton.tsx
 "use client";
+
 import * as React from "react";
 
-type Props = {
+/* ---------- Types ---------- */
+type BuyNowButtonProps = {
   variantId: string;
   quantity?: number;
   disabled?: boolean;
@@ -10,28 +12,43 @@ type Props = {
   children?: React.ReactNode;
 };
 
-type CheckoutResponse =
-  | { ok: true; url: string }
-  | { ok: false; error?: string };
+type CheckoutOK = { ok: true; url: string };
+type CheckoutErr = { ok: false; error?: string };
+type CheckoutResponse = CheckoutOK | CheckoutErr;
 
+function isCheckoutResponse(v: unknown): v is CheckoutResponse {
+  if (typeof v !== "object" || v === null) return false;
+  const o = v as Record<string, unknown>;
+  if (typeof o.ok !== "boolean") return false;
+
+  if (o.ok === true) {
+    return typeof o.url === "string";
+  }
+  // ok === false
+  return o.error === undefined || typeof o.error === "string";
+}
+
+/* ---------- Component ---------- */
 export default function BuyNowButton({
   variantId,
   quantity = 1,
   disabled,
   className,
   children,
-}: Props) {
+}: BuyNowButtonProps) {
   const [loading, setLoading] = React.useState(false);
 
   const onClick = async () => {
     if (!variantId || disabled || loading) return;
 
     setLoading(true);
+
+    // simple client-side timeout to avoid hanging UX
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 10000);
 
     try {
-      // IMPORTANT: relative URL keeps this same-origin (no CORS, no DNS issues)
+      // Use relative path to avoid CORS and domain mismatches
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -39,30 +56,42 @@ export default function BuyNowButton({
         signal: controller.signal,
       });
 
-      // If the API ever returns non-JSON (e.g., a 404 HTML), avoid JSON parse blowups
       const text = await res.text();
-      let data: CheckoutResponse;
+
+      let parsedUnknown: unknown;
       try {
-        data = JSON.parse(text);
+        parsedUnknown = JSON.parse(text);
       } catch {
-        data = { ok: false, error: `Unexpected response (${res.status})` };
+        parsedUnknown = { ok: false, error: `Unexpected response (${res.status})` };
       }
 
-      if (!res.ok || !("ok" in data) || !data.ok || !("url" in data)) {
+      // 1) Handle HTTP status first (middleware / network issues)
+      if (!res.ok) {
         const msg =
-          (data as any)?.error ||
-          (res.status === 401
-            ? "Unauthorized (middleware blocked request)"
-            : `Checkout failed (${res.status})`);
+          res.status === 401
+            ? "Unauthorized (request blocked in middleware)"
+            : `Checkout failed (${res.status})`;
         alert(msg);
         return;
       }
 
-      // Success -> jump to Shopify
-      window.location.href = data.url;
+      // 2) Validate JSON shape
+      if (!isCheckoutResponse(parsedUnknown)) {
+        alert("Malformed response from /api/checkout");
+        return;
+      }
+
+      // 3) Now safely narrow on ok/err
+      const parsed = parsedUnknown;
+      if (parsed.ok) {
+        window.location.href = parsed.url;
+      } else {
+        alert(parsed.error ?? "Storefront API error");
+      }
     } catch (err) {
+      const msg = err instanceof Error ? err.message : "Network error";
       console.error("[BuyNowButton] error:", err);
-      alert("Network error. Please try again.");
+      alert(msg);
     } finally {
       clearTimeout(timer);
       setLoading(false);
@@ -82,6 +111,8 @@ export default function BuyNowButton({
     </button>
   );
 }
+
+
 
 
 
