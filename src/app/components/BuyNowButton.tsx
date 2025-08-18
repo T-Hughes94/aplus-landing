@@ -1,116 +1,67 @@
-// src/app/components/BuyNowButton.tsx
 "use client";
 
-import * as React from "react";
+import { useState } from "react";
 
-/* ---------- Types ---------- */
 type BuyNowButtonProps = {
   variantId: string;
   quantity?: number;
-  disabled?: boolean;
-  className?: string;
-  children?: React.ReactNode;
 };
 
-type CheckoutOK = { ok: true; url: string };
-type CheckoutErr = { ok: false; error?: string };
-type CheckoutResponse = CheckoutOK | CheckoutErr;
+export default function BuyNowButton({ variantId, quantity = 1 }: BuyNowButtonProps) {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-function isCheckoutResponse(v: unknown): v is CheckoutResponse {
-  if (typeof v !== "object" || v === null) return false;
-  const o = v as Record<string, unknown>;
-  if (typeof o.ok !== "boolean") return false;
-
-  if (o.ok === true) {
-    return typeof o.url === "string";
-  }
-  // ok === false
-  return o.error === undefined || typeof o.error === "string";
-}
-
-/* ---------- Component ---------- */
-export default function BuyNowButton({
-  variantId,
-  quantity = 1,
-  disabled,
-  className,
-  children,
-}: BuyNowButtonProps) {
-  const [loading, setLoading] = React.useState(false);
-
-  const onClick = async () => {
-    if (!variantId || disabled || loading) return;
-
+  const handleClick = async () => {
     setLoading(true);
-
-    // simple client-side timeout to avoid hanging UX
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 10000);
+    setError(null);
 
     try {
-      // Use relative path to avoid CORS and domain mismatches
       const res = await fetch("/api/checkout", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          // No need for x-api-key here, same-origin browser request
+        },
         body: JSON.stringify({ variantId, quantity }),
-        signal: controller.signal,
       });
 
-      const text = await res.text();
-
-      let parsedUnknown: unknown;
-      try {
-        parsedUnknown = JSON.parse(text);
-      } catch {
-        parsedUnknown = { ok: false, error: `Unexpected response (${res.status})` };
-      }
-
-      // 1) Handle HTTP status first (middleware / network issues)
       if (!res.ok) {
-        const msg =
-          res.status === 401
-            ? "Unauthorized (request blocked in middleware)"
-            : `Checkout failed (${res.status})`;
-        alert(msg);
-        return;
+        const text = await res.text();
+        throw new Error(`Checkout failed: ${text}`);
       }
 
-      // 2) Validate JSON shape
-      if (!isCheckoutResponse(parsedUnknown)) {
-        alert("Malformed response from /api/checkout");
-        return;
-      }
-
-      // 3) Now safely narrow on ok/err
-      const parsed = parsedUnknown;
-      if (parsed.ok) {
-        window.location.href = parsed.url;
+      const data = await res.json();
+      if (data?.ok && data?.url) {
+        window.location.href = data.url; // jump to Shopify checkout
       } else {
-        alert(parsed.error ?? "Storefront API error");
+        throw new Error("Checkout response missing URL");
       }
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : "Network error";
+    } catch (err: any) {
       console.error("[BuyNowButton] error:", err);
-      alert(msg);
+      setError(err.message || "Unexpected error");
     } finally {
-      clearTimeout(timer);
       setLoading(false);
     }
   };
 
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      disabled={disabled || loading}
-      aria-disabled={disabled || loading}
-      aria-busy={loading}
-      className={className}
-    >
-      {loading ? "Processing..." : children ?? "Buy now"}
-    </button>
+    <div>
+      <button
+        onClick={handleClick}
+        disabled={loading}
+        className="px-6 py-3 bg-pink-600 text-white font-semibold rounded-lg shadow-md hover:bg-pink-700 disabled:opacity-50"
+      >
+        {loading ? "Processing..." : "Buy Now"}
+      </button>
+      {error && (
+        <p className="mt-2 text-sm text-red-500">
+          {error}
+        </p>
+      )}
+    </div>
   );
 }
+
 
 
 
