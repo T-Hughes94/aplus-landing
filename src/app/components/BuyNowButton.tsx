@@ -16,8 +16,6 @@ type CheckoutResponse = {
   error?: string;
 };
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://aplustruffles.com").replace(/\/$/, "");
-
 export default function BuyNowButton({
   variantId,
   quantity = 1,
@@ -31,7 +29,8 @@ export default function BuyNowButton({
     if (disabled || loading) return;
     setLoading(true);
     try {
-      const res = await fetch(`${SITE_URL}/api/checkout`, {
+      // Same-origin call avoids CORS/env mismatch issues
+      const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ variantId, quantity }),
@@ -70,6 +69,8 @@ export default function BuyNowButton({
     </button>
   );
 }
+
+
 
 
 

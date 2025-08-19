@@ -3,8 +3,8 @@ import { NextResponse, NextRequest } from "next/server";
 import { shopifyFetch, CART_CREATE } from "../../lib/shopify";
 
 const ALLOWED_ORIGIN =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://aplustruffles.com";
-const INTERNAL_API_KEY = process.env.INTERNAL_API_KEY || "";
+  (process.env.NEXT_PUBLIC_SITE_URL || "https://aplustruffles.com").replace(/\/$/, "");
+const INTERNAL_API_KEY = (process.env.INTERNAL_API_KEY || "").trim();
 
 /** CORS preflight */
 export async function OPTIONS() {
@@ -20,16 +20,15 @@ export async function OPTIONS() {
 }
 
 export async function POST(req: NextRequest) {
-  // --- basic protection ---
-  const fetchSite = req.headers.get("sec-fetch-site"); // "same-origin" when called from the site
-  const apiKey = req.headers.get("x-api-key");
-
+  // extra guard (middleware already protects, but keep it consistent)
+  const fetchSite = req.headers.get("sec-fetch-site");
+  const apiKey = (req.headers.get("x-api-key") || "").trim();
   if (
     process.env.NODE_ENV === "production" &&
-    fetchSite !== "same-origin" && // if not coming from our own pages
-    apiKey !== INTERNAL_API_KEY // then require the API key
+    fetchSite !== "same-origin" &&
+    apiKey !== INTERNAL_API_KEY
   ) {
-    return new NextResponse("Unauthorized", { status: 401 });
+    return NextResponse.json({ ok: false, error: "Unauthorized" }, { status: 401 });
   }
 
   // --- read input ---
@@ -40,7 +39,7 @@ export async function POST(req: NextRequest) {
     // ignore; will fail validation below
   }
 
-  const variantId = body.variantId;
+  const variantId = body.variantId?.toString() || "";
   const quantity = Number(body.quantity ?? 1) || 1;
 
   if (!variantId) {
@@ -58,21 +57,24 @@ export async function POST(req: NextRequest) {
     const result = await shopifyFetch<{
       cartCreate?: {
         cart?: { id: string; checkoutUrl: string };
-        userErrors?: Array<{ field?: string[]; message: string }>;
+        userErrors?: Array<{ message: string }>;
       };
+      errors?: Array<{ message: string }>;
     }>(CART_CREATE, { variables });
 
     const errors = result.errors ?? result.data?.cartCreate?.userErrors;
     if (errors && errors.length) {
       const message =
-        (errors as any[]).map((e) => (e?.message as string) || "").filter(Boolean).join("; ") ||
-        "Shopify error";
-      return NextResponse.json({ ok: false, error: message }, { status: 500 });
+        (errors as any[])
+          .map((e) => (e?.message as string) || "")
+          .filter(Boolean)
+          .join("; ") || "Shopify error";
+      return NextResponse.json({ ok: false, error: message }, { status: 502 });
     }
 
     const checkoutUrl = result.data?.cartCreate?.cart?.checkoutUrl;
     if (!checkoutUrl) {
-      return NextResponse.json({ ok: false, error: "No checkoutUrl returned" }, { status: 500 });
+      return NextResponse.json({ ok: false, error: "No checkoutUrl returned" }, { status: 502 });
     }
 
     // CORS headers for external (keyed) calls; browsers ignore for same-origin
@@ -92,6 +94,7 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+
 
 
 

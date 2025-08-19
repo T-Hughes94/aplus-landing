@@ -1,4 +1,3 @@
-// src/middleware.ts
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
@@ -7,7 +6,7 @@ export function middleware(req: NextRequest) {
 
   // Always hide /lib/* from direct requests
   if (pathname.startsWith("/lib/")) {
-    return new NextResponse("Not Found", { status: 404 });
+    return NextResponse.json({ ok: false, error: "Not Found" }, { status: 404 });
   }
 
   // Only enforce API protections in production
@@ -26,10 +25,11 @@ export function middleware(req: NextRequest) {
       return res;
     }
 
-    // Otherwise require API key header
-    const apiKey = req.headers.get("x-api-key");
-    if (apiKey !== process.env.INTERNAL_API_KEY) {
-      return new NextResponse("Unauthorized", { status: 401 });
+    // Otherwise require API key header (trim both sides to avoid hidden whitespace bugs)
+    const headerKey = (req.headers.get("x-api-key") || "").trim();
+    const envKey = (process.env.INTERNAL_API_KEY || "").trim();
+    if (!headerKey || headerKey !== envKey) {
+      return NextResponse.json({ ok: false, error: "Unauthorized" }, { status: 401 });
     }
 
     return res;
@@ -41,6 +41,7 @@ export function middleware(req: NextRequest) {
 export const config = {
   matcher: ["/api/:path*", "/lib/:path*"],
 };
+
 
 
 

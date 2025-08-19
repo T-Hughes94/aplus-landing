@@ -51,7 +51,7 @@ const HeroSection = () => {
           
           </div>
         </div>
-
+        
         {/* Image Section */}
         <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto md:mx-0">
           <div className="transform hover:scale-105 transition-transform duration-300 will-change-transform">
