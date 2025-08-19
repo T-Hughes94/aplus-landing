@@ -10,11 +10,42 @@ type BuyNowButtonProps = {
   children?: React.ReactNode;
 };
 
-type CheckoutResponse = {
-  ok: boolean;
-  url?: string | null;
-  error?: string;
-};
+type CheckoutResponse = { ok: boolean; url?: string | null; error?: string };
+
+const SHOPIFY_HOST = (
+  process.env.NEXT_PUBLIC_SHOPIFY_DOMAIN || "a-plus-truffles.myshopify.com"
+).replace(/^https?:\/\//, "");
+
+function toShopifyAbsoluteUrl(input?: string | null): string {
+  const fallback = `https://${SHOPIFY_HOST}/cart`;
+  if (!input) return fallback;
+
+  try {
+    // Resolve relative paths like "/cart/..." against our current origin
+    const u = new URL(input, window.location.origin);
+
+    // If the URL is same-origin (aplustruffles.com) or relative, swap to Shopify
+    if (u.hostname === window.location.hostname || u.hostname === "aplustruffles.com") {
+      u.hostname = SHOPIFY_HOST;
+      u.protocol = "https:";
+      return u.toString();
+    }
+
+    // If already a Shopify domain, ensure https and return
+    const isShopify =
+      /(^|\.)myshopify\.com$/i.test(u.hostname) || /(^|\.)shopify\.com$/i.test(u.hostname);
+    if (isShopify) {
+      u.protocol = "https:";
+      return u.toString();
+    }
+
+    // Otherwise return as https
+    u.protocol = "https:";
+    return u.toString();
+  } catch {
+    return fallback;
+  }
+}
 
 export default function BuyNowButton({
   variantId,
@@ -29,7 +60,6 @@ export default function BuyNowButton({
     if (disabled || loading) return;
     setLoading(true);
     try {
-      // Same-origin call avoids CORS/env mismatch issues
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -42,11 +72,11 @@ export default function BuyNowButton({
         alert(data?.error ?? "Storefront API error");
         return;
       }
-      if (data?.url) {
-        window.location.href = data.url;
-      } else {
-        alert("No checkout URL returned");
-      }
+
+      const dest = toShopifyAbsoluteUrl(data.url);
+      // temporary debug (remove after confirm):
+      // console.log("API url:", data.url, "→ redirecting to:", dest);
+      window.location.assign(dest);
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error("[BuyNowButton] error:", err);
@@ -69,6 +99,7 @@ export default function BuyNowButton({
     </button>
   );
 }
+
 
 
 
