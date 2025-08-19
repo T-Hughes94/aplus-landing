@@ -25,15 +25,8 @@ export const metadata: Metadata = {
     title: "A Plus Truffles | Hand-Painted Vegan Truffles",
     description:
       "Elegantly airbrushed, hand-painted truffles made from premium, fair-trade ingredients.",
-    url: "/",
-    images: [
-      {
-        url: "/truffle2.webp",
-        width: 1200,
-        height: 630,
-        alt: "Hand-painted vegan truffles",
-      },
-    ],
+    url: "/", // relative; resolves against metadataBase in RootLayout
+    images: [{ url: "/truffle2.webp", width: 1200, height: 630, alt: "Hand-painted vegan truffles" }],
     type: "website",
   },
   twitter: {
@@ -43,29 +36,31 @@ export const metadata: Metadata = {
       "Small-batch vegan truffles crafted for people who love the best chocolate.",
   },
   icons: { icon: "/favicon.ico" },
-  // alternates: { canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/` }
+  alternates: { canonical: "/" }, // relative canonical (will be absolutized by metadataBase)
 };
 
 export default function Home() {
-  const base = process.env.NEXT_PUBLIC_SITE_URL ?? "";
+  // Safe absolute base (trimmed + fallback)
+  const BASE =
+    (process.env.NEXT_PUBLIC_SITE_URL || "https://aplustruffles.com").replace(/\/$/, "");
 
-  // JSON-LD structured data
+  // JSON-LD
   const webSiteLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: "A Plus Truffles",
-    url: base || "https://aplustruffles.com",
+    url: BASE,
     publisher: {
       "@type": "Organization",
       name: "A Plus Truffles",
-      logo: `${base}/Apluslogo4.png`,
+      logo: `${BASE}/Apluslogo4.png`,
     },
   };
 
   const breadcrumbLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: `${base}/` }],
+    itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: `${BASE}/` }],
   };
 
   return (
@@ -88,6 +83,8 @@ export default function Home() {
     </>
   );
 }
+
+
 
 
 
