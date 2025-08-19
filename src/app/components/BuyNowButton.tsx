@@ -27,7 +27,6 @@ function toShopifyAbsoluteUrl(input?: string | null): string {
       u.protocol = "https:";
       return u.toString();
     }
-    // Same-origin or apex → force Shopify host
     if (u.hostname === window.location.hostname || u.hostname === "aplustruffles.com") {
       u.hostname = SHOPIFY_HOST;
       u.protocol = "https:";
@@ -49,12 +48,12 @@ export default function BuyNowButton({
 }: BuyNowButtonProps) {
   const [loading, setLoading] = React.useState(false);
 
-  // kill any parent <a>/<Link>/<form> navigation
+  // prevent parent <a>/<Link>/<form> from hijacking navigation
   const kill = (e: React.SyntheticEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    // @ts-ignore
-    if (e.nativeEvent?.stopImmediatePropagation) e.nativeEvent.stopImmediatePropagation();
+    const ne = e.nativeEvent as unknown as { stopImmediatePropagation?: () => void };
+    ne.stopImmediatePropagation?.();
   };
 
   const onClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -76,7 +75,7 @@ export default function BuyNowButton({
       }
 
       const dest = toShopifyAbsoluteUrl(data.url);
-      console.log("API url:", data.url, "→ redirecting to:", dest); // remove after verifying
+      // console.log("API url:", data.url, "→ redirecting to:", dest);
       window.location.assign(dest);
     } catch (err) {
       console.error("[BuyNowButton] error:", err);
@@ -102,6 +101,7 @@ export default function BuyNowButton({
     </button>
   );
 }
+
 
 
 
