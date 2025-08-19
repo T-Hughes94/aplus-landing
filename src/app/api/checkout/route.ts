@@ -6,6 +6,10 @@ const ALLOWED_ORIGIN =
   (process.env.NEXT_PUBLIC_SITE_URL || "https://aplustruffles.com").replace(/\/$/, "");
 const INTERNAL_API_KEY = (process.env.INTERNAL_API_KEY || "").trim();
 
+// If set, we’ll prefer this host for the final checkout URL (e.g. "a-plus-truffles.myshopify.com" or "store.aplustruffles.com")
+const SHOPIFY_HOST =
+  (process.env.NEXT_PUBLIC_SHOPIFY_DOMAIN || "a-plus-truffles.myshopify.com").replace(/^https?:\/\//, "");
+
 /** CORS preflight */
 export async function OPTIONS() {
   return new NextResponse(null, {
@@ -65,10 +69,8 @@ export async function POST(req: NextRequest) {
     const errors = result.errors ?? result.data?.cartCreate?.userErrors;
     if (errors && errors.length) {
       const message =
-        (errors as any[])
-          .map((e) => (e?.message as string) || "")
-          .filter(Boolean)
-          .join("; ") || "Shopify error";
+        (errors as any[]).map((e) => (e?.message as string) || "").filter(Boolean).join("; ") ||
+        "Shopify error";
       return NextResponse.json({ ok: false, error: message }, { status: 502 });
     }
 
@@ -77,8 +79,34 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ ok: false, error: "No checkoutUrl returned" }, { status: 502 });
     }
 
-    // CORS headers for external (keyed) calls; browsers ignore for same-origin
-    const res = NextResponse.json({ ok: true, url: checkoutUrl });
+    // ---- Normalize checkout URL to a Shopify-served HTTPS host ----
+    let finalUrl: string;
+    try {
+      const u = new URL(checkoutUrl);
+
+      // If Shopify gave us the site apex (served by Vercel), swap to Shopify domain
+      if (u.hostname === "aplustruffles.com") {
+        u.hostname = SHOPIFY_HOST;
+      }
+
+      // Force HTTPS (Shopify checkout should be secure)
+      u.protocol = "https:";
+
+      // If a custom Shopify subdomain is provided, ensure we use it
+      if (SHOPIFY_HOST && u.hostname !== SHOPIFY_HOST) {
+        // Only swap if the host is clearly not Shopify (defensive)
+        const isClearlyShopify = /(^|\.)myshopify\.com$/i.test(u.hostname) || /(^|\.)shopify\.com$/i.test(u.hostname);
+        if (!isClearlyShopify) u.hostname = SHOPIFY_HOST;
+      }
+
+      finalUrl = u.toString();
+    } catch {
+      // Very defensive fallback: send them to the cart root on configured Shopify host
+      finalUrl = `https://${SHOPIFY_HOST}/cart`;
+    }
+    // ---------------------------------------------------------------
+
+    const res = NextResponse.json({ ok: true, url: finalUrl });
     res.headers.set("Access-Control-Allow-Origin", ALLOWED_ORIGIN);
     res.headers.set("Access-Control-Allow-Methods", "POST, OPTIONS");
     res.headers.set("Access-Control-Allow-Headers", "Content-Type, x-api-key");
@@ -94,6 +122,7 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+
 
 
 
