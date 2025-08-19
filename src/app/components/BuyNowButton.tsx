@@ -19,27 +19,20 @@ const SHOPIFY_HOST = (
 function toShopifyAbsoluteUrl(input?: string | null): string {
   const fallback = `https://${SHOPIFY_HOST}/cart`;
   if (!input) return fallback;
-
   try {
-    // Resolve relative paths like "/cart/..." against our current origin
     const u = new URL(input, window.location.origin);
-
-    // If the URL is same-origin (aplustruffles.com) or relative, swap to Shopify
-    if (u.hostname === window.location.hostname || u.hostname === "aplustruffles.com") {
-      u.hostname = SHOPIFY_HOST;
-      u.protocol = "https:";
-      return u.toString();
-    }
-
-    // If already a Shopify domain, ensure https and return
     const isShopify =
       /(^|\.)myshopify\.com$/i.test(u.hostname) || /(^|\.)shopify\.com$/i.test(u.hostname);
     if (isShopify) {
       u.protocol = "https:";
       return u.toString();
     }
-
-    // Otherwise return as https
+    // Same-origin or apex → force Shopify host
+    if (u.hostname === window.location.hostname || u.hostname === "aplustruffles.com") {
+      u.hostname = SHOPIFY_HOST;
+      u.protocol = "https:";
+      return u.toString();
+    }
     u.protocol = "https:";
     return u.toString();
   } catch {
@@ -56,8 +49,18 @@ export default function BuyNowButton({
 }: BuyNowButtonProps) {
   const [loading, setLoading] = React.useState(false);
 
-  const onClick = async () => {
+  // kill any parent <a>/<Link>/<form> navigation
+  const kill = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    // @ts-ignore
+    if (e.nativeEvent?.stopImmediatePropagation) e.nativeEvent.stopImmediatePropagation();
+  };
+
+  const onClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    kill(e);
     if (disabled || loading) return;
+
     setLoading(true);
     try {
       const res = await fetch("/api/checkout", {
@@ -65,8 +68,7 @@ export default function BuyNowButton({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ variantId, quantity }),
       });
-
-      const data: CheckoutResponse = (await res.json()) as any;
+      const data: CheckoutResponse = await res.json();
 
       if (!res.ok || !data.ok) {
         alert(data?.error ?? "Storefront API error");
@@ -74,11 +76,9 @@ export default function BuyNowButton({
       }
 
       const dest = toShopifyAbsoluteUrl(data.url);
-      // temporary debug (remove after confirm):
-      // console.log("API url:", data.url, "→ redirecting to:", dest);
+      console.log("API url:", data.url, "→ redirecting to:", dest); // remove after verifying
       window.location.assign(dest);
     } catch (err) {
-      // eslint-disable-next-line no-console
       console.error("[BuyNowButton] error:", err);
       alert("Unexpected error");
     } finally {
@@ -90,6 +90,9 @@ export default function BuyNowButton({
     <button
       type="button"
       onClick={onClick}
+      onClickCapture={kill}
+      onMouseDown={kill}
+      onPointerDown={kill}
       disabled={disabled || loading}
       aria-disabled={disabled || loading}
       aria-busy={loading}
@@ -99,6 +102,7 @@ export default function BuyNowButton({
     </button>
   );
 }
+
 
 
 
