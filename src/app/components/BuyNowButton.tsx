@@ -23,17 +23,11 @@ function toShopifyAbsoluteUrl(input?: string | null): string {
     const u = new URL(input, window.location.origin);
     const isShopify =
       /(^|\.)myshopify\.com$/i.test(u.hostname) || /(^|\.)shopify\.com$/i.test(u.hostname);
-    if (isShopify) {
-      u.protocol = "https:";
-      return u.toString();
-    }
+    if (isShopify) { u.protocol = "https:"; return u.toString(); }
     if (u.hostname === window.location.hostname || u.hostname === "aplustruffles.com") {
-      u.hostname = SHOPIFY_HOST;
-      u.protocol = "https:";
-      return u.toString();
+      u.hostname = SHOPIFY_HOST; u.protocol = "https:"; return u.toString();
     }
-    u.protocol = "https:";
-    return u.toString();
+    u.protocol = "https:"; return u.toString();
   } catch {
     return fallback;
   }
@@ -48,19 +42,14 @@ export default function BuyNowButton({
 }: BuyNowButtonProps) {
   const [loading, setLoading] = React.useState(false);
 
-  // prevent parent <a>/<Link>/<form> from hijacking navigation
-  const kill = (e: React.SyntheticEvent) => {
+  const onClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    // block parent <a>/<Link>/<form> navigation, but keep our click alive
     e.preventDefault();
     e.stopPropagation();
-    const ne = e.nativeEvent as unknown as { stopImmediatePropagation?: () => void };
-    ne.stopImmediatePropagation?.();
-  };
 
-  const onClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    kill(e);
     if (disabled || loading) return;
-
     setLoading(true);
+
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",
@@ -89,9 +78,6 @@ export default function BuyNowButton({
     <button
       type="button"
       onClick={onClick}
-      onClickCapture={kill}
-      onMouseDown={kill}
-      onPointerDown={kill}
       disabled={disabled || loading}
       aria-disabled={disabled || loading}
       aria-busy={loading}
@@ -101,6 +87,7 @@ export default function BuyNowButton({
     </button>
   );
 }
+
 
 
 
