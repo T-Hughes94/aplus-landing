@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { Turnstile } from "@marsidev/react-turnstile";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { sendEmail } from "../lib/email";
@@ -10,6 +11,7 @@ type BoxSelection = { orderDate: string; quantity: string };
 export default function ContactPage() {
   const formRef = useRef<HTMLFormElement | null>(null);
 
+  // --- form state ---
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -23,6 +25,23 @@ export default function ContactPage() {
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const isSending = status === "sending";
 
+  // anti-spam helpers
+  const [startedAt] = useState(() => Date.now());
+  const FORM_MIN_MS = 4000; // require at least ~4s on the page before submit
+
+  const BLOCK_TERMS =
+    /web.?design|redesign|b[se]o\b|backlinks?\b|guest.?post|sponsor(ed)?|crypto|forex|betting|link.?building/i;
+  const BAD_DOMAINS =
+    /(mailinator|yopmail|guerrillamail|10minutemail|tempmail|sharklasers|trashmail|dispostable|maildrop)/i;
+
+  // Turnstile (optional toggle — only renders if a site key exists)
+  const SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+  const captchaEnabled = Boolean(SITE_KEY);
+
+  // widget token (required when captcha is enabled)
+  const [tsToken, setTsToken] = useState<string | null>(null);
+
+  // --- handlers ---
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -51,7 +70,55 @@ export default function ContactPage() {
       return;
     }
 
+    // require some dwell time (helps with bot traffic)
+    if (Date.now() - startedAt < FORM_MIN_MS) {
+      setStatus("error");
+      return;
+    }
+
+    // lightweight content filters
+    const haystack = `${formData.name}\n${formData.message}\n${formData.eventInquiry}`;
+    if (BLOCK_TERMS.test(haystack)) {
+      setStatus("error");
+      return;
+    }
+
+    // basic disposable-domain check
+    const emailDomain = formData.email.split("@")[1]?.toLowerCase() ?? "";
+    if (emailDomain && BAD_DOMAINS.test(emailDomain)) {
+      setStatus("error");
+      return;
+    }
+
+    // require captcha token when enabled
+    if (captchaEnabled && !tsToken) {
+      setStatus("error");
+      return;
+    }
+
     setStatus("sending");
+
+    // ✅ Verify Turnstile server-side before sending email
+    if (captchaEnabled && tsToken) {
+      try {
+        const verifyResp = await fetch("/api/turnstile", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token: tsToken }),
+          cache: "no-store",
+        });
+        const verifyJson = (await verifyResp.json()) as { ok?: boolean; error?: string };
+
+        if (!verifyResp.ok || !verifyJson.ok) {
+          setStatus("error");
+          return;
+        }
+      } catch {
+        setStatus("error");
+        return;
+      }
+    }
+
     try {
       await sendEmail({
         name: formData.name,
@@ -60,6 +127,7 @@ export default function ContactPage() {
         boxes: formData.boxes,
         eventInquiry: formData.eventInquiry,
       });
+
       setStatus("success");
       setFormData({
         name: "",
@@ -69,8 +137,10 @@ export default function ContactPage() {
         eventInquiry: "",
         company: "",
       });
+      setTsToken(null);
       formRef.current?.reset();
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error("Email send error:", error);
       setStatus("error");
     }
@@ -81,10 +151,7 @@ export default function ContactPage() {
       <Header />
 
       {/* Hero */}
-      <section
-        className="relative p-10 md:p-24 text-center"
-        aria-labelledby="contact-hero-heading"
-      >
+      <section className="relative p-10 md:p-24 text-center" aria-labelledby="contact-hero-heading">
         <div
           aria-hidden="true"
           className="absolute inset-0 bg-gradient-to-br from-[#febf79] via-[#f8b870] to-[#ca8f70] opacity-80 z-0 animate-pulse-slow"
@@ -173,9 +240,7 @@ export default function ContactPage() {
 
           {/* Box Orders */}
           <fieldset className="space-y-4">
-            <legend className="text-base font-semibold text-gray-800">
-              Box Orders (Optional)
-            </legend>
+            <legend className="text-base font-semibold text-gray-800">Box Orders (Optional)</legend>
 
             {formData.boxes.map((box, index) => {
               const dateId = `orderDate-${index}`;
@@ -266,11 +331,24 @@ export default function ContactPage() {
             />
           </div>
 
+          {/* Turnstile */}
+          {captchaEnabled && (
+            <div className="pt-2">
+              <Turnstile
+                siteKey={SITE_KEY!}
+                onSuccess={(token: string) => setTsToken(token)}
+                onExpire={() => setTsToken(null)}
+                onError={() => setTsToken(null)}
+                options={{ retry: "auto" }}
+              />
+            </div>
+          )}
+
           {/* Submit */}
           <button
             type="submit"
-            disabled={isSending}
-            aria-disabled={isSending}
+            disabled={isSending || (captchaEnabled && !tsToken)}
+            aria-disabled={isSending || (captchaEnabled && !tsToken)}
             aria-busy={isSending}
             className="w-full py-3 px-6 font-semibold rounded-lg bg-[#ca8f70] text-white hover:bg-[#a56a50] transition disabled:opacity-60"
           >
@@ -278,18 +356,15 @@ export default function ContactPage() {
           </button>
 
           {/* Live region for feedback */}
-          <div
-            role="status"
-            aria-live="polite"
-            className="min-h-[1.5rem] pt-2"
-          >
+          <div role="status" aria-live="polite" className="min-h-[1.5rem] pt-2">
             {status === "success" && <p className="text-green-700">Message sent successfully!</p>}
             {status === "error" && (
               <p className="text-red-700">
                 Message failed. Please try again, or email us directly at{" "}
                 <a href="mailto:Aplustruffles@yahoo.com" className="underline">
                   Aplustruffles@yahoo.com
-                </a>.
+                </a>
+                .
               </p>
             )}
           </div>
@@ -300,6 +375,9 @@ export default function ContactPage() {
     </main>
   );
 }
+
+
+
 
 
 
