@@ -3,41 +3,66 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import BuyNowButton from "../components/BuyNowButton";
 import { shopifyFetch, PRODUCTS_WITH_VARIANTS } from "../lib/shopify";
+import { isShopOpen, formatOpenDate } from "../lib/shopStatus";
 import type { Metadata } from "next";
 import Image from "next/image";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "Shop | A Plus Truffles",
-  description:
-    "Browse hand-painted vegan truffles crafted with fair-trade ingredients. Small-batch quality for people searching for the best chocolate.",
-  keywords: [
-    "A Plus Truffles",
-    "The Best Chocolate",
-    "vegan truffles",
-    "artisan chocolate",
-    "hand-painted chocolates",
-    "gourmet candy",
-    "chocolate gift boxes",
-  ],
-  openGraph: {
-    title: "Shop | A Plus Truffles",
-    description: "Explore our latest truffle boxes and flavors.",
-    url: "/shop",
-    images: [{ url: "/truffle2.webp", width: 1200, height: 630, alt: "Hand-painted vegan truffles" }],
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
+/* ---------- Metadata (switches to noindex while closed) ---------- */
+export async function generateMetadata(): Promise<Metadata> {
+  if (!isShopOpen()) {
+    return {
+      title: "Shop (Coming Soon) | A Plus Truffles",
+      description:
+        "Our shop will reopen soon. In the meantime, contact us for custom orders or event inquiries.",
+      robots: { index: false, follow: true },
+      openGraph: {
+        title: "Shop (Coming Soon) | A Plus Truffles",
+        url: "/shop",
+        type: "website",
+      },
+      twitter: {
+        card: "summary",
+        title: "Shop (Coming Soon) | A Plus Truffles",
+      },
+      icons: { icon: "/favicon.ico" },
+    };
+  }
+
+  return {
     title: "Shop | A Plus Truffles",
     description:
-      "Hand-painted vegan truffles made with fair-trade ingredients—crafted for people who love the best chocolate.",
-  },
-  icons: { icon: "/favicon.ico" },
-  // alternates: { canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/shop` }
-};
+      "Browse hand-painted vegan truffles crafted with fair-trade ingredients. Small-batch quality for people searching for the best chocolate.",
+    keywords: [
+      "A Plus Truffles",
+      "The Best Chocolate",
+      "vegan truffles",
+      "artisan chocolate",
+      "hand-painted chocolates",
+      "gourmet candy",
+      "chocolate gift boxes",
+    ],
+    openGraph: {
+      title: "Shop | A Plus Truffles",
+      description: "Explore our latest truffle boxes and flavors.",
+      url: "/shop",
+      images: [
+        { url: "/truffle2.webp", width: 1200, height: 630, alt: "Hand-painted vegan truffles" },
+      ],
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Shop | A Plus Truffles",
+      description:
+        "Hand-painted vegan truffles made with fair-trade ingredients—crafted for people who love the best chocolate.",
+    },
+    icons: { icon: "/favicon.ico" },
+  };
+}
 
+/* ---------- Types for the Shopify query ---------- */
 type ProductNode = {
   id: string; // product GID
   title: string;
@@ -47,7 +72,7 @@ type ProductNode = {
   variants: {
     edges: Array<{
       node: {
-        id: string; // variant GID (merchandiseId)
+        id: string; // variant GID
         title: string;
         availableForSale: boolean;
         price: { amount: string; currencyCode: string };
@@ -63,6 +88,39 @@ type ProductsQuery = {
 };
 
 export default async function ShopPage() {
+  /* ---------- If closed: render a simple “coming soon” page ---------- */
+  if (!isShopOpen()) {
+    const when = formatOpenDate();
+    return (
+      <>
+        <Header />
+
+        <main id="main-content" className="bg-black text-white font-custom" role="main">
+          <section className="mx-auto max-w-3xl p-10 text-center space-y-6">
+            <h1 className="text-4xl font-extrabold">Shop Coming Soon</h1>
+            <p className="opacity-90">
+              We’re putting the finishing touches on our next batch.
+              {when ? <> We’ll reopen on <strong>{when}</strong>.</> : null}{" "}
+              In the meantime, feel free to{" "}
+              <a className="underline" href="/contact">contact us</a> for custom orders or event inquiries.
+            </p>
+            <div className="flex justify-center">
+              <a
+                href="/contact"
+                className="rounded-lg px-5 py-3 bg-[#ca8f70] text-black font-semibold hover:bg-[#a56a50] transition"
+              >
+                Contact Us
+              </a>
+            </div>
+          </section>
+        </main>
+
+        <Footer />
+      </>
+    );
+  }
+
+  /* ---------- OPEN STATE (your existing shop rendering) ---------- */
   let edges: Array<{ node: ProductNode }> = [];
   try {
     const resp = await shopifyFetch<ProductsQuery>(PRODUCTS_WITH_VARIANTS, { variables: { first: 20 } });
@@ -134,7 +192,6 @@ export default async function ShopPage() {
                   <li key={node.id} className="rounded-2xl border border-white/10 bg-white/5 p-4 space-y-3">
                     {img?.url && (
                       <div className="relative w-full aspect-square overflow-hidden rounded-xl border border-white/10">
-                        {/* Next/Image for optimized LCP. Make sure to allow the domain below */}
                         <Image
                           src={img.url}
                           alt={img.altText ?? node.title}
@@ -173,6 +230,7 @@ export default async function ShopPage() {
     </>
   );
 }
+
 
 
 

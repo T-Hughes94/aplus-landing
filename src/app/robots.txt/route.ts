@@ -1,46 +1,43 @@
+// src/app/robots.txt/route.ts
 import { NextResponse } from "next/server";
+import { isShopOpen } from "../lib/shopStatus";
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
   const envBase = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/+$/, "");
   const base = envBase || `${url.protocol}//${url.host}`;
+  const isProd = process.env.NODE_ENV === "production";
 
-  // Derive the production hostname from your env base (fallback to aplustruffles.com)
-  const PROD_HOST = (() => {
-    try { return new URL(envBase || "https://aplustruffles.com").hostname; } catch { return "aplustruffles.com"; }
-  })();
+  if (!isProd) {
+    const body = [
+      "User-agent: *",
+      "Disallow: /",
+      "",
+      "# Staging/Preview environment. Block all crawling.",
+      `# Base: ${base}`,
+      "",
+    ].join("\n");
+    return new NextResponse(body, {
+      headers: { "Content-Type": "text/plain; charset=utf-8" },
+    });
+  }
 
-  const isProd = url.hostname === PROD_HOST || process.env.VERCEL_ENV === "production";
+  const lines: string[] = ["User-agent: *", "Allow: /", ""];
 
-  const body = isProd
-    ? [
-        "User-agent: *",
-        "Allow: /",
-        "",
-        "# Block internal endpoints",
-        "Disallow: /api/",
-        "Disallow: /lib/",
-        "",
-        `Sitemap: ${base}/sitemap.xml`,
-        "",
-      ].join("\n")
-    : [
-        "User-agent: *",
-        "Disallow: /",
-        "",
-        "# Preview/Dev environment. Block all crawling.",
-        `# Base: ${base}`,
-        "",
-      ].join("\n");
+  if (!isShopOpen()) {
+    lines.push("# Shop temporarily closed");
+    lines.push("Disallow: /shop");
+    lines.push("Disallow: /collections");
+    lines.push("");
+  }
 
-  return new NextResponse(body, {
-    headers: {
-      "Content-Type": "text/plain; charset=utf-8",
-      // cache for a day; adjust as you like
-      "Cache-Control": "public, max-age=86400, must-revalidate",
-    },
+  lines.push(`Sitemap: ${base}/sitemap.xml`, "");
+
+  return new NextResponse(lines.join("\n"), {
+    headers: { "Content-Type": "text/plain; charset=utf-8" },
   });
 }
+
 
 
 
