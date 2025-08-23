@@ -95,7 +95,7 @@ export default async function ShopPage() {
       <>
         <Header />
 
-        <main id="main-content" className="bg-black text-white font-custom" role="main">
+        <main id="main-content" className="flex-1 bg-black text-white font-custom" role="main">
           <section className="mx-auto max-w-3xl p-10 text-center space-y-6">
             <h1 className="text-4xl font-extrabold">Shop Coming Soon</h1>
             <p className="opacity-90">
