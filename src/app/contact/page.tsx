@@ -1,3 +1,4 @@
+// src/app/contact/page.tsx
 "use client";
 
 import { useRef, useState } from "react";
@@ -18,16 +19,18 @@ export default function ContactPage() {
     message: "",
     boxes: [{ orderDate: "", quantity: "" }] as BoxSelection[],
     eventInquiry: "",
-    // honeypot for bots:
-    company: "",
+    company: "", // honeypot
   });
 
-  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [status, setStatus] =
+    useState<"idle" | "sending" | "success" | "error">("idle");
+  const [errorText, setErrorText] = useState<string>("");
+
   const isSending = status === "sending";
 
   // anti-spam helpers
   const [startedAt] = useState(() => Date.now());
-  const FORM_MIN_MS = 4000; // require at least ~4s on the page before submit
+  const FORM_MIN_MS = 4000;
 
   const BLOCK_TERMS =
     /web.?design|redesign|b[se]o\b|backlinks?\b|guest.?post|sponsor(ed)?|crypto|forex|betting|link.?building/i;
@@ -38,7 +41,7 @@ export default function ContactPage() {
   const SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
   const captchaEnabled = Boolean(SITE_KEY);
 
-  // widget token (required when captcha is enabled)
+  // widget token
   const [tsToken, setTsToken] = useState<string | null>(null);
 
   // --- handlers ---
@@ -54,72 +57,77 @@ export default function ContactPage() {
   };
 
   const addBox = () => {
-    setFormData((prev) => ({ ...prev, boxes: [...prev.boxes, { orderDate: "", quantity: "" }] }));
+    setFormData((prev) => ({
+      ...prev,
+      boxes: [...prev.boxes, { orderDate: "", quantity: "" }],
+    }));
   };
 
   const removeBox = (index: number) => {
-    setFormData((prev) => ({ ...prev, boxes: prev.boxes.filter((_, i) => i !== index) }));
+    setFormData((prev) => ({
+      ...prev,
+      boxes: prev.boxes.filter((_, i) => i !== index),
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorText("");
 
-    // simple honeypot: if filled, silently "succeed"
+    // honeypot
     if (formData.company.trim()) {
       setStatus("success");
       return;
     }
 
-    // require some dwell time (helps with bot traffic)
+    // dwell time
     if (Date.now() - startedAt < FORM_MIN_MS) {
       setStatus("error");
+      setErrorText("Please take a moment to complete the form.");
       return;
     }
 
-    // lightweight content filters
+    // light content filters
     const haystack = `${formData.name}\n${formData.message}\n${formData.eventInquiry}`;
     if (BLOCK_TERMS.test(haystack)) {
       setStatus("error");
+      setErrorText("Please remove promotional language and try again.");
       return;
     }
 
-    // basic disposable-domain check
+    // disposable domains
     const emailDomain = formData.email.split("@")[1]?.toLowerCase() ?? "";
     if (emailDomain && BAD_DOMAINS.test(emailDomain)) {
       setStatus("error");
+      setErrorText("Please use a valid email address.");
       return;
     }
 
-    // require captcha token when enabled
+    // require captcha token if enabled
     if (captchaEnabled && !tsToken) {
       setStatus("error");
+      setErrorText("Please complete the Turnstile check.");
       return;
     }
 
     setStatus("sending");
-
-    // ✅ Verify Turnstile server-side before sending email
-    if (captchaEnabled && tsToken) {
-      try {
-        const verifyResp = await fetch("/api/turnstile", {
+    try {
+      // Verify token server-side (this gives you a clear error if Turnstile fails)
+      if (captchaEnabled && tsToken) {
+        const vr = await fetch("/api/turnstile", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ token: tsToken }),
           cache: "no-store",
         });
-        const verifyJson = (await verifyResp.json()) as { ok?: boolean; error?: string };
 
-        if (!verifyResp.ok || !verifyJson.ok) {
-          setStatus("error");
-          return;
+        const vj = (await vr.json()) as { ok: boolean; error?: string };
+        if (!vr.ok || !vj.ok) {
+          throw new Error(vj.error || `Turnstile verification failed`);
         }
-      } catch {
-        setStatus("error");
-        return;
       }
-    }
 
-    try {
+      // Send the email
       await sendEmail({
         name: formData.name,
         email: formData.email,
@@ -139,10 +147,13 @@ export default function ContactPage() {
       });
       setTsToken(null);
       formRef.current?.reset();
-    } catch (error) {
+    } catch (err: any) {
       // eslint-disable-next-line no-console
-      console.error("Email send error:", error);
+      console.error(err);
       setStatus("error");
+      setErrorText(
+        typeof err?.message === "string" ? err.message : "Message failed. Please try again."
+      );
     }
   };
 
@@ -184,7 +195,7 @@ export default function ContactPage() {
             Fields marked with <span aria-hidden="true">*</span> are required.
           </p>
 
-          {/* Honeypot (hidden from users) */}
+          {/* Honeypot */}
           <div className="hidden" aria-hidden="true">
             <label htmlFor="company">Company</label>
             <input
@@ -336,7 +347,7 @@ export default function ContactPage() {
             <div className="pt-2">
               <Turnstile
                 siteKey={SITE_KEY!}
-                onSuccess={(token: string) => setTsToken(token)}
+                onSuccess={(token) => setTsToken(token)}
                 onExpire={() => setTsToken(null)}
                 onError={() => setTsToken(null)}
                 options={{ retry: "auto" }}
@@ -355,16 +366,19 @@ export default function ContactPage() {
             {isSending ? "Sending…" : "Send Message"}
           </button>
 
-          {/* Live region for feedback */}
+          {/* Live region */}
           <div role="status" aria-live="polite" className="min-h-[1.5rem] pt-2">
             {status === "success" && <p className="text-green-700">Message sent successfully!</p>}
             {status === "error" && (
               <p className="text-red-700">
-                Message failed. Please try again, or email us directly at{" "}
-                <a href="mailto:Aplustruffles@yahoo.com" className="underline">
-                  Aplustruffles@yahoo.com
-                </a>
-                .
+                {errorText || (
+                  <>
+                    Message failed. Please try again, or email us directly at{" "}
+                    <a href="mailto:Aplustruffles@yahoo.com" className="underline">
+                      Aplustruffles@yahoo.com
+                    </a>.
+                  </>
+                )}
               </p>
             )}
           </div>
@@ -375,6 +389,7 @@ export default function ContactPage() {
     </main>
   );
 }
+
 
 
 
