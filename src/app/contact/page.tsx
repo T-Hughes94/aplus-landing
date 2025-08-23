@@ -19,7 +19,8 @@ export default function ContactPage() {
     message: "",
     boxes: [{ orderDate: "", quantity: "" }] as BoxSelection[],
     eventInquiry: "",
-    company: "", // honeypot
+    // honeypot for bots:
+    company: "",
   });
 
   const [status, setStatus] =
@@ -30,7 +31,7 @@ export default function ContactPage() {
 
   // anti-spam helpers
   const [startedAt] = useState(() => Date.now());
-  const FORM_MIN_MS = 4000;
+  const FORM_MIN_MS = 4000; // require at least ~4s on the page before submit
 
   const BLOCK_TERMS =
     /web.?design|redesign|b[se]o\b|backlinks?\b|guest.?post|sponsor(ed)?|crypto|forex|betting|link.?building/i;
@@ -41,16 +42,22 @@ export default function ContactPage() {
   const SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
   const captchaEnabled = Boolean(SITE_KEY);
 
-  // widget token
+  // widget token (required when captcha is enabled)
   const [tsToken, setTsToken] = useState<string | null>(null);
 
   // --- handlers ---
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleBoxChange = (index: number, field: keyof BoxSelection, value: string) => {
+  const handleBoxChange = (
+    index: number,
+    field: keyof BoxSelection,
+    value: string
+  ) => {
     const updated = [...formData.boxes];
     updated[index][field] = value;
     setFormData((prev) => ({ ...prev, boxes: updated }));
@@ -74,20 +81,20 @@ export default function ContactPage() {
     e.preventDefault();
     setErrorText("");
 
-    // honeypot
+    // simple honeypot: if filled, silently "succeed"
     if (formData.company.trim()) {
       setStatus("success");
       return;
     }
 
-    // dwell time
+    // require some dwell time (helps with bot traffic)
     if (Date.now() - startedAt < FORM_MIN_MS) {
       setStatus("error");
       setErrorText("Please take a moment to complete the form.");
       return;
     }
 
-    // light content filters
+    // lightweight content filters
     const haystack = `${formData.name}\n${formData.message}\n${formData.eventInquiry}`;
     if (BLOCK_TERMS.test(haystack)) {
       setStatus("error");
@@ -95,7 +102,7 @@ export default function ContactPage() {
       return;
     }
 
-    // disposable domains
+    // basic disposable-domain check
     const emailDomain = formData.email.split("@")[1]?.toLowerCase() ?? "";
     if (emailDomain && BAD_DOMAINS.test(emailDomain)) {
       setStatus("error");
@@ -103,7 +110,7 @@ export default function ContactPage() {
       return;
     }
 
-    // require captcha token if enabled
+    // require captcha token when enabled
     if (captchaEnabled && !tsToken) {
       setStatus("error");
       setErrorText("Please complete the Turnstile check.");
@@ -112,7 +119,7 @@ export default function ContactPage() {
 
     setStatus("sending");
     try {
-      // Verify token server-side (this gives you a clear error if Turnstile fails)
+      // Verify Turnstile on the server first (clearer errors if something is off)
       if (captchaEnabled && tsToken) {
         const vr = await fetch("/api/turnstile", {
           method: "POST",
@@ -120,14 +127,13 @@ export default function ContactPage() {
           body: JSON.stringify({ token: tsToken }),
           cache: "no-store",
         });
-
         const vj = (await vr.json()) as { ok: boolean; error?: string };
         if (!vr.ok || !vj.ok) {
-          throw new Error(vj.error || `Turnstile verification failed`);
+          throw new Error(vj.error || "Turnstile verification failed");
         }
       }
 
-      // Send the email
+      // Then send the email
       await sendEmail({
         name: formData.name,
         email: formData.email,
@@ -147,12 +153,14 @@ export default function ContactPage() {
       });
       setTsToken(null);
       formRef.current?.reset();
-    } catch (err: any) {
+    } catch (err: unknown) {
       // eslint-disable-next-line no-console
       console.error(err);
       setStatus("error");
       setErrorText(
-        typeof err?.message === "string" ? err.message : "Message failed. Please try again."
+        err instanceof Error
+          ? err.message
+          : "Message failed. Please try again."
       );
     }
   };
@@ -195,7 +203,7 @@ export default function ContactPage() {
             Fields marked with <span aria-hidden="true">*</span> are required.
           </p>
 
-          {/* Honeypot */}
+          {/* Honeypot (hidden from users) */}
           <div className="hidden" aria-hidden="true">
             <label htmlFor="company">Company</label>
             <input
@@ -251,7 +259,9 @@ export default function ContactPage() {
 
           {/* Box Orders */}
           <fieldset className="space-y-4">
-            <legend className="text-base font-semibold text-gray-800">Box Orders (Optional)</legend>
+            <legend className="text-base font-semibold text-gray-800">
+              Box Orders (Optional)
+            </legend>
 
             {formData.boxes.map((box, index) => {
               const dateId = `orderDate-${index}`;
@@ -266,7 +276,9 @@ export default function ContactPage() {
                       id={dateId}
                       type="date"
                       value={box.orderDate}
-                      onChange={(e) => handleBoxChange(index, "orderDate", e.target.value)}
+                      onChange={(e) =>
+                        handleBoxChange(index, "orderDate", e.target.value)
+                      }
                       className="w-full mt-2 p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#ca8f70]"
                     />
                   </div>
@@ -282,7 +294,9 @@ export default function ContactPage() {
                       inputMode="numeric"
                       pattern="[0-9]*"
                       value={box.quantity}
-                      onChange={(e) => handleBoxChange(index, "quantity", e.target.value)}
+                      onChange={(e) =>
+                        handleBoxChange(index, "quantity", e.target.value)
+                      }
                       className="w-full mt-2 p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#ca8f70]"
                     />
                   </div>
@@ -347,7 +361,7 @@ export default function ContactPage() {
             <div className="pt-2">
               <Turnstile
                 siteKey={SITE_KEY!}
-                onSuccess={(token) => setTsToken(token)}
+                onSuccess={(token: string) => setTsToken(token)}
                 onExpire={() => setTsToken(null)}
                 onError={() => setTsToken(null)}
                 options={{ retry: "auto" }}
@@ -366,9 +380,11 @@ export default function ContactPage() {
             {isSending ? "Sending…" : "Send Message"}
           </button>
 
-          {/* Live region */}
+          {/* Live region for feedback */}
           <div role="status" aria-live="polite" className="min-h-[1.5rem] pt-2">
-            {status === "success" && <p className="text-green-700">Message sent successfully!</p>}
+            {status === "success" && (
+              <p className="text-green-700">Message sent successfully!</p>
+            )}
             {status === "error" && (
               <p className="text-red-700">
                 {errorText || (
@@ -376,7 +392,8 @@ export default function ContactPage() {
                     Message failed. Please try again, or email us directly at{" "}
                     <a href="mailto:Aplustruffles@yahoo.com" className="underline">
                       Aplustruffles@yahoo.com
-                    </a>.
+                    </a>
+                    .
                   </>
                 )}
               </p>
@@ -389,6 +406,7 @@ export default function ContactPage() {
     </main>
   );
 }
+
 
 
 
